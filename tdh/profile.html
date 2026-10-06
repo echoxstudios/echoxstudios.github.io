@@ -285,7 +285,7 @@ var PALETTE = [
 function axisComposites(v) {
   return {
     x: (v.dom + v.pow + v.pur) / 3,      // low = commanding, high = surrendered
-    y: (v.see + v.wor) / 2,              // low = concealed, high = witnessed
+    y: 100 - (v.see + v.wor) / 2,        // Seen/Worshipped are the sliders' low poles; high = witnessed
     stakes: ((100 - v.tra) + v.sin) / 2  // low = quiet, high = high-stakes
   };
 }
@@ -496,7 +496,7 @@ function interpretT7Pair(a, b, nameA, nameB) {
   if (listA.indexOf('T1') >= 0 && listB.indexOf('T1') < 0) frictions.push('Threshold custody: ' + escapeHTML(nameA) + ' observes the strict Boots-at-the-Door protocol immediately at entry; ' + escapeHTML(nameB) + ' treats arrival more informally.');
   if (listB.indexOf('T1') >= 0 && listA.indexOf('T1') < 0) frictions.push('Threshold custody: ' + escapeHTML(nameB) + ' observes the strict Boots-at-the-Door protocol immediately at entry; ' + escapeHTML(nameA) + ' treats arrival more informally.');
   if (listA.indexOf('F1') >= 0 || listB.indexOf('F1') >= 0) {
-    paras.push('<strong>Order and Humor:</strong> The Bergman Clause is invoked in your shared space. When escalation threatens, both parties have permission to call upon the Second Neighbor to break the posture of defensive pride before injury occurs.');
+    paras.push('<strong>Order and Humor:</strong> The Second Neighbor is invoked in your shared space. Either partner may suggest a pause or a moment of humor; neither must laugh, stay in a conversation, or accept touch. Limits and requests to stop take precedence over the ritual.');
   }
 
   if (frictions.length > 0) {

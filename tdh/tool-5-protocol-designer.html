@@ -500,8 +500,8 @@ const DAILY_LIBRARY = [
   {
     id:'the_standing_order', name:'The Standing Order',
     desc:'A single instruction that holds until revoked — not repeated, not renegotiated each day. The submissive carries it as a continuous condition of being, and the dominant need not restate it for it to bind. The power is in its permanence: it is simply true now, part of the architecture rather than the day.',
-    when:'Issued once; remains in force until the dominant lifts it.',
-    form:'The dominant sets one clear, sustainable condition — small enough to live with indefinitely. It is not mentioned again. It holds because it was said once, by the one entitled to say it.',
+    when:'Agreed once; reviewed at a named interval and paused or revoked by either person.',
+    form:'Agree one clear, sustainable condition — small enough to live with and change when circumstances change. Its continuity comes from continuing agreement, not from losing the right to refuse.',
     confirms:'That the dominant\'s word does not expire, and that the submissive lives continuously inside it.',
     living:'any', privacy:2, explMin:2, explMax:4, posture:'sub', channel:['I','E'],
   },
@@ -563,9 +563,9 @@ const DAILY_LIBRARY = [
   },
   {
     id:'the_withholding', name:'The Withholding',
-    desc:'The deliberate, sparing withdrawal of attention — used as a consequence, never as an accident or a sulk. The absence has weight: not the neutral absence of someone simply elsewhere, but the weighted absence of someone choosing not to be present. When the dominant returns — and they will return — the reunion is its own reminder of what the presence actually is. The most precise instrument, and the one to use most rarely.',
-    when:'Rarely, and only as a clear consequence — never as punishment administered in anger.',
-    form:'The dominant withdraws confirmation deliberately and briefly, then returns. The return is part of the protocol; withholding without return is abandonment, not instruction.',
+    desc:'An explicitly agreed, brief pause in ritual attention, with a named end and an ordinary way to stop it. This is not withdrawal of care, affection, safety, or contact as punishment. If either person experiences distress or abandonment, leave the ritual and talk as people.',
+    when:'Only if both want this specific ritual and can stop it without consequence; never imposed during conflict or repair.',
+    form:'Agree what pauses, for how long, and how either person ends the pause. Ordinary care remains available. A named return is a plan, not a guarantee about another person.',
     confirms:'That the presence is not assumed — that its deliberate absence reveals, by contrast, exactly what it is.',
     living:'any', privacy:2, explMin:3, explMax:4, posture:'dom', channel:['E'],
   },
@@ -573,7 +573,7 @@ const DAILY_LIBRARY = [
     id:'the_massage', name:'The Ritual of Massage',
     desc:'The dominant begins at the shoulders, where the carrying accumulates — everything the day did not permit to be put down. The body\'s first response is often resistance, not to the dominant but to the release itself, because the holding has come to feel necessary. The dominant works the places that resist, slowly, without urgency, with the patience of someone who understands they are working not on a muscle but on a question the body has asked all day: can I put this down? Discipline and worship; the line between them is thinner than you thought.',
     when:'After the day, after exertion, when the body needs to be brought down.',
-    form:'Begin at the shoulders. Work without asking what is needed — knowing. Find the places that resist and do not avoid them. Take as long as the answer takes.',
+    form:'Ask what touch is wanted and where to avoid. Begin gently in an agreed place, check comfort, and stop with pain, uncertainty, or a request. Do not treat resistance as something to push through.',
     confirms:'That the body which is owned is also tended, and that release is permitted here in a way the day did not allow.',
     living:'coloc', privacy:2, explMin:2, explMax:3, posture:'dom', channel:['T','E'],
   },
@@ -895,8 +895,11 @@ function filterDailyRituals() {
 
   // For solo/imagined: keep only ambient/internal rituals
   let candidates = DAILY_LIBRARY.filter(r => {
-    if (isSolo) return r.living === 'any' || r.id === 'internal_anchor';
-    if (isDist) return r.living === 'any' || r.living === 'dist';
+    // Applicability and privacy are cumulative, not alternative early-return paths.
+    if (isSolo && r.id !== 'internal_anchor') return false;
+    if (r.living === 'coloc' && living !== 'coloc') return false;
+    if (r.living === 'dist' && !isDist) return false;
+    if (isDist && r.living !== 'any' && r.living !== 'dist') return false;
     // Privacy gate
     if (privacy >= 3 && r.privacy < 3) return false;
     return true;
@@ -982,6 +985,7 @@ function buildProtocolDoc() {
   const isSolo  = answers.B1 === 'solo' || state === 'imagined';
 
   let html = '';
+  html += `<p class="opening-note">These are optional drafts for agreement, not instructions that bind another person. Every participant, including a third party, chooses their own involvement and may stop or revise it. Food, sleep, medical care, money, movement, outside relationships, and consent are never rewards or things a protocol may withhold.</p>`;
 
   // Opening note for special states
   if (state === 'repair') {

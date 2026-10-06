@@ -197,8 +197,8 @@ var PROTOCOLS = [
   {
     domain: "Friction & Escalation (Order and Humor)",
     items: [
-      { id:"F1", title:"The Bergman Clause", text:"When pride or irritation hardens the posture, either partner may evoke the 'Second Neighbor' — requiring three deep breaths and an admission of absurdity." },
-      { id:"F2", title:"De-escalation Reset", text:"Bodily custody takes precedence over intellectual debate: sitting quietly together without defending or explaining until pulse returns to rest." }
+      { id:"F1", title:"Order and Humor", text:"Either partner may suggest the 'Second Neighbor': a pause and, if welcome to both, a moment of humor. Neither must laugh or concede. A request to stop takes precedence." },
+      { id:"F2", title:"De-escalation Reset", text:"Either partner may pause a difficult conversation. Sitting together or touch happens only if both want it; either may choose distance. Return to the question when both are willing, without using the pause to silence a concern." }
     ]
   },
   {
@@ -211,6 +211,11 @@ var PROTOCOLS = [
 ];
 
 var selected = {};
+
+function escapeMatrix(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
 function genCode() {
   // Reopening a stored result by its code (this device, or fetched by result.html) keeps that code; no new copy is minted.
@@ -243,10 +248,17 @@ function renderBuilder() {
       var it = document.createElement('div');
       it.className = 'liturgy-item' + (selected[item.id] ? ' sel' : '');
       it.id = 'lit-' + item.id;
-      it.innerHTML = '<div class="lit-head"><span class="lit-title">' + item.title + '</span><span class="lit-meta">' + item.id + '</span></div><p class="lit-text">' + item.text + '</p>';
+      it.setAttribute('role', 'button');
+      it.tabIndex = 0;
+      it.setAttribute('aria-pressed', String(!!selected[item.id]));
+      it.innerHTML = '<div class="lit-head"><span class="lit-title">' + escapeMatrix(item.title) + '</span><span class="lit-meta">' + escapeMatrix(item.id) + '</span></div><p class="lit-text">' + escapeMatrix(item.text) + '</p>';
       it.addEventListener('click', function() {
         selected[item.id] = !selected[item.id];
         it.classList.toggle('sel', selected[item.id]);
+        it.setAttribute('aria-pressed', String(selected[item.id]));
+      });
+      it.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); it.click(); }
       });
       grid.appendChild(it);
     });
@@ -299,8 +311,8 @@ function renderMatrix(code, chosenItems) {
     + '<p style="font-family:\'Inconsolata\',monospace;font-size:0.55rem;letter-spacing:0.1em;color:var(--gold);margin-bottom:1.2rem;text-transform:uppercase">Codex Protocol Reference: ' + code + '</p>';
   chosenItems.forEach(function(item) {
     out.innerHTML += '<div class="manifesto-rule">'
-      + '<span class="rule-domain">' + item.domain + ' · ' + item.title + '</span>'
-      + '<p class="rule-clause">' + item.text + '</p>'
+      + '<span class="rule-domain">' + escapeMatrix(item.domain) + ' · ' + escapeMatrix(item.title) + '</span>'
+      + '<p class="rule-clause">' + escapeMatrix(item.text) + '</p>'
       + '</div>';
   });
   document.getElementById('res-code').textContent = code;

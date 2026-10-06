@@ -23,6 +23,7 @@ function grab(src, start) {
 const load = (file, markers, pre = '') => {
   const src = read(file);
   const ctx = vm.createContext({ Math, Object, Array });
+  vm.runInContext(read('book-catalogue.js'), ctx);
   vm.runInContext(pre + markers.map(m => grab(src, m)).join(';\n') + ';\n' +
     'globalThis.__api = {' + markers.map(m => m.replace(/^(const|function|let) /, '').replace(/[ ({=].*/, '')).join(',') + '};', ctx);
   return { ctx, api: ctx.__api };
@@ -248,4 +249,53 @@ import crypto from 'node:crypto';
   });
 }
 
+// Semantic projections must agree with their labelled slider poles, including comparisons.
+for (const file of ['tool-2-aspirational-self.html', 'profile.html']) {
+  const { api } = load(file, ['function axisComposites(']);
+  test(`${file}: Seen/Worshipped maps to witnessed, Hidden/Useful to concealed`, () => {
+    const neutral = { dom:50, pow:50, pur:50, see:50, wor:50, tra:50, sin:50 };
+    assert.equal(api.axisComposites(neutral).y, 50);
+    assert.equal(api.axisComposites({ ...neutral, see:0, wor:0 }).y, 100);
+    assert.equal(api.axisComposites({ ...neutral, see:100, wor:100 }).y, 0);
+  });
+}
+{
+  const { ctx, api } = load('tool-6-threshold.html', ['function v(', 'function determineThreshold('], 'let resp = {};\n');
+  test('tool 6: ties are explicit without changing the legacy stored primary', () => {
+    vm.runInContext('resp = { T1:4, T2:4, T3:4, T4:4 }', ctx);
+    const t = api.determineThreshold();
+    assert.equal(t.primary, 'T1');
+    assert.equal(t.tied.join(','), 'T1,T2,T3,T4');
+    vm.runInContext('resp = { T1:2, T2:6, T3:6, T4:1 }', ctx);
+    assert.equal(api.determineThreshold().tied.join(','), 'T2,T3');
+  });
+}
+{
+  const { ctx, api } = load('tool-5-protocol-designer.html',
+    ['const DAILY_LIBRARY = [', 'function getPrimaryChannel(', 'function scoreRitual(', 'function filterDailyRituals('], 'let answers = {};\n');
+  test('tool 5: solo output never requires another person, at every privacy level', () => {
+    for (const privacy of ['1', '2', '3']) {
+      vm.runInContext('answers = ' + JSON.stringify({ B1:'solo', B2:privacy, C1:'both', C2:'imagined', A3:'I', D1:'4' }), ctx);
+      assert.equal(api.filterDailyRituals().map(r=>r.id).join(','), 'internal_anchor');
+    }
+  });
+  test('tool 5: distance never bypasses privacy, for all explicitness and posture choices', () => {
+    for (const living of ['dist_reg', 'dist_rare']) for (const expl of ['1','2','3','4']) for (const posture of ['dom','sub','both','switch']) {
+      vm.runInContext('answers = ' + JSON.stringify({ B1:living, B2:'3', C1:posture, C2:'long', A3:'E', D1:expl }), ctx);
+      const rituals = api.filterDailyRituals();
+      assert.ok(rituals.length > 0);
+      rituals.forEach(r=>{ assert.ok(r.privacy>=3, r.id); assert.ok(['any','dist'].includes(r.living), r.id); });
+    }
+  });
+  test('tool 5: daily context prerequisites are enforced for all living situations', () => {
+    for (const living of ['coloc','near','dist_reg','dist_rare','solo']) for (const privacy of ['1','2','3']) {
+      vm.runInContext('answers = ' + JSON.stringify({ B1:living, B2:privacy, C1:'both', C2:'long', A3:'E', D1:'4' }), ctx);
+      for (const ritual of api.filterDailyRituals()) {
+        if (ritual.living === 'coloc') assert.equal(living, 'coloc', ritual.id);
+        if (ritual.living === 'dist') assert.ok(living.startsWith('dist_'), ritual.id);
+        if (living === 'solo') assert.equal(ritual.id, 'internal_anchor');
+      }
+    }
+  });
+}
 console.log(`\n${passed} scoring tests passed`);

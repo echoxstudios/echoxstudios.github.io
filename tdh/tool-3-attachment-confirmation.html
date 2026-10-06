@@ -384,12 +384,12 @@
   </div>
 
   <div class="intro-body">
-    <p>Attachment theory describes the symptom — anxious, avoidant, secure. The book describes the mechanism. The anxious person is not deficient; their aspirational sexual self requires continuous confirmation, and they have learned from evidence that the confirmation cannot be trusted to persist. What looks like neediness is actually precision. The avoidant person is not unable to love; closeness has consistently failed to confirm the self they need to feel themselves as. The sensitivity is not the problem. The mismatch is.</p>
-    <p>This tool maps how acutely you read confirmation signals from a partner, which direction you move when they go quiet, how reliably your history has matched what you needed, and how specifically you need to be seen. It produces a description of your confirmation-seeking architecture — not a category, not a diagnosis, not a thing to fix.</p>
+    <p>The book asks what a history of recognition and withdrawal might reveal about the self one hopes to inhabit within a bond. That question adds to attachment theory; it does not replace it. A protective response can make sense without every present interpretation being accurate.</p>
+    <p>This tool reflects your account of attention to confirmation signals, movement toward or away, experiences of recognition, and how specifically you want to be seen. Its description is something to question, not a diagnosis or a measurement of your nervous system.</p>
   </div>
 
   <div class="framing-note">
-    This tool does not categorize you. It describes your wiring as information.
+    This tool reflects your answers. You may recognise the account, revise it, or disagree.
   </div>
 
   <div class="meta-row">
@@ -765,7 +765,7 @@ function buildReframe(sc) {
   paras.push(
     `Your sensitivity to confirmation signals is <strong>${sLbl}</strong> \u2014 ${sc.A}/100. ` +
     (sLbl === 'high'
-      ? 'This is information about how your nervous system reads other people, not about whether you are too much. High sensitivity is an instrument. What it is pointed at matters.'
+      ? 'You report close attention to changes in a partner\'s availability. This score does not measure your nervous system or establish that every interpretation is accurate. Consider both what you noticed and what you could check in conversation.'
       : sLbl === 'moderate'
       ? 'You register shifts in a partner\'s availability, but you are not reading continuously. There is some space between the signal and the response.'
       : 'You do not require constant signal-reading. The field between you and a partner does not trigger your attention in real time to the same degree.')
@@ -775,31 +775,31 @@ function buildReframe(sc) {
   paras.push(
     `When the confirmation you are used to receiving wavers, you tend to move <strong>${dLbl}</strong> the person. ` +
     (dShrt === 'toward'
-      ? 'This is your wiring\'s first response, learned over time, and it is consistent regardless of whether you wish it were different. Moving toward is not the same as being dependent; it is a particular way of addressing what you are reading.'
+      ? 'Your answers describe moving toward when confirmation feels uncertain. That may change with the person or situation; it is not a fixed wiring diagnosis. Ask whether reaching helps, and whether both people can name what is happening.'
       : dShrt === 'away'
-      ? 'This is your wiring\'s first response \u2014 not avoidance of intimacy, but a calibrated withdrawal from a framework that is not delivering. The movement away is a reading, not a refusal.'
+      ? 'Your answers describe moving away when confirmation feels uncertain. The tool cannot tell whether that reflects a boundary, a protective habit, a misunderstanding, or several things together. Refusal is also a legitimate decision.'
       : 'Your direction of response is not fixed. This suggests either that you read each situation before responding, or that the pattern is still forming.')
   );
 
   // Para 3 — history
   const histParas = {
-    strong: 'Your history of being seen accurately is <strong>strong</strong> \u2014 ' + sc.C + '/100. ' +
-      'Experience has generally confirmed what your sensitivity was reading for. This is not the common pattern.',
-    mixed:  'Your history of being seen accurately is <strong>mixed</strong> \u2014 ' + sc.C + '/100. ' +
-      'Some experiences have confirmed what your sensitivity was looking for. Others have not. The wiring has been calibrated against inconsistent evidence.',
-    sparse: 'Your history of being seen accurately is <strong>sparse</strong> \u2014 ' + sc.C + '/100. ' +
-      'This means your sensitivity has often been pointed at people who were not going to deliver what your sensitivity was reading for. The sensitivity is not the problem. The frequency with which it has gone unanswered is.',
+    strong: 'Your reported experience of recognition is <strong>strong</strong> \u2014 ' + sc.C + '/100. ' +
+      'You describe experiences in which you felt recognised. This is your account, not a population comparison or a check of another person\'s intentions.',
+    mixed:  'Your reported experience of recognition is <strong>mixed</strong> \u2014 ' + sc.C + '/100. ' +
+      'You describe some experiences of recognition and some of its absence. Consider what differed between them; the score does not establish a cause.',
+    sparse: 'Your reported experience of recognition is <strong>sparse</strong> \u2014 ' + sc.C + '/100. ' +
+      'You describe relatively few experiences of the recognition you wanted. That deserves attention without assuming that either your reading or the other person\'s intention is already known.',
   };
   paras.push(histParas[hLbl]);
 
   // Edge cases
   if (sLbl === 'high' && hLbl === 'sparse') {
     paras.push(
-      'High sensitivity paired with a sparse history of accurate seeing is the most resonant case for the framework this book describes. The instrument is precise. The conditions in which it has been used have repeatedly failed to match what it was calibrated to find. These are two different facts. The precision does not become the problem because the conditions were wrong.'
+      'Close attention paired with few experiences of recognition may make the book\'s questions especially relevant. It can also be tiring. The questionnaire cannot establish that the attention is always precise or that other people were the cause; you may explore the account and disagree with it.'
     );
   } else if (sLbl === 'lower' && hLbl === 'strong') {
     paras.push(
-      'You do not require constant signal-reading because your experience has not made it necessary. When the framework has been reliably present, the nervous system does not need to stay on watch.'
+      'You report less continuous signal-reading alongside more experiences of recognition. That is a pattern in your answers, not proof that one caused the other.'
     );
   } else if (dShrt === 'toward' && sLbl === 'lower') {
     paras.push(
@@ -807,7 +807,7 @@ function buildReframe(sc) {
     );
   } else if (dShrt === 'away' && sLbl === 'high') {
     paras.push(
-      'You read accurately and move away when what you read indicates the framework will not deliver. The withdrawal is not refusal of intimacy. It is non-engagement with a specific intimacy that your reading has assessed as unable to match what your aspirational self requires.'
+      'You report close attention and a tendency to move away when confirmation wavers. Ask what was directly observed, what was inferred, and whether you want clarification or distance. This tool cannot decide that for you.'
     );
   }
 
@@ -815,7 +815,7 @@ function buildReframe(sc) {
   paras.push(
     `The confirmation you need is <strong>${spLbl}</strong>. ` +
     (spLbl === 'highly specific'
-      ? 'You are not satisfied by general affirmation because you can tell when general affirmation is being offered in place of accurate seeing. This is a precise instrument, not an unreasonable demand.'
+      ? 'Your answers place more emphasis on specific recognition than on general affirmation. They do not establish how accurately you read another person. Ask what recognition means to you and what both people can actually offer.'
       : spLbl === 'moderately specific'
       ? 'You value accurate seeing but can receive general warmth as meaningful when the relationship has established itself. Precision matters, but you are not blind to other forms of recognition.'
       : 'General affirmation registers for you as confirmation. The architecture of how you need to be seen is less dependent on specificity than on presence and warmth.')
@@ -830,9 +830,9 @@ function buildReframe(sc) {
 
 function buildDistinction() {
   return `
-    <p><strong>The integrity of your aspirational sexual self</strong> \u2014 intact. The version of yourself you want to be seen as is real, and the fact that it has not always been seen does not invalidate it.</p>
-    <p><strong>The wiring of your confirmation-seeking</strong> \u2014 shaped by history. The way you reach for confirmation, the speed at which you register its absence, the direction you move when it goes quiet \u2014 all of this can be calibrated by experience. The aspiration cannot.</p>
-    <p>What looks like neediness is actually precision. What looks like withdrawal is the result of asking for confirmation in a register the available frameworks could not deliver. Neither is pathology. Both are information.</p>
+    <p><strong>What you wish to have recognised</strong> and <strong>how you respond when recognition feels uncertain</strong> are different questions. The book invites you to examine both without treating the wish itself as a defect.</p>
+    <p>These scores summarise this sitting's answers. They do not diagnose an attachment style, establish your history, or determine another person's motives. Aspirations and responses may both change over time.</p>
+    <p>Reaching and withdrawing can carry information. Neither automatically proves precision, pathology, compatibility, or blame. Use the account only where it helps you understand an actual experience.</p>
   `;
 }
 

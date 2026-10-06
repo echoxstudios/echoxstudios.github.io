@@ -497,6 +497,7 @@
   <a href="./index.html" class="retake-link">← Return to the full tool suite</a>
 </div>
 
+<script src="book-catalogue.js?v=20261004b"></script>
 <script>
 // ══════════════════════════════════════════════
 // QUESTIONS
@@ -519,7 +520,7 @@ const PHASES = [
     num: 3, id: 'D',
     label: 'Phase III of III',
     title: 'The Dark Night',
-    desc:  'Three final statements. These distinguish a dark night that is real but survivable from a system that has genuinely failed.',
+    desc:  'Three final statements about what the framework still means to you. Continued belief does not establish safety or whether a relationship should continue.',
   },
 ];
 
@@ -534,31 +535,31 @@ const QUESTIONS = [
 
   // Phase 2 — Failure modes
   { id:'F1', phase:'F', mode:'Asymmetrical recognition',
-    ref:'Book IV, Coda I — Condition 1',
+    ref:TDH_BOOK.reference('failures.asymmetry'),
     text:'I see my partner more accurately than they see me.' },
   { id:'F2', phase:'F', mode:'Dependency without confirmation',
-    ref:'Book IV, Coda I — Condition 2',
+    ref:TDH_BOOK.reference('failures.dependency'),
     text:'The framework is the only thing holding me up; without it I would have very little.' },
   { id:'F3', phase:'F', mode:'Incompatible aspirational selves',
-    ref:'Book IV, Coda I — Condition 3',
+    ref:TDH_BOOK.reference('failures.misalignment'),
     text:'The version of themselves my partner wants to be confirmed as is not actually the version I am confirming when I claim them.' },
   { id:'F4', phase:'F', mode:'Authority without calibration',
-    ref:'Book IV, Coda I — Condition 4',
+    ref:TDH_BOOK.reference('practice.kairos'),
     text:'As the dominant carrier, I have stopped checking whether what I am doing matches what my partner can actually receive.' },
   { id:'F5', phase:'F', mode:'Framework misuse',
-    ref:'Book IV, Coda I — Condition 5',
+    ref:TDH_BOOK.reference('practice.safe-word'),
     text:'The language of the framework has been used recently to justify something the framework would, if read honestly, forbid.' },
   { id:'F6', phase:'F', mode:'Trauma distortion',
-    ref:'Book IV, Coda I — Condition 6',
+    ref:TDH_BOOK.reference('failures.terminal'),
     text:'I notice that the framework has become a place where old damage is being re-enacted rather than addressed.' },
   { id:'F7', phase:'F', mode:'False recognition',
-    ref:'Book IV, Coda I — Condition 7',
+    ref:TDH_BOOK.reference('failures.asymmetry'),
     text:'I have begun to suspect that my partner does not actually share the framework with me \u2014 they performed sharing it.' },
   { id:'F8', phase:'F', mode:'Performed charge',
-    ref:'Book IV, Coda I — Condition 8',
+    ref:TDH_BOOK.reference('practice.performance'),
     text:'The charge between us is being maintained as performance; both of us know, quietly, that it has gone.' },
   { id:'F9', phase:'F', mode:'Structural drift',
-    ref:'Book IV, Coda I — Condition 9',
+    ref:TDH_BOOK.reference('practice.drift'),
     text:'The dynamic we live now is not the dynamic we started with, and we never explicitly chose the change.' },
 
   // Phase 3 — What remains (whether the framework is still real to you)
@@ -771,15 +772,15 @@ function computeDiagnosis(resp) {
 
 const DIAGNOSIS_TEXT = {
   system_failure:
-    'What the answers above describe is more consistent with a system failure than with a dark night. The framework you are inside is meeting conditions under which it cannot succeed as it currently stands.',
+    'Your answers emphasise several difficulties the book groups as system failure. This is a provisional category for reflection, not a verdict on the relationship or either person. Ask which concerns need to be heard, what can change, and whether you want to continue.',
   system_failure_early:
-    'What the answers above describe is consistent with the early stages of a system failure. The conditions are present; the failure is not yet complete. What you are inside still has its own momentum, but the trajectory matters.',
+    'Your answers raise some concerns the book associates with erosion or mismatch. They do not establish a trajectory or an eventual failure. Explore the specific concerns rather than treating the category as a prediction.',
   dark_night:
-    'What the answers above describe is consistent with a dark night of the Master rather than with a system failure. The framework is real. You are exhausted. The crossing is being lived at the speed it requires, which is not the speed you wish it had.',
+    'Your answers combine difficulty with continued belief in the framework—the pattern this tool provisionally calls a dark night. Belief does not establish that the arrangement is safe, that it will recover, or that you should endure it. You may pause, seek support, renegotiate, or leave.',
   both:
-    'What the answers above describe is unusual: both a dark night and an emerging system failure. The framework is still real to you. The dynamic is also developing real failure conditions. Both can be true at once. The work is to read which is which.',
+    'Your answers combine continued belief in the framework with several reported difficulties. The tool groups that combination under both categories; it does not establish how unusual it is. Continued belief cannot cancel a concern or a request to stop.',
   unclear:
-    'The picture is not yet legible enough to distinguish a dark night from a system failure. This is itself information. It suggests that more time, more attention, or a conversation outside the dynamic may help bring the picture into focus.',
+    'These answers do not distinguish the book\'s categories clearly. That is a limit of this questionnaire, not a failure to understand yourself. If you are concerned, consider a conversation or support outside the dynamic; you do not have to wait for a clearer score to act.',
 };
 
 // ══════════════════════════════════════════════

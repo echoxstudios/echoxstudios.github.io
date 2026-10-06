@@ -638,6 +638,7 @@
   <p class="card-modal-note">On mobile: press and hold the image to save it.</p>
   <button class="card-modal-close" onclick="document.getElementById('card-modal').classList.remove('open')">Close</button>
 </div>
+<script src="book-catalogue.js?v=20261004b"></script>
 <script>
 // ══════════════════════════════════════════════
 // DATA
@@ -673,7 +674,6 @@ const QUESTIONS = [
 const CH_NAME  = { V:'Visual', E:'Emotional', T:'Tactile', I:'Intellectual' };
 const CH_COLOR = { V:'#d4a93e', E:'#d4a93e', T:'#d4a93e', I:'#d4a93e' };
 
-const CULTURAL_AVG = { V:60, E:20, T:10, I:10 };
 
 const PRIMARY_MAIN = {
   V: 'Visual confirmation carries the most weight for you — appearance, form, and how someone looks are the primary channel through which desire arrives. When someone activates the aspirational self visually, that is the confirmation. The visual channel is load-bearing for you, not decorative.',
@@ -698,20 +698,20 @@ const LOW_FRAG = {
 
 const READING_RECS = {
   V: [
-    { section:'Book II, Section IV — The Visual Channel',    note:'The mechanics of visual desire and what it actually responds to.' },
-    { section:'Book II, Section VI — Cultural Distortion',   note:'How cultural values can overweight this channel, and what that can do.' },
+    { route:'expressions.visual', note:'The book\'s account of visual recognition.' },
+    { route:'expressions.culture', note:'The proposed influence of cultural values on channel emphasis.' },
   ],
   E: [
-    { section:'Book II, Section IV — The Emotional Channel', note:'The specific way emotional atmosphere generates or suppresses desire.' },
-    { section:'Book II, Section V — Attachment Theory: The Symptom Without the Mechanism', note:'Why the emotional channel is so often misread as neediness.' },
+    { route:'expressions.emotional', note:'The book\'s account of emotional recognition.' },
+    { route:'attachment', note:'The proposed relationship between confirmation and attachment experience.' },
   ],
   T: [
-    { section:'Book II, Section IV — The Tactile Channel',   note:'The body as philosophical instrument; the specific logic of tactile desire.' },
-    { section:'Book III — Gospel of the Body, Parts I–III',  note:'The theological argument for the body as primary site of recognition.' },
+    { route:'expressions.tactile', note:'The book\'s account of tactile recognition.' },
+    { route:'gospel', note:'The body as a site of recognition in the liturgy.' },
   ],
   I: [
-    { section:'Book II, Section IV — The Intellectual Channel',    note:'The architecture of intellectually generated desire.' },
-    { section:'Book II, Section VII — The Intellectual Framework as Ground', note:'The book describes this distribution from inside. You may find it recognizable.' },
+    { route:'expressions.intellectual', note:'The book\'s account of recognition through meaning.' },
+    { route:'expressions.ground', note:'The distinction between a direct intellectual channel and the framework carried by other channels.' },
   ],
 };
 
@@ -833,17 +833,17 @@ function buildInterpretation(pct) {
   let paras = [];
 
   if (allEven) {
-    paras.push(`Your gradient is unusually even — all four channels fall within a few points of equal weight. Desire reaches you through Visual (${pct.V}%), Emotional (${pct.E}%), Tactile (${pct.T}%), and Intellectual (${pct.I}%) at comparable strength. This is rare. It means no single channel dominates, and desire can arrive through whichever one opens first. The cost is that no channel is dispensable. The benefit is that desire is more available, more routes are open.`);
+    paras.push(`Your answers give an even gradient — Visual (${pct.V}%), Emotional (${pct.E}%), Tactile (${pct.T}%), and Intellectual (${pct.I}%) carry comparable shares of the questionnaire points. No channel dominates this result. That does not establish how common the pattern is, how much desire you experience, or that every channel is necessary. Use it to ask which forms of recognition matter in actual encounters.`);
   } else {
     // Primary paragraph
-    let p1 = `Your desire arrives most strongly through the <strong>${CH_NAME[primary]}</strong> — ${pct[primary]}% of how you experience attraction routes through this channel. ${PRIMARY_MAIN[primary]}`;
+    let p1 = `Your answers place the most weight on the <strong>${CH_NAME[primary]}</strong> — ${pct[primary]}% of the questionnaire points, not a measured proportion of your desire. Within the book's framework, this suggests the following possibilities; keep only what fits your experience. ${PRIMARY_MAIN[primary]}`;
 
     // Edge case overlays
     if (primary === 'I' && pct.I >= 50) {
       p1 += ` Your Intellectual channel above 50% places you in territory the book describes from inside. The intellectual-channel sections may be especially recognizable.`;
     }
     if (primary === 'V' && pct.V >= 60) {
-      p1 += ` Your distribution is near the provisional framework reference, which also peaks in the Visual. This does not make your gradient inauthentic; it is a prompt to consider how personal experience and cultural training may interact. The book's discussion of cultural distortion is relevant here.`;
+      p1 += ` Visual carries at least 60% of the questionnaire points. That does not establish the influence of culture on you; the book's discussion of cultural distortion is a question to consider, not a conclusion about your result.`;
     }
     paras.push(p1);
 
@@ -872,22 +872,20 @@ function buildInterpretation(pct) {
 }
 
 function buildComparison(pct) {
-  const diffs = ['V','E','T','I'].map(ch => ({ ch, d: Math.abs(pct[ch] - CULTURAL_AVG[ch]) }));
+  // The book's provisional reference is illustrative, not an empirical cohort or a norm.
+  const reference = { V:20, E:25, T:24, I:30 };
+  const diffs = ['V','E','T','I'].map(ch => ({ ch, d: Math.abs(pct[ch] - reference[ch]) }));
   const biggest = diffs.reduce((a,b) => a.d >= b.d ? a : b);
-  const dir = pct[biggest.ch] > CULTURAL_AVG[biggest.ch] ? 'higher than' : 'lower than';
-  
-  // Provisional framework reference: not a population baseline or clinical norm.
-  const COHORT_AVG = { V:22, E:26, T:23, I:29 };
-  const cohortDiff = Math.abs(pct[biggest.ch] - COHORT_AVG[biggest.ch]);
-  const cohortDir = pct[biggest.ch] >= COHORT_AVG[biggest.ch] ? 'sits at or above' : 'sits below';
+  const difference = Math.abs(pct[biggest.ch] - reference[biggest.ch]);
+  const direction = pct[biggest.ch] >= reference[biggest.ch] ? 'sits at or above' : 'sits below';
 
-  return `<p>Your distribution gives you a starting point for reflection in the <strong>${CH_NAME[biggest.ch]}</strong> channel. The book also offers a provisional framework reference (Intellectual 29%, Emotional 26%, Tactile 23%, Visual 22%): your profile ${cohortDir} that reference by ${cohortDiff} points. This is not a population baseline, a clinical norm, or a diagnosis; it is a prompt to return to the book's account of what recognition means for you.</p>`;
+  return `<p>The largest difference from the book's provisional reference is in the <strong>${CH_NAME[biggest.ch]}</strong> channel: your questionnaire result ${direction} it by ${difference} points. The reference is Intellectual 30%, Emotional 25%, Tactile 24%, Visual 20% (rounded values total 99%). It is an illustrative framework reference, not an empirical cohort, a population baseline, a clinical norm, or a target to reach. Return to what recognition means in your own experience.</p>`;
 }
 
 function buildRecs(pct) {
   const primary = ['V','E','T','I'].reduce((a,b) => pct[a] >= pct[b] ? a : b);
   return READING_RECS[primary].map(r =>
-    `<div class="rec-item"><strong>${r.section}</strong>${r.note}</div>`
+    `<div class="rec-item"><strong>${TDH_BOOK.reference(r.route)}</strong>${r.note}</div>`
   ).join('');
 }
 
