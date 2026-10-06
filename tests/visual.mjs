@@ -2,17 +2,27 @@
 // compared with tests/visual-baselines.json. A page fails when its picture drifts beyond the tolerance; the current
 // screenshot is then saved to test-results/visual/ for inspection.  Accept a deliberate change with:
 //   UPDATE_VISUAL=1 node tests/visual.mjs
+// Accept only explicitly reviewed captures, leaving all other baselines unchanged:
+//   UPDATE_VISUAL_KEYS='index.html@375,index.html@768' node tests/visual.mjs
 import fs from 'node:fs';
 import path from 'node:path';
 import { launch, CHROME, root } from './lib/browser.mjs';
 if (!CHROME) { console.log('visual test skipped: Chrome not found'); process.exit(0); }
 
-const BASE = path.join(root, 'tests', 'visual-baselines.json');
+// A separately reviewed platform baseline may be supplied explicitly for local diagnostics.
+// Never accept Mac captures into the canonical Linux CI file.
+const BASE = process.env.VISUAL_BASELINE_FILE || path.join(root, 'tests', 'visual-baselines.json');
 const update = !!process.env.UPDATE_VISUAL;
+const selected = new Set((process.env.UPDATE_VISUAL_KEYS || '').split(',').filter(Boolean));
+if (update && selected.size) throw new Error('Choose whole-baseline or selected-baseline acceptance, not both');
+if ((update || selected.size) && process.platform === 'darwin' && !process.env.VISUAL_BASELINE_FILE)
+  throw new Error('Canonical visual fixtures are maintained on Linux; use a separate local baseline file');
 const baselines = fs.existsSync(BASE) ? JSON.parse(fs.readFileSync(BASE, 'utf8')) : {};
 const pages = [...fs.readdirSync(root).filter(f => f.endsWith('.html')), ...fs.readdirSync(path.join(root, 'tdh')).filter(f => f.endsWith('.html')).map(f => 'tdh/' + f)]
   .filter(f => !/dramatic-work-withheld/.test(f)).sort();
 const WIDTHS = [375, 768, 1280];
+const available = new Set(WIDTHS.flatMap(w => pages.map(pg => `${pg}@${w}`)));
+for (const key of selected) if (!available.has(key)) throw new Error(`Unknown visual capture: ${key}`);
 const MEAN_TOL = 5, CELL_DIFF = 60, CELLS_TOL = 14; // justified, hyphenated text can shift a few lines between runs; // mean luminance drift, and how many of the 576 cells may differ strongly (0-255 scale)
 
 const FINGERPRINT = `(async (b64) => {
@@ -34,6 +44,8 @@ fs.mkdirSync(path.join(root, 'test-results', 'visual'), { recursive: true });
 let n = 0;
 for (const width of WIDTHS) {
   for (const pg of pages) {
+    const key = `${pg}@${width}`;
+    if (selected.size && !selected.has(key)) continue;
     const p = await c.page(null, { width, height: 800 });
     await p.goto(pg);
     await p.call('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
@@ -43,9 +55,8 @@ for (const width of WIDTHS) {
     await p.sleep(1100);
     const shot = await p.call('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
     const fp = await probe.evaluate(`${FINGERPRINT}(${JSON.stringify(shot.result.data)})`);
-    const key = `${pg}@${width}`;
     current[key] = fp; n++;
-    if (!update) {
+    if (!update && !selected.size) {
       if (!baselines[key]) fresh.push(key);
       else {
         const a = hex2arr(fp), r = hex2arr(baselines[key]);
@@ -61,6 +72,12 @@ for (const width of WIDTHS) {
   }
 }
 await b.stop();
+if (selected.size) {
+  if (Object.keys(current).length !== selected.size) throw new Error('Not every selected capture was produced');
+  fs.writeFileSync(BASE, JSON.stringify({...baselines, ...current}, null, 0).replace(/","/g, '",\n"') + '\n');
+  console.log(`Accepted ${selected.size} explicitly selected captures; all other baselines unchanged`);
+  process.exit(0);
+}
 if (update) {
   fs.writeFileSync(BASE, JSON.stringify(current, null, 0).replace(/","/g, '",\n"') + '\n');
   console.log(`visual baselines written for ${n} captures (${pages.length} pages x ${WIDTHS.length} widths)`);

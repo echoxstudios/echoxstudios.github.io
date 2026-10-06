@@ -537,7 +537,9 @@ function determineThreshold() {
   const allLow   = maxVal<4;
   const allHigh  = highOnes.length>=3;
   const primary  = Object.entries(ts).reduce((a,b)=>b[1]>a[1]?b:a)[0];
-  return {primary, highOnes, allLow, allHigh, maxVal};
+  const tied = Object.entries(ts).filter(([,val])=>val===maxVal).map(([k])=>k);
+  // Keep the existing numeric primary for stored-record compatibility; display ties explicitly.
+  return {primary, highOnes, allLow, allHigh, maxVal, tied};
 }
 
 function determineArchitecture() {
@@ -570,15 +572,15 @@ const T_NAMES = {
 };
 
 const ARCH_TEXT = {
-  'not-yet': `What you are inside is patience, not refusal. The crossing is real to you. The readiness has not yet arrived. There is no work to do here other than to keep returning until the readiness is also real. The framework does not require speed.`,
+  'not-yet': `Your answers suggest waiting rather than a settled decision. You do not have to keep returning until you are ready: waiting, reconsidering, declining, and seeking support are all available. The framework does not require a crossing.`,
   'excavation': `What you are inside is articulation. The crossing is not yet refused or accepted because what you would be crossing into has not yet been drawn precisely enough. The work, before the crossing, is description. <em>The Aspirational Sexual Self Profile</em> — Tool II of this suite — exists for this purpose, if you have not yet taken it.`,
   'deliberate': `What you are inside is a position. You have seen the threshold and chosen, knowingly, not to cross it. This is also a legitimate inhabitation. The book does not require crossing of every reader. What it requires is the honesty of naming what one is doing. You appear to be doing that.`,
-  'multiple': `What you are inside is layered. More than one kind of non-crossing is active at once. This is common at thresholds that are real. The work, if there is work to do, is to separate the layers — to ask which part is patience, which part is incomplete articulation, and which part is a position you have actually chosen.`,
+  'multiple': `Your answers suggest more than one reason for not crossing. They do not establish how common that is. If useful, separate what is waiting, what is still unclear, and what you have already chosen not to do. Declining is a complete decision, not a failed stage.`,
 };
 
 const COST_TEXT = {
   'crossing-heavier':     `The cost of crossing — the changes to identity, relationships, and stories about yourself — weighs more heavily in what you have described. That weight is real information. It does not mean the crossing is wrong. It means it is expensive.`,
-  'not-crossing-heavier': `The cost of not crossing — the specific self-knowledge you would continue not having — weighs more heavily in what you have described. That, too, is real information. The threshold holds something you have already half-named.`,
+  'not-crossing-heavier': `In your answers, not crossing feels more costly than crossing. That feeling is worth exploring; it does not establish that crossing would be wise or safe, or that self-knowledge depends on it. You may learn through reflection, conversation, or a decision not to proceed.`,
   'comparable':           `The costs feel comparable. You have not yet decided which is the cost you are more able to carry. This is honest, not evasive. Some thresholds cannot be assessed until they are closer.`,
 };
 
@@ -592,7 +594,9 @@ function buildReflection(thr, arch, cost) {
   }
 
   if(thr.allHigh) {
-    paras.push(`You are at multiple thresholds simultaneously. This is information about the moment you are in — a convergence of questions that do not usually arrive together. It may be worth asking which threshold is most active <em>today</em>, and returning to the others when this one resolves.`);
+    paras.push(`Your answers give several thresholds a strong rating: ${thr.highOnes.map(k=>T_NAMES[k]).join('; ')}. The tool cannot tell you which to address first. You may choose one, return later, or decide that none needs a crossing.`);
+  } else if(thr.tied && thr.tied.length > 1) {
+    paras.push(`Your strongest ratings are tied: ${thr.tied.map(k=>T_NAMES[k]).join('; ')}. No single threshold stands out in your answers. A tie is not a hidden decision; explore only what feels relevant.`);
   } else {
     paras.push(`What you are at the edge of, by your own account, is <strong>${T_NAMES[thr.primary]}</strong>.`);
   }

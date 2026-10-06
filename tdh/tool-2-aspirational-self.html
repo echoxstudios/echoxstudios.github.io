@@ -1138,7 +1138,7 @@ function buildProfile() {
 function axisComposites(v) {
   return {
     x: (v.dom + v.pow + v.pur) / 3,          // low = commanding, high = surrendered
-    y: (v.see + v.wor) / 2,                    // low = concealed, high = witnessed
+    y: 100 - (v.see + v.wor) / 2,              // Seen/Worshipped are the sliders' low poles; high = witnessed
     stakes: ((100 - v.tra) + v.sin) / 2        // low = quiet, high = high-stakes
   };
 }
