@@ -2,306 +2,440 @@
 (function (root) {
   "use strict";
   const data = {
-  "releaseEdition": "v124",
-  "editions": {
-    "v124": {
-      "status": "release",
-      "primaryPages": 318,
-      "apparatusPages": 52,
-      "physicalPages": 380
+    "releaseEdition": "v135",
+    "editions": {
+      "v124": {
+        "status": "earlier release",
+        "primaryPages": 318,
+        "apparatusPages": 52,
+        "physicalPages": 380
+      },
+      "v135": {
+        "status": "release",
+        "primaryPages": 323,
+        "apparatusPages": 60,
+        "physicalPages": 394
+      }
+    },
+    "routes": {
+      "book-i": {
+        "label": "Book I — The Revelation",
+        "locations": {
+          "v124": {
+            "printedPage": "13",
+            "physicalPage": 23
+          },
+          "v135": {
+            "printedPage": "11",
+            "physicalPage": 21
+          }
+        }
+      },
+      "book-ii": {
+        "label": "Book II — Prolegomena",
+        "locations": {
+          "v124": {
+            "printedPage": "21",
+            "physicalPage": 31
+          },
+          "v135": {
+            "printedPage": "19",
+            "physicalPage": 29
+          }
+        }
+      },
+      "book-iii": {
+        "label": "Book III — The Theology of Decho",
+        "locations": {
+          "v124": {
+            "printedPage": "101",
+            "physicalPage": 111
+          },
+          "v135": {
+            "printedPage": "107",
+            "physicalPage": 117
+          }
+        }
+      },
+      "book-iv": {
+        "label": "Book IV — The Dark Hierarchy",
+        "locations": {
+          "v124": {
+            "printedPage": "169",
+            "physicalPage": 179
+          },
+          "v135": {
+            "printedPage": "175",
+            "physicalPage": 185
+          }
+        }
+      },
+      "book-v": {
+        "label": "Book V — The Daily Practice",
+        "locations": {
+          "v124": {
+            "printedPage": "249",
+            "physicalPage": 259
+          },
+          "v135": {
+            "printedPage": "255",
+            "physicalPage": 265
+          }
+        }
+      },
+      "central-thesis": {
+        "label": "Book II — The Central Thesis",
+        "locations": {
+          "v124": {
+            "printedPage": "21",
+            "physicalPage": 31
+          },
+          "v135": {
+            "printedPage": "19",
+            "physicalPage": 29
+          }
+        }
+      },
+      "on-method": {
+        "label": "Book II — On Method",
+        "locations": {
+          "v124": {
+            "printedPage": "25",
+            "physicalPage": 35
+          },
+          "v135": {
+            "printedPage": "21",
+            "physicalPage": 31
+          }
+        }
+      },
+      "four-expressions": {
+        "label": "Book II, Section III — The Four Expressions",
+        "locations": {
+          "v124": {
+            "printedPage": "55",
+            "physicalPage": 65
+          },
+          "v135": {
+            "printedPage": "52",
+            "physicalPage": 62
+          }
+        }
+      },
+      "expressions.visual": {
+        "label": "Book II, Section III — Visual",
+        "locations": {
+          "v124": {
+            "printedPage": "61",
+            "physicalPage": 71
+          },
+          "v135": {
+            "printedPage": "58",
+            "physicalPage": 68
+          }
+        }
+      },
+      "expressions.emotional": {
+        "label": "Book II, Section III — Emotional",
+        "locations": {
+          "v124": {
+            "printedPage": "60",
+            "physicalPage": 70
+          },
+          "v135": {
+            "printedPage": "57",
+            "physicalPage": 67
+          }
+        }
+      },
+      "expressions.tactile": {
+        "label": "Book II, Section III — Tactile",
+        "locations": {
+          "v124": {
+            "printedPage": "60",
+            "physicalPage": 70
+          },
+          "v135": {
+            "printedPage": "57",
+            "physicalPage": 67
+          }
+        }
+      },
+      "expressions.intellectual": {
+        "label": "Book II, Section III — Intellectual",
+        "locations": {
+          "v124": {
+            "printedPage": "62",
+            "physicalPage": 72
+          },
+          "v135": {
+            "printedPage": "59",
+            "physicalPage": 69
+          }
+        }
+      },
+      "expressions.culture": {
+        "label": "Book II, Section III — The Cultural Distortion",
+        "locations": {
+          "v124": {
+            "printedPage": "57",
+            "physicalPage": 67
+          },
+          "v135": {
+            "printedPage": "54",
+            "physicalPage": 64
+          }
+        }
+      },
+      "expressions.ground": {
+        "label": "Book II, Section III — The Intellectual Framework as Ground",
+        "locations": {
+          "v124": {
+            "printedPage": "59",
+            "physicalPage": 69
+          },
+          "v135": {
+            "printedPage": "56",
+            "physicalPage": 66
+          }
+        }
+      },
+      "attachment": {
+        "label": "Book II, Section II — Attachment Theory: The Symptom Without the Mechanism",
+        "locations": {
+          "v124": {
+            "printedPage": "49",
+            "physicalPage": 59
+          },
+          "v135": {
+            "printedPage": "46",
+            "physicalPage": 56
+          }
+        }
+      },
+      "gospel": {
+        "label": "Book III, Section VII — The Gospel of the Body",
+        "locations": {
+          "v124": {
+            "printedPage": "124",
+            "physicalPage": 134
+          },
+          "v135": {
+            "printedPage": "130",
+            "physicalPage": 140
+          }
+        }
+      },
+      "gospel.during": {
+        "label": "Book III, Section VII — The Gospel of the Body: Part Two, During",
+        "locations": {
+          "v124": {
+            "printedPage": "127",
+            "physicalPage": 137
+          },
+          "v135": {
+            "printedPage": "133",
+            "physicalPage": 143
+          }
+        }
+      },
+      "failures.asymmetry": {
+        "label": "Book II, Section I — Conditions Under Which the System Fails: Asymmetrical recognition",
+        "locations": {
+          "v124": {
+            "printedPage": "41",
+            "physicalPage": 51
+          },
+          "v135": {
+            "printedPage": "38",
+            "physicalPage": 48
+          }
+        }
+      },
+      "failures.dependency": {
+        "label": "Book II, Section I — Conditions Under Which the System Fails: Dependency without confirmation",
+        "locations": {
+          "v124": {
+            "printedPage": "41",
+            "physicalPage": 51
+          },
+          "v135": {
+            "printedPage": "38",
+            "physicalPage": 48
+          }
+        }
+      },
+      "failures.misalignment": {
+        "label": "Book II, Section I — Conditions Under Which the System Fails: Misaligned aspirational selves",
+        "locations": {
+          "v124": {
+            "printedPage": "40",
+            "physicalPage": 50
+          },
+          "v135": {
+            "printedPage": "37",
+            "physicalPage": 47
+          }
+        }
+      },
+      "failures.terminal": {
+        "label": "Book II, Section I — Conditions Under Which the System Fails: The framework as terminal destination",
+        "locations": {
+          "v124": {
+            "printedPage": "41",
+            "physicalPage": 51
+          },
+          "v135": {
+            "printedPage": "38",
+            "physicalPage": 48
+          }
+        }
+      },
+      "practice.drift": {
+        "label": "Book V, Chapter One, Section I — The Anatomy of Drift",
+        "locations": {
+          "v124": {
+            "printedPage": "252",
+            "physicalPage": 262
+          },
+          "v135": {
+            "printedPage": "258",
+            "physicalPage": 268
+          }
+        }
+      },
+      "practice.performance": {
+        "label": "Book V, Chapter One, Section VII — Performance Without Presence",
+        "locations": {
+          "v124": {
+            "printedPage": "274",
+            "physicalPage": 284
+          },
+          "v135": {
+            "printedPage": "280",
+            "physicalPage": 290
+          }
+        }
+      },
+      "practice.safe-word": {
+        "label": "Book V, Chapter One, Section VI — The Safe Word",
+        "locations": {
+          "v124": {
+            "printedPage": "267",
+            "physicalPage": 277
+          },
+          "v135": {
+            "printedPage": "273",
+            "physicalPage": 283
+          }
+        }
+      },
+      "practice.kairos": {
+        "label": "Book V, Chapter Four, Section VII — Kairos",
+        "locations": {
+          "v124": {
+            "printedPage": "301",
+            "physicalPage": 311
+          },
+          "v135": {
+            "printedPage": "307",
+            "physicalPage": 317
+          }
+        }
+      },
+      "practice.autonomy": {
+        "label": "Book V, Chapter Four, Section VI — On Autonomy and Exclusive Belonging",
+        "locations": {
+          "v124": {
+            "printedPage": "299",
+            "physicalPage": 309
+          },
+          "v135": {
+            "printedPage": "305",
+            "physicalPage": 315
+          }
+        }
+      },
+      "practice.interview": {
+        "label": "Book V, Chapter Four, Section II — The Sexual Interview: Without Having Sex",
+        "locations": {
+          "v124": {
+            "printedPage": "292",
+            "physicalPage": 302
+          },
+          "v135": {
+            "printedPage": "298",
+            "physicalPage": 308
+          }
+        }
+      },
+      "canticle.flame": {
+        "label": "Book III, Section XIV — The Canticle of the Flame",
+        "locations": {
+          "v124": {
+            "printedPage": "148",
+            "physicalPage": 158
+          },
+          "v135": {
+            "printedPage": "154",
+            "physicalPage": 164
+          }
+        }
+      },
+      "canticle.primal": {
+        "label": "Book III, Section XV — The Canticle of the Primal Force",
+        "locations": {
+          "v124": {
+            "printedPage": "152",
+            "physicalPage": 162
+          },
+          "v135": {
+            "printedPage": "158",
+            "physicalPage": 168
+          }
+        }
+      },
+      "canticle.contained": {
+        "label": "Book III, Section XVI — The Canticle of Contained Presence",
+        "locations": {
+          "v124": {
+            "printedPage": "156",
+            "physicalPage": 166
+          },
+          "v135": {
+            "printedPage": "162",
+            "physicalPage": 172
+          }
+        }
+      },
+      "dark-night": {
+        "label": "Book IV, Movement XX — The Dark Night of the Master",
+        "locations": {
+          "v124": {
+            "printedPage": "227",
+            "physicalPage": 237
+          },
+          "v135": {
+            "printedPage": "234",
+            "physicalPage": 244
+          }
+        }
+      },
+      "recognition": {
+        "label": "Recognition and the Shape of a Life, after Book V",
+        "locations": {
+          "v124": {
+            "printedPage": "311",
+            "physicalPage": 321
+          },
+          "v135": {
+            "printedPage": "317",
+            "physicalPage": 327
+          }
+        }
+      }
     }
-  },
-  "routes": {
-    "book-i": {
-      "label": "Book I — The Revelation",
-      "locations": {
-        "v124": {
-          "printedPage": "13",
-          "physicalPage": 23
-        }
-      }
-    },
-    "book-ii": {
-      "label": "Book II — Prolegomena",
-      "locations": {
-        "v124": {
-          "printedPage": "21",
-          "physicalPage": 31
-        }
-      }
-    },
-    "book-iii": {
-      "label": "Book III — The Theology of Decho",
-      "locations": {
-        "v124": {
-          "printedPage": "101",
-          "physicalPage": 111
-        }
-      }
-    },
-    "book-iv": {
-      "label": "Book IV — The Dark Hierarchy",
-      "locations": {
-        "v124": {
-          "printedPage": "169",
-          "physicalPage": 179
-        }
-      }
-    },
-    "book-v": {
-      "label": "Book V — The Daily Practice",
-      "locations": {
-        "v124": {
-          "printedPage": "249",
-          "physicalPage": 259
-        }
-      }
-    },
-    "central-thesis": {
-      "label": "Book II — The Central Thesis",
-      "locations": {
-        "v124": {
-          "printedPage": "21",
-          "physicalPage": 31
-        }
-      }
-    },
-    "on-method": {
-      "label": "Book II — On Method",
-      "locations": {
-        "v124": {
-          "printedPage": "25",
-          "physicalPage": 35
-        }
-      }
-    },
-    "four-expressions": {
-      "label": "Book II, Section III — The Four Expressions",
-      "locations": {
-        "v124": {
-          "printedPage": "55",
-          "physicalPage": 65
-        }
-      }
-    },
-    "expressions.visual": {
-      "label": "Book II, Section III — Visual",
-      "locations": {
-        "v124": {
-          "printedPage": "61",
-          "physicalPage": 71
-        }
-      }
-    },
-    "expressions.emotional": {
-      "label": "Book II, Section III — Emotional",
-      "locations": {
-        "v124": {
-          "printedPage": "60",
-          "physicalPage": 70
-        }
-      }
-    },
-    "expressions.tactile": {
-      "label": "Book II, Section III — Tactile",
-      "locations": {
-        "v124": {
-          "printedPage": "60",
-          "physicalPage": 70
-        }
-      }
-    },
-    "expressions.intellectual": {
-      "label": "Book II, Section III — Intellectual",
-      "locations": {
-        "v124": {
-          "printedPage": "62",
-          "physicalPage": 72
-        }
-      }
-    },
-    "expressions.culture": {
-      "label": "Book II, Section III — The Cultural Distortion",
-      "locations": {
-        "v124": {
-          "printedPage": "57",
-          "physicalPage": 67
-        }
-      }
-    },
-    "expressions.ground": {
-      "label": "Book II, Section III — The Intellectual Framework as Ground",
-      "locations": {
-        "v124": {
-          "printedPage": "59",
-          "physicalPage": 69
-        }
-      }
-    },
-    "attachment": {
-      "label": "Book II, Section II — Attachment Theory: The Symptom Without the Mechanism",
-      "locations": {
-        "v124": {
-          "printedPage": "49",
-          "physicalPage": 59
-        }
-      }
-    },
-    "gospel": {
-      "label": "Book III, Section VII — The Gospel of the Body",
-      "locations": {
-        "v124": {
-          "printedPage": "124",
-          "physicalPage": 134
-        }
-      }
-    },
-    "gospel.during": {
-      "label": "Book III, Section VII — The Gospel of the Body: Part Two, During",
-      "locations": {
-        "v124": {
-          "printedPage": "127",
-          "physicalPage": 137
-        }
-      }
-    },
-    "failures.asymmetry": {
-      "label": "Book II, Section I — Conditions Under Which the System Fails: Asymmetrical recognition",
-      "locations": {
-        "v124": {
-          "printedPage": "41",
-          "physicalPage": 51
-        }
-      }
-    },
-    "failures.dependency": {
-      "label": "Book II, Section I — Conditions Under Which the System Fails: Dependency without confirmation",
-      "locations": {
-        "v124": {
-          "printedPage": "41",
-          "physicalPage": 51
-        }
-      }
-    },
-    "failures.misalignment": {
-      "label": "Book II, Section I — Conditions Under Which the System Fails: Misaligned aspirational selves",
-      "locations": {
-        "v124": {
-          "printedPage": "40",
-          "physicalPage": 50
-        }
-      }
-    },
-    "failures.terminal": {
-      "label": "Book II, Section I — Conditions Under Which the System Fails: The framework as terminal destination",
-      "locations": {
-        "v124": {
-          "printedPage": "41",
-          "physicalPage": 51
-        }
-      }
-    },
-    "practice.drift": {
-      "label": "Book V, Chapter One, Section I — The Anatomy of Drift",
-      "locations": {
-        "v124": {
-          "printedPage": "252",
-          "physicalPage": 262
-        }
-      }
-    },
-    "practice.performance": {
-      "label": "Book V, Chapter One, Section VII — Performance Without Presence",
-      "locations": {
-        "v124": {
-          "printedPage": "274",
-          "physicalPage": 284
-        }
-      }
-    },
-    "practice.safe-word": {
-      "label": "Book V, Chapter One, Section VI — The Safe Word",
-      "locations": {
-        "v124": {
-          "printedPage": "267",
-          "physicalPage": 277
-        }
-      }
-    },
-    "practice.kairos": {
-      "label": "Book V, Chapter Four, Section VII — Kairos",
-      "locations": {
-        "v124": {
-          "printedPage": "301",
-          "physicalPage": 311
-        }
-      }
-    },
-    "practice.autonomy": {
-      "label": "Book V, Chapter Four, Section VI — On Autonomy and Exclusive Belonging",
-      "locations": {
-        "v124": {
-          "printedPage": "299",
-          "physicalPage": 309
-        }
-      }
-    },
-    "practice.interview": {
-      "label": "Book V, Chapter Four, Section II — The Sexual Interview: Without Having Sex",
-      "locations": {
-        "v124": {
-          "printedPage": "292",
-          "physicalPage": 302
-        }
-      }
-    },
-    "canticle.flame": {
-      "label": "Book III, Section XIV — The Canticle of the Flame",
-      "locations": {
-        "v124": {
-          "printedPage": "148",
-          "physicalPage": 158
-        }
-      }
-    },
-    "canticle.primal": {
-      "label": "Book III, Section XV — The Canticle of the Primal Force",
-      "locations": {
-        "v124": {
-          "printedPage": "152",
-          "physicalPage": 162
-        }
-      }
-    },
-    "canticle.contained": {
-      "label": "Book III, Section XVI — The Canticle of Contained Presence",
-      "locations": {
-        "v124": {
-          "printedPage": "156",
-          "physicalPage": 166
-        }
-      }
-    },
-    "dark-night": {
-      "label": "Book IV, Movement XX — The Dark Night of the Master",
-      "locations": {
-        "v124": {
-          "printedPage": "227",
-          "physicalPage": 237
-        }
-      }
-    },
-    "recognition": {
-      "label": "Recognition and the Shape of a Life, after Book V",
-      "locations": {
-        "v124": {
-          "printedPage": "311",
-          "physicalPage": 321
-        }
-      }
-    }
-  }
-};
+  };
   function get(id, edition = data.releaseEdition) {
     const route = data.routes[id];
     if (!route || !route.locations[edition]) throw new Error('Unknown book route or edition: ' + id + ' / ' + edition);
