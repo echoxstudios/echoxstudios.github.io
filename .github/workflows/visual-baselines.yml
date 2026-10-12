@@ -1,0 +1,36 @@
+name: Visual baselines (manual)
+# Canonical visual fingerprints are captured on Linux, where the site checks run.
+# Run this by hand after a deliberate visual change. It accepts only the captures you list (or all, if none are listed)
+# and uploads the updated tests/visual-baselines.json plus the screenshots as an artifact for review.
+# Nothing is committed automatically: review the screenshots, then commit the file.
+on:
+  workflow_dispatch:
+    inputs:
+      keys:
+        description: "Captures to accept, comma-separated (e.g. tdh/translation-studio.html@375). Empty = accept all."
+        required: false
+        default: ""
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts
+      - name: Accept the listed captures
+        if: ${{ inputs.keys != '' }}
+        run: UPDATE_VISUAL_KEYS='${{ inputs.keys }}' node tests/visual.mjs
+      - name: Accept all captures
+        if: ${{ inputs.keys == '' }}
+        run: UPDATE_VISUAL=1 node tests/visual.mjs
+      - name: Confirm the new baselines pass
+        run: node tests/visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-baselines
+          path: |
+            tests/visual-baselines.json
+            test-results/visual/

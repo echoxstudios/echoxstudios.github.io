@@ -4,14 +4,19 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
-<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Translation Studio — The Dark Hierarchy v130 candidate</title>
-<meta name="description" content="A local-only conversation canvas for the Fifth Element in The Dark Hierarchy.">
+<title>Translation Studio — The Dark Hierarchy</title>
+<link rel="canonical" href="https://echoxstudios.art/tdh/translation-studio.html"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../../assets/fonts/fonts.css">
-<link rel="stylesheet" href="../../assets/a11y.css">
-<link rel="stylesheet" href="../a11y.css">
+<meta name="description" content="A conversation canvas for two, beside the seven Echo-System tools: an offered sign, what it may make possible, and the room two people might make from it. Unscored; keeps and sends nothing.">
+<meta property="og:image" content="https://echoxstudios.art/assets/og/translation-studio.png"/>
+<meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://echoxstudios.art/assets/og/translation-studio.png"/>
+<meta property="og:type" content="website"/><meta property="og:site_name" content="ECHOx"/><meta property="og:title" content="Translation Studio — The Dark Hierarchy"/><meta property="og:description" content="A conversation canvas for two, beside the seven Echo-System tools. Unscored; keeps and sends nothing."/><meta property="og:url" content="https://echoxstudios.art/tdh/translation-studio.html"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/a11y.css">
+<link rel="stylesheet" href="a11y.css">
 <style>
   :root { --black:#080806; --near:#0e0e0b; --off-white:#f0ece3; --bone:#e8e4dc; --gold:#d4a93e; --gold-dim:#b8963e; --text:#e2ddd2; --muted:#a39e93; --rule:rgba(184,150,62,.28); --soft:rgba(212,169,62,.06); }
   * { box-sizing:border-box; }
@@ -32,6 +37,7 @@
   .rule { border:0; border-top:1px solid var(--rule); margin:1.8rem 0; }
   .guardrails { border-left:1px solid var(--gold-dim); color:var(--muted); font-size:.79rem; line-height:1.7; padding:.15rem 0 .15rem 1rem; }
   .guardrails strong { color:var(--bone); font-weight:400; }
+  .guardrails p + p { margin-top:.6rem; }
   .button-row { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1.5rem; }
   button { border-radius:0; }
   .button { background:transparent; border:1px solid var(--gold-dim); color:var(--gold); cursor:pointer; font-size:.54rem; letter-spacing:.14em; min-height:2.6rem; padding:.72rem 1rem; text-transform:uppercase; }
@@ -49,14 +55,17 @@
   .progress { background:rgba(212,169,62,.16); height:3px; margin-bottom:1.8rem; }
   .progress > span { background:var(--gold); display:block; height:100%; transition:width .2s ease; }
   fieldset { border:0; margin:0; padding:0; }
+  fieldset + fieldset { margin-top:1.4rem; }
   legend { color:var(--off-white); font:italic .98rem/1.45 'Cormorant Garamond', Georgia, serif; margin-bottom:.45rem; }
   .hint { color:var(--muted); font:.55rem/1.65 Inconsolata, monospace; letter-spacing:.04em; margin:0 0 1rem; }
   label { color:var(--bone); display:block; font-size:.78rem; margin:.78rem 0 .32rem; }
   textarea, input[type=text] { background:var(--near); border:1px solid var(--rule); border-radius:0; color:var(--off-white); font:300 .82rem/1.55 'Cormorant Garamond', Georgia, serif; min-height:3.2rem; padding:.65rem .72rem; width:100%; }
+  input[type=text] { min-height:2.6rem; }
   textarea { min-height:7rem; resize:vertical; }
   textarea:focus, input[type=text]:focus { border-color:var(--gold); outline:0; }
   .choices { display:grid; gap:.48rem; grid-template-columns:repeat(2, minmax(0, 1fr)); }
-  .choice { background:var(--near); border:1px solid var(--rule); cursor:pointer; min-height:2.55rem; padding:.56rem .65rem; }
+  .choices.tags { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+  .choice { background:var(--near); border:1px solid var(--rule); cursor:pointer; margin:0; min-height:2.55rem; padding:.56rem .65rem; }
   .choice:focus-within { border-color:var(--gold); outline:2px solid var(--gold); outline-offset:2px; }
   .choice input { accent-color:var(--gold); margin-right:.35rem; }
   .choice-label { color:var(--bone); font-size:.51rem; letter-spacing:.06em; line-height:1.3; }
@@ -74,31 +83,35 @@
   .card-note { color:var(--muted); font-size:.68rem; font-style:italic; line-height:1.55; margin-top:1.2rem; }
   .status { color:var(--muted); font-size:.53rem; letter-spacing:.04em; line-height:1.6; margin-top:.85rem; min-height:1.5rem; }
   .local-note { color:var(--muted); font:.52rem/1.65 Inconsolata, monospace; letter-spacing:.03em; margin-top:1.4rem; }
+  .local-note a { color:var(--gold-dim); }
   [hidden] { display:none !important; }
-  @media (max-width:480px) { html { font-size:22px; } body { padding:2rem 1.25rem 3rem; } .choices { grid-template-columns:1fr; } }
+  @media (max-width:480px) { html { font-size:22px; } body { padding:2rem 1.25rem 3rem; } .choices, .choices.tags { grid-template-columns:1fr 1fr; } }
+  @media (max-width:360px) { .choices, .choices.tags { grid-template-columns:1fr; } }
   @media print { html, body { background:#fff; color:#161512; } body { max-width:none; padding:1.6cm 2cm; font-family:Georgia, serif; } .back-link, #intro, #workbench, .button-row, .local-note, .status, .tdh-skip { display:none !important; } #card-screen { display:block !important; } .card { background:#fff; border-color:#a68a43; } .card-title, .card-label { color:#7b642e; } .card h2, .card-value { color:#161512; } .card-note { color:#45413b; } }
 </style>
 </head>
 <body>
 <main id="translation-main" tabindex="-1">
-  <a class="back-link" href="../index.html">The Dark Hierarchy</a>
+  <a class="back-link" href="index.html">The Dark Hierarchy</a>
 
   <section id="intro" class="screen active" aria-labelledby="page-title">
     <header>
-      <p class="candidate">v130 companion candidate · local-only</p>
+      <p class="candidate">Companion to the seven tools · for two · local-only</p>
       <h1 id="page-title">Translation Studio</h1>
       <span class="ornament" aria-hidden="true">✦</span>
     </header>
     <div class="lead">
-      <p>A private conversation canvas for the Fifth Element. It is not a fifth item, another trigger, or a private meaning to be extracted: it is the framework made when different things already known enter overlap — the room in which a trigger can take a new form. This studio helps people distinguish an offered sign from the condition it may make possible, then name a shared form that can be received, corrected, or left unresolved.</p>
+      <p>A conversation canvas for the Fifth Element. It is not a fifth item, another trigger, or a private meaning to be extracted: it is the framework made when different things already known enter overlap — the room in which a trigger can take a new form. Sit side by side with one screen. The studio helps you tell an offered sign apart from the condition it may make possible, see what each of you brings, and name a shared form that can be received, corrected, or left unresolved.</p>
+      <p>The same object can do very different work for different people. Knowing an object’s usual meaning does not tell you what it confirms for the person who offers it. That is why one person speaks first and the other listens before proposing anything.</p>
       <p>It does not diagnose desire, establish compatibility, or turn one person’s account into another person’s permission.</p>
     </div>
     <hr class="rule">
     <aside class="guardrails" aria-label="Conditions of use">
       <p><strong>Nothing is owed here.</strong> A person may explain, correct, remain uncertain, decline, pause, or stop without penalty. A trigger can be understood without being used. A card can end with no hypothesis and no action.</p>
+      <p><strong>Adults only, both present, both willing.</strong> Use it together, never to read someone who is not in the room.</p>
     </aside>
     <div class="button-row"><button class="button primary" id="begin" type="button">Open the studio</button></div>
-    <p class="local-note">No account. No network request. No persistent storage. Refreshing or closing this page clears the canvas.</p>
+    <p class="local-note">No account. No network request. No persistent storage. Not scored and never part of the research counters. Refreshing or closing this page clears the canvas. <a href="research.html">About the research</a></p>
   </section>
 
   <section id="workbench" class="screen" aria-labelledby="stage-heading">
@@ -108,8 +121,8 @@
       <span class="ornament" aria-hidden="true">✦</span>
     </header>
     <div class="workbench">
-      <div class="stage-top"><span id="stage-number" class="stage-number">1 / 6</span><span id="stage-name" class="stage-name">Offer</span></div>
-      <div class="progress" aria-hidden="true"><span id="progress-fill" style="width:16.667%"></span></div>
+      <div class="stage-top"><span id="stage-number" class="stage-number">1 / 8</span><span id="stage-name" class="stage-name">Offer</span></div>
+      <div class="progress" aria-hidden="true"><span id="progress-fill" style="width:12.5%"></span></div>
 
       <section class="stage active" data-stage="0" aria-labelledby="offer-legend">
         <fieldset>
@@ -128,8 +141,14 @@
 
       <section class="stage" data-stage="1" hidden aria-labelledby="possibility-legend">
         <fieldset>
-          <legend id="possibility-legend">What might it allow or make possible?</legend>
-          <p class="hint">Not a demand for an explanation. A person may describe a feeling, a role, a change, a recognition — or simply choose not to know yet.</p>
+          <legend id="possibility-legend">Its usual meaning, and what it may make possible for you</legend>
+          <p class="hint">First person. An object has a public grammar — what people usually take it to mean. That is not yet what it confirms for you. Choose any, none, or your own words.</p>
+          <label for="grammar">What it is usually taken to mean (optional)</label>
+          <textarea id="grammar" maxlength="800" placeholder="People tend to read it as…"></textarea>
+        </fieldset>
+        <fieldset>
+          <legend id="possibility-tags-legend">For me, it may make possible</legend>
+          <div class="choices tags" role="group" aria-labelledby="possibility-tags-legend" data-tags="possibility-tag"></div>
           <label for="possibility">First person’s account</label>
           <textarea id="possibility" maxlength="1600" placeholder="It may make possible…"></textarea>
           <label class="choice"><input id="possibility-unknown" type="checkbox"><span class="choice-label">It remains unknown for now<small>Uncertainty is a valid account.</small></span></label>
@@ -139,9 +158,14 @@
       <section class="stage" data-stage="2" hidden aria-labelledby="reflection-legend">
         <fieldset>
           <legend id="reflection-legend">Reflect what you understood</legend>
-          <p class="hint">The second person offers a reading, not a verdict. Use ordinary language. Avoid making the original object stand for more than was actually said.</p>
+          <p class="hint">Second person. Offer a reading, not a verdict. Use ordinary language. Avoid making the original object stand for more than was actually said.</p>
           <label for="reflection">Second person’s reflection</label>
           <textarea id="reflection" maxlength="1600" placeholder="I heard that it may be about…"></textarea>
+        </fieldset>
+        <fieldset>
+          <legend id="meet-tags-legend">From my side, I could meet</legend>
+          <p class="hint">Not what you would agree to. What you could meet from your own side, if both of you wanted to try. Leaving this empty is a complete answer.</p>
+          <div class="choices tags" role="group" aria-labelledby="meet-tags-legend" data-tags="meet-tag"></div>
         </fieldset>
       </section>
 
@@ -160,7 +184,22 @@
         </fieldset>
       </section>
 
-      <section class="stage" data-stage="4" hidden aria-labelledby="hypothesis-legend">
+      <section class="stage" data-stage="4" hidden aria-labelledby="overlap-legend">
+        <fieldset>
+          <legend id="overlap-legend">Knowledges in overlap</legend>
+          <p class="hint">Each of you lists what you bring: a history, a sensation, a scene, a joke, a place, a word. Two lines or ten; the number is a symbol, not a count. Then look for what two or more of them make together that neither of you held alone.</p>
+          <label for="brings-first">What the first person brings (one per line)</label>
+          <textarea id="brings-first" maxlength="1200" placeholder="One knowledge per line"></textarea>
+          <label for="brings-second">What the second person brings (one per line)</label>
+          <textarea id="brings-second" maxlength="1200" placeholder="One knowledge per line"></textarea>
+          <label for="overlap">What do some of these make together that none of them contained?</label>
+          <textarea id="overlap" maxlength="1600" placeholder="Put together, they might make…"></textarea>
+          <label for="room-name">Name the room, if it has a name yet (optional)</label>
+          <input type="text" id="room-name" maxlength="120" placeholder="A working name">
+        </fieldset>
+      </section>
+
+      <section class="stage" data-stage="5" hidden aria-labelledby="hypothesis-legend">
         <fieldset>
           <legend id="hypothesis-legend">Name a reversible translation hypothesis — or none</legend>
           <p class="hint">Translation asks whether a condition can be recognised in another form. It is not a command to reproduce, intensify, or test the original sign.</p>
@@ -175,7 +214,16 @@
         </fieldset>
       </section>
 
-      <section class="stage" data-stage="5" hidden aria-labelledby="debrief-legend">
+      <section class="stage" data-stage="6" hidden aria-labelledby="renewal-legend">
+        <fieldset>
+          <legend id="renewal-legend">Renewal: another form for the same room</legend>
+          <p class="hint">Optional. Long-term couples who share new activities together tend to report more desire, with the same partner rather than a new one. The book calls the capacity to make new rooms as people change relational perpetuity. This is a possibility, not a task.</p>
+          <label for="renewal">What new thing could you do together that might let this room take another form?</label>
+          <textarea id="renewal" maxlength="1200" placeholder="Something neither of us has done before…"></textarea>
+        </fieldset>
+      </section>
+
+      <section class="stage" data-stage="7" hidden aria-labelledby="debrief-legend">
         <fieldset>
           <legend id="debrief-legend">Return later, if you choose</legend>
           <p class="hint">A later account can confirm, miss, change, or stop. It need not justify itself.</p>
@@ -208,10 +256,15 @@
       <p class="card-title">Translation card</p>
       <h2>What was heard</h2>
       <div class="card-section"><p class="card-label">Offered sign</p><p class="card-value" id="card-offering"></p></div>
+      <div class="card-section"><p class="card-label">Its usual meaning</p><p class="card-value" id="card-grammar"></p></div>
       <div class="card-section"><p class="card-label">What it may make possible</p><p class="card-value" id="card-possibility"></p></div>
       <div class="card-section"><p class="card-label">Reflection received</p><p class="card-value" id="card-reflection"></p></div>
+      <div class="card-section"><p class="card-label">Shared ground</p><p class="card-value" id="card-shared"></p></div>
       <div class="card-section"><p class="card-label">Recognition</p><p class="card-value" id="card-recognition"></p></div>
+      <div class="card-section"><p class="card-label">Knowledges in overlap</p><p class="card-value" id="card-overlap"></p></div>
+      <div class="card-section"><p class="card-label">The room</p><p class="card-value" id="card-room"></p></div>
       <div class="card-section"><p class="card-label">Translation hypothesis</p><p class="card-value" id="card-hypothesis"></p></div>
+      <div class="card-section"><p class="card-label">Renewal</p><p class="card-value" id="card-renewal"></p></div>
       <div class="card-section"><p class="card-label">Later debrief</p><p class="card-value" id="card-debrief"></p></div>
       <p class="card-note">This record is neither a diagnosis nor a compatibility measure. It is not standing permission to use any person’s trigger, language, or vulnerability.</p>
     </div>
@@ -224,17 +277,34 @@
     <p class="local-note">The page retains this card only while it stays open. Copying and printing occur only when you choose them.</p>
   </section>
 </main>
-<script src="../a11y.js"></script>
+<script src="a11y.js"></script>
 <script>
 (() => {
   'use strict';
+  const TAGS = ['Comfort', 'Care', 'Play', 'Rest', 'Sensation', 'Authority', 'Surrender', 'Humiliation', 'Transformation', 'Humour', 'Belonging', 'Something else'];
+  document.querySelectorAll('[data-tags]').forEach(group => {
+    const name = group.dataset.tags;
+    TAGS.forEach(tag => {
+      const label = document.createElement('label');
+      label.className = 'choice';
+      const input = document.createElement('input');
+      input.type = 'checkbox'; input.name = name; input.value = tag;
+      const span = document.createElement('span');
+      span.className = 'choice-label'; span.textContent = tag;
+      label.append(input, span);
+      group.append(label);
+    });
+  });
+
   const stages = [...document.querySelectorAll('[data-stage]')];
-  const names = ['Offer', 'Possibility', 'Reflection', 'Recognition', 'Hypothesis', 'Debrief'];
+  const names = ['Offer', 'Possibility', 'Reflection', 'Recognition', 'Overlap', 'Hypothesis', 'Renewal', 'Debrief'];
   const workbench = document.querySelector('#workbench');
   const intro = document.querySelector('#intro');
   const cardScreen = document.querySelector('#card-screen');
   const field = id => document.getElementById(id);
   const selected = name => (document.querySelector('input[name="' + name + '"]:checked') || {}).value || '';
+  const ticked = name => [...document.querySelectorAll('input[name="' + name + '"]:checked')].map(el => el.value);
+  const lines = id => field(id).value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 10);
   let current = 0;
 
   function showScreen(screen) {
@@ -258,23 +328,38 @@
     return [...document.querySelectorAll('#translation-card .card-label, #translation-card .card-value')]
       .map(el => el.textContent.trim()).filter(Boolean).join('\n');
   }
+  function sharedGround(possible, meet, unknown) {
+    if (unknown) return 'Not yet known: the first account was kept open.';
+    if (!possible.length || !meet.length) return 'Not named. Leaving it unnamed is a complete answer.';
+    const both = possible.filter(tag => meet.includes(tag));
+    return both.length ? both.join(', ') + '.' : 'No shared ground named yet. Not refused: the key not yet found.';
+  }
   function renderCard() {
     const kind = selected('offering-kind');
-    const offering = none(field('offering').value, 'Not named');
-    output('card-offering', (kind ? kind + ': ' : '') + offering);
-    output('card-possibility', field('possibility-unknown').checked ? 'Kept unknown for now.' : none(field('possibility').value, 'Not stated.'));
-    output('card-reflection', none(field('reflection').value, 'No reflection recorded.'));
+    output('card-offering', (kind ? kind + ': ' : '') + none(field('offering').value, 'Not named'));
+    output('card-grammar', none(field('grammar').value, 'Not described.'));
+    const unknown = field('possibility-unknown').checked;
+    const possibleTags = ticked('possibility-tag');
+    const account = none(field('possibility').value, '');
+    output('card-possibility', unknown ? 'Kept unknown for now.' : ([possibleTags.join(', '), account].filter(Boolean).join('\n') || 'Not stated.'));
+    const meetTags = ticked('meet-tag');
+    output('card-reflection', [none(field('reflection').value, 'No reflection recorded.'), meetTags.length ? 'Could meet: ' + meetTags.join(', ') + '.' : ''].filter(Boolean).join('\n'));
+    output('card-shared', sharedGround(possibleTags, meetTags, unknown));
     const recognition = selected('recognition');
     output('card-recognition', (recognition ? recognition + '. ' : 'No response recorded. ') + none(field('recognition-note').value, ''));
+    const first = lines('brings-first'), second = lines('brings-second');
+    output('card-overlap', [first.length ? 'First: ' + first.join('; ') : '', second.length ? 'Second: ' + second.join('; ') : '', none(field('overlap').value, '')].filter(Boolean).join('\n') || 'Nothing set side by side.');
+    output('card-room', none(field('room-name').value, 'Not named yet.'));
     const hypothesisState = selected('hypothesis-state') || 'No hypothesis and no action';
     const hypothesis = hypothesisState === 'No hypothesis and no action' ? 'No hypothesis and no action.' : none(field('hypothesis').value, 'A hypothesis was held open without a stated condition.');
     output('card-hypothesis', hypothesis + (field('limit').value.trim() ? '\nLimit: ' + field('limit').value.trim() : ''));
+    output('card-renewal', none(field('renewal').value, 'None proposed.'));
     const debrief = selected('debrief');
     output('card-debrief', (debrief ? debrief + '. ' : 'No later debrief recorded. ') + none(field('debrief-note').value, ''));
     showScreen(cardScreen);
   }
   function reset() {
-    document.querySelectorAll('textarea').forEach(el => { el.value = ''; });
+    document.querySelectorAll('textarea, input[type=text]').forEach(el => { el.value = ''; });
     document.querySelectorAll('input[type=radio], input[type=checkbox]').forEach(el => { el.checked = false; });
     document.querySelector('input[name="hypothesis-state"][value="A small, reversible hypothesis"]').checked = true;
     field('status').textContent = '';
@@ -299,5 +384,7 @@
   showStage(0);
 })();
 </script>
+<script src="../brand-mark.js?v=20261002t"></script>
+<script src="../brand-signature.js?v=20261008"></script>
 </body>
 </html>

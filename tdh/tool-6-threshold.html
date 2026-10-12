@@ -10,6 +10,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="privacy-choice.css?v=20261002">
 <link rel="stylesheet" href="a11y.css?v=20261002">
+<script src="sentence-fit.js?v=20261012"></script>
 <script src="privacy-choice.js?v=20261007-owner-only"></script>
 <meta name="description" content="Reflect on thresholds, readiness, and change through The Dark Hierarchy interactive system."/>
 <link rel="canonical" href="https://echoxstudios.art/tdh/tool-6-threshold.html"/>
@@ -646,7 +647,8 @@ function generate() {
   // User's own words
   const uwBlock = document.getElementById('user-words-block');
   if(openText && openText.trim()) {
-    document.getElementById('user-words-text').textContent = '\u201c' + openText.trim() + '\u201d';
+    const fitted = window.TDHFit && TDHFit.fit(openText, 'quote');
+    document.getElementById('user-words-text').textContent = fitted ? fitted.text : '\u201c' + openText.trim() + '\u201d';
     uwBlock.style.display='';
   } else {
     uwBlock.style.display='none';

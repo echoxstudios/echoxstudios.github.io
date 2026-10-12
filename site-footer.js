@@ -10,5 +10,5 @@
       <li><a href="terms.html">Terms</a></li>
       <li><a href="imprint.html">Imprint</a></li>
     </ul>
-    <p class="footer-copy">© ECHOx — echoxstudios.art — Berlin — All rights reserved</p>`;
+    <p class="footer-copy">echoxstudios.art — Berlin — All rights reserved</p>`;
 })();

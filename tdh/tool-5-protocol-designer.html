@@ -615,6 +615,14 @@ const WEEKLY_LIBRARY = [
   },
 ];
 
+const RENEWAL = {
+  id:'shared_new_room', name:'A Shared New Room',
+  desc:'Once a month, or once a season, do something new together that neither of you has done before: a place, a skill, a piece of music, a way of spending a Sunday. Choose it together; either of you may decline. Afterwards, ask one question: did the framework take another form inside it? Not every new activity becomes part of the dynamic, and none has to. The aim is not novelty for its own sake but a room the two of you make, in which the same confirmation can come alive in a new way. Long-term couples who share new, self-expanding activities report more desire with the same partner; the book calls this relational perpetuity.',
+  when:'Monthly or seasonally, agreed in advance.',
+  form:'One new shared activity, chosen together, followed by five minutes of honest reflection.',
+  confirms:'That the framework can change form as the two of you change, without being exhausted by the change.',
+};
+
 // ════════════════════════════════════════════
 // STEPS
 // ════════════════════════════════════════════
@@ -1048,6 +1056,12 @@ function buildProtocolDoc() {
   if (escl) {
     html += `<p class="proto-section-title">Temporary intensification</p>`;
     html += escl.split('\n\n').map(p => `<p class="ritual-desc" style="margin-bottom:0.75em;">${esc(p)}</p>`).join('');
+  }
+
+  // Renewal: relational perpetuity (Book II, Section V). Partnered dynamics only.
+  if (!isSolo) {
+    html += `<p class="proto-section-title">Renewal</p>`;
+    html += ritualHTML(RENEWAL);
   }
 
   // Fixed closing

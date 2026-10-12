@@ -1,0 +1,8 @@
+/* Optional reflection questions on result screens (tools 2 and 3): not scored, not saved, not sent. */
+.further-reflection { border-left:1px solid var(--gold-dim, #b8963e); margin:2rem 0 1.5rem; padding:.2rem 0 .2rem 1rem; }
+.further-reflection .fr-kicker { color:var(--gold-dim, #b8963e); font:400 .5rem/1.5 Inconsolata, monospace; letter-spacing:.16em; text-transform:uppercase; margin:0 0 .5rem; }
+.further-reflection label { color:var(--off-white, #f0ece3); display:block; font-style:italic; font-size:.9rem; line-height:1.45; margin:0 0 .45rem; }
+.further-reflection .fr-hint { color:var(--muted, #a39e93); font:.55rem/1.65 Inconsolata, monospace; letter-spacing:.03em; margin:0 0 .7rem; }
+.further-reflection textarea { background:var(--near, #0e0e0b); border:1px solid var(--rule, rgba(184,150,62,.28)); border-radius:0; color:var(--off-white, #f0ece3); font:300 .8rem/1.55 'Cormorant Garamond', Georgia, serif; min-height:5rem; padding:.6rem .7rem; resize:vertical; width:100%; }
+.further-reflection textarea:focus { border-color:var(--gold, #d4a93e); outline:0; }
+@media print { .further-reflection textarea { border-color:#a68a43; color:#161512; background:#fff; } }

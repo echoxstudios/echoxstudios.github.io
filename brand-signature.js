@@ -1,13 +1,14 @@
 (() => {
   // The ECHOx artist mark is a small, quiet signature, instantly seen but never loud (about 20px high).
-  // Where a footer shows the text logo (.footer-logo, lower-left gutter) the mark replaces that text in place;
+  // Where a footer shows the text logo (.footer-logo, lower-left gutter) the mark replaces that text in place,
+  // with the copyright sign to its left (the footer line itself no longer repeats the name);
   // on pages without one it closes the page in the lower right corner, clear of the fixed "Data choices" control.
   const script = document.currentScript;
   const base = script && script.src ? script.src.replace(/brand-signature\.js.*$/, '') : '/';
   if (document.documentElement.hasAttribute('data-no-signature')) return;
 
   const style = document.createElement('style');
-  style.textContent = '.echox-signature{align-self:stretch;box-sizing:border-box;display:flex;justify-content:flex-end;padding:2.25rem 1.25rem 3.6rem;line-height:0}.echox-signature a,.footer-logo a.echox-mark-link{display:inline-block;line-height:0;opacity:.8;transition:opacity .25s}.echox-signature a:hover,.echox-signature a:focus-visible,.footer-logo a.echox-mark-link:hover,.footer-logo a.echox-mark-link:focus-visible{opacity:1}.echox-signature img{height:20px;width:auto;display:block}.footer-logo{line-height:0}.footer-logo img{height:20px;width:auto;display:block}@media print{.echox-signature{display:none}}';
+  style.textContent = '.echox-signature{align-self:stretch;box-sizing:border-box;display:flex;justify-content:flex-end;padding:2.25rem 1.25rem 3.6rem;line-height:0}.echox-signature a,.footer-logo a.echox-mark-link{display:inline-block;line-height:0;opacity:.8;transition:opacity .25s}.echox-signature a:hover,.echox-signature a:focus-visible,.footer-logo a.echox-mark-link:hover,.footer-logo a.echox-mark-link:focus-visible{opacity:1}.echox-signature img{height:20px;width:auto;display:block}.footer-logo{line-height:0}.footer-logo.has-mark{display:inline-flex!important;align-items:center;gap:.4em}.footer-logo .echox-copy{font:400 13px/1 Inconsolata,monospace;color:var(--bone,#d4cfc4);opacity:.8;letter-spacing:0}.footer-logo img{height:20px;width:auto;display:block}@media print{.echox-signature{display:none}}';
   document.head.appendChild(style);
 
   const makeLink = () => {
@@ -27,8 +28,14 @@
     footerLogos.forEach(el => {
       const link = makeLink();
       link.className = 'echox-mark-link';
+      // The copyright sign stands to the left of the mark, vertically centred: the mark is the name.
+      const copy = document.createElement('span');
+      copy.className = 'echox-copy';
+      copy.textContent = '\u00a9';
+      copy.setAttribute('aria-label', 'Copyright');
       el.textContent = '';
-      el.appendChild(link);
+      el.classList.add('has-mark');
+      el.append(copy, link);
     });
     return;
   }
