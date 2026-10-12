@@ -17,6 +17,7 @@ const CARDS = [
   { file: 'research', kicker: 'Research roadmap', title: 'The Thesis, Made Testable', line: 'Six hypotheses, stated so that they could be wrong.' },
   { file: 'examples', kicker: 'Example results', title: 'What a result looks like', line: 'Invented answers, shown so you can see before you start.' },
   { file: 'scoring', kicker: 'Method', title: 'How the scores are computed', line: 'Plain arithmetic on your own answers, done in your browser.' },
+  { file: 'translation-studio', kicker: 'Companion for two', title: 'Translation Studio', line: 'An offered sign, what it may make possible, and the room two people might make.' },
 ];
 // Product pages: the official lockup centred on the dark ground (an SVG cannot be a link preview on most networks).
 const LOCKUPS = [

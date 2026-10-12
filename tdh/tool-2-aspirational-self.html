@@ -10,6 +10,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="privacy-choice.css?v=20261002">
 <link rel="stylesheet" href="a11y.css?v=20261002">
+<script src="sentence-fit.js?v=20261012"></script>
 <script src="privacy-choice.js?v=20261007-owner-only"></script>
 <meta name="description" content="Explore the aspirational sexual self through a structured profile connected to The Dark Hierarchy."/>
 <link rel="canonical" href="https://echoxstudios.art/tdh/tool-2-aspirational-self.html"/>
@@ -23,6 +24,7 @@
 <meta name="twitter:image" content="https://echoxstudios.art/assets/og/tool-2.png"/>
 <link rel="stylesheet" href="../assets/fonts/fonts.css"/>
 <link rel="stylesheet" href="../assets/a11y.css"/>
+<link rel="stylesheet" href="further-reflection.css?v=20261012"/>
 <style>
   :root {
     --black:    #080806;
@@ -564,6 +566,13 @@
   </div>
   <p class="send-feedback" id="send-feedback"></p>
 
+  <aside class="further-reflection" aria-labelledby="fr2-label">
+    <p class="fr-kicker">Further reflection · not scored, not saved</p>
+    <label id="fr2-label" for="fr2-note">In whose presence do you move toward this self, and in whose do you move away from it?</label>
+    <p class="fr-hint">Research on what psychologists call the Michelangelo phenomenon finds that close partners can help, or hinder, a person’s movement toward the self they hope to become. Write here if it helps. This note stays on this page: it is not part of your result, your code, your e-mail or the research counters, and it is gone when you leave.</p>
+    <textarea id="fr2-note" maxlength="1600" placeholder="Toward… / away from…"></textarea>
+  </aside>
+
   <p class="result-disclaimer">This profile is an instrument for personal reflection, not a clinical or therapeutic document. It does not constitute psychological advice and no professional relationship is formed by using this tool. The answers are yours; the interpretation is yours. If you are in distress, please seek support from a qualified professional.</p>
 
   <a href="./index.html" class="retake-link">← Return to the full tool suite</a>
@@ -1012,56 +1021,12 @@ function nowDate() {
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-function washAnswer(val) {
-  if (!val) return '';
-  var s = val.trim();
+// Free-text answers are fitted into the result sentences by sentence-fit.js (TDHFit): one grammatical
+// construction per slot, whatever form the answer takes, with a quoted fallback that holds for any content.
+function line(label, val, slot, quoteLabel) {
+  var s = window.TDHFit ? TDHFit.sentence(label, val, slot || 'complement', quoteLabel) : null;
   if (!s) return '';
-  // Strip trailing period (the sentence continues)
-  s = s.replace(/[.\u2026]+$/, '');
-  // Strip leading filler that duplicates the sentence stem
-  s = s.replace(/^(i\s+am|i\s+feel|i\s+want\s+to\s+be|i\s+want\s+to\s+feel|i\s+want|i'm|i\s+would\s+be|to\s+be|to\s+feel|being|that\s+i\s+am|when\s+i\s+am|it\s+is|its|it's)\s+/i, '');
-  // ── First-person → second-person rewrite ──
-  // The hardcoded stems are all in "you" form, so input written as "me/my/I" must flip.
-  s = rewritePronouns(s);
-  // Lowercase the first letter for mid-sentence flow, unless it begins with "I"->already handled, or all-caps
-  if (s.length && !/^[A-Z]{2,}/.test(s)) {
-    s = s.charAt(0).toLowerCase() + s.slice(1);
-  }
-  return s;
-}
-
-// Convert first-person phrasing to second-person so written answers fit the
-// "you"-form profile sentences regardless of how the person phrased them.
-function rewritePronouns(s) {
-  // Protect a few fixed expressions first
-  // Order matters: handle multi-word and contractions before bare pronouns.
-  var rules = [
-    [/\bI am\b/g, 'you are'],
-    [/\bI'm\b/gi, 'you are'],
-    [/\bI've\b/gi, "you've"],
-    [/\bI'll\b/gi, "you'll"],
-    [/\bI'd\b/gi, 'you would'],
-    [/\bI\b/g, 'you'],
-    [/\bmyself\b/gi, 'yourself'],
-    [/\bmine\b/gi, 'yours'],
-    [/\bmy\b/gi, 'your'],
-    [/\bme\b/gi, 'you'],
-    [/\bam\b/gi, 'are'],          // catches residual "am" after "I" removed
-    [/\bwe are\b/gi, 'you are'],
-    [/\bwe're\b/gi, 'you are']
-  ];
-  var out = s;
-  for (var i = 0; i < rules.length; i++) out = out.replace(rules[i][0], rules[i][1]);
-  // Common verb-agreement repairs after I→you (you + base verb is already correct in English:
-  // "you want", "you feel" — so no conjugation needed. Only "to be" forms needed fixing, done above.)
-  // Fix accidental capitalised "You" mid-phrase from the \bI\b rule when it began the string
-  return out;
-}
-
-function line(label, val) {
-  var w = washAnswer(val);
-  if (!w) return '';
-  return `<p class="profile-para">${label} ${escHtml(w)}.</p>`;
+  return `<p class="profile-para">${escHtml(s)}</p>`;
 }
 
 function escHtml(s) {
@@ -1102,7 +1067,7 @@ function buildProfile() {
   // III — Confirmation
   html += `<hr class="rule">`;
   html += `<p class="profile-section-title">What confirms you</p>`;
-  html += line('You feel most confirmed in your sexual self when the other person', a.Q8);
+  html += line('You feel most confirmed in your sexual self when the other person', a.Q8, 'verb', 'You feel most confirmed in your sexual self by what the other person does, which you put like this:');
   html += line('The aspect of yourself you most need to have recognized \u2014 and most often is not \u2014 is', a.Q9);
   html += line('The specific quality of attention that turns the framework on, for you, is', a.Q10);
 
@@ -1115,8 +1080,8 @@ function buildProfile() {
   // V — Threshold
   html += `<hr class="rule">`;
   html += `<p class="profile-section-title">The question you carry</p>`;
-  html += line('If you could ask the next person who matters to you one thing \u2014 about how to be with you \u2014 it would be', a.Q13);
-  if (a.Q14) html += line('The thing you most want to be told, that you have never been told and have stopped expecting to hear, is', a.Q14);
+  html += line('If you could ask the next person who matters to you one thing \u2014 about how to be with you \u2014 you would ask:', a.Q13, 'request', 'If you could ask the next person who matters to you one thing \u2014 about how to be with you \u2014 you would ask:');
+  if (a.Q14) html += line('The thing you most want to be told, that you have never been told and have stopped expecting to hear, is this:', a.Q14, 'told', 'The thing you most want to be told, that you have never been told and have stopped expecting to hear, is this:');
 
   // Footer
   html += `<hr class="rule">`;
