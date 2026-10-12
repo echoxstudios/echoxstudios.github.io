@@ -20,6 +20,8 @@ const app = await launch();
 const ctx = await app.context();
 const page = await ctx.page('tdh/translation-studio.html', { width: 375 });
 try {
+  // Wait for the page to render (CI runners are slower than the helper's fixed 250 ms after navigation).
+  await page.waitFor(`(() => { const e = document.querySelector('#intro'); return !!e && e.offsetParent !== null && document.querySelectorAll('[data-tags] input').length === 24; })()`, 15000);
   const storageBefore = await page.evaluate(`JSON.stringify(Object.keys(localStorage).sort())`);
   assert.equal(await page.visible('#intro'), true, 'intro is visible');
   assert.equal(await page.text('#stage-number'), '1 / 8', 'eight-stage conversation starts at the offer');
