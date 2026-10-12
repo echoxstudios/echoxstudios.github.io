@@ -87,9 +87,10 @@ t('a deliberate 404 page exists, is not indexed and leads home', () => {
   assert.ok(/<main|role="main"/.test(html['404.html']), '404.html needs a main landmark');
 });
 
-t('every page loads the current signature script, which stays small and in the lower right', () => {
+t('every page loads the current signature script: a small mark in the lower left, read as "© [mark] year"', () => {
   const js = fs.readFileSync(path.join(root, 'brand-signature.js'), 'utf8');
-  assert.ok(/height:20px/.test(js) && /justify-content:flex-end/.test(js), 'signature must be about 20px high and right-aligned');
+  assert.ok(/height:20px/.test(js) && /justify-content:flex-start/.test(js), 'signature must be about 20px high and left-aligned');
+  assert.ok(/makeCopy\(\), link, makeYear\(\)/.test(js), 'the notice must read \u00a9, mark, year, in that order');
   assert.ok(!/text-align:center/.test(js), 'signature must not be centred');
   const version = (/brand-signature\.js\?v=(\d+)/.exec(html['index.html']) || [])[1];
   must(pages.filter(p => /brand-signature\.js/.test(html[p]) && !new RegExp('brand-signature\\.js\\?v=' + version).test(html[p])).map(p => `${p}: stale brand-signature.js version`));

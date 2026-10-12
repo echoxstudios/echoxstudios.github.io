@@ -20,11 +20,12 @@ const CHECK = `(() => {
   const over = document.documentElement.scrollWidth - window.innerWidth;
   const main = !!document.querySelector('main,[role=main]');
   const bodyText = (document.body.innerText || '').trim().length;
-  const invisible = [...document.querySelectorAll('h1,h2,p,a,button')].filter(e => e.offsetParent !== null && e.textContent.trim()).filter(e => { const s = getComputedStyle(e); return s.visibility === 'hidden' || parseFloat(s.opacity) === 0 || s.fontSize === '0px'; }).length;
+  const invisible = [...document.querySelectorAll('h1,h2,p,a,button')].filter(e => e.offsetParent !== null && e.textContent.trim() && !e.closest('[aria-hidden="true"]')).filter(e => { const s = getComputedStyle(e); return s.visibility === 'hidden' || parseFloat(s.opacity) === 0 || s.fontSize === '0px'; }).length;
   const infinite = document.getAnimations ? document.getAnimations().filter(a => a.playState === 'running' && a.effect && a.effect.getComputedTiming().iterations === Infinity).length : 0;
   const sig = document.querySelector('.echox-signature img, .footer-logo img');
+  const copySign = document.querySelector('.echox-signature .echox-copy, .footer-logo .echox-copy');
   let signature = null;
-  if (sig) { const r = sig.getBoundingClientRect(), inFooter = !!sig.closest('.footer-logo'); signature = { h: Math.round(r.height), right: Math.round(r.right), left: Math.round(r.left), w: window.innerWidth, inFooter }; }
+  if (sig) { const r = sig.getBoundingClientRect(), inFooter = !!sig.closest('.footer-logo'); signature = { h: Math.round(r.height), right: Math.round(r.right), left: Math.round(r.left), w: window.innerWidth, inFooter, copyBeside: !!copySign && Math.abs((copySign.getBoundingClientRect().top + copySign.getBoundingClientRect().bottom) / 2 - (r.top + r.bottom) / 2) <= 3 && copySign.getBoundingClientRect().right <= r.left }; }
   return JSON.stringify({ over, main, bodyText, invisible, infinite, signature });
 })()`;
 
@@ -44,7 +45,7 @@ for (const mode of MODES) {
     if (r.over > 2) problems.push(`scrolls sideways by ${r.over}px`);
     if (r.bodyText < 40) problems.push('page is blank');
     if (r.invisible) problems.push(`${r.invisible} text elements invisible`);
-    if (r.signature) { const g = r.signature; if (g.h > 26) problems.push(`signature is ${g.h}px high (quiet signature: about 20px)`); if (g.inFooter ? g.left > g.w * 0.45 : g.right < g.w * 0.85) problems.push(`signature is not in the ${g.inFooter ? 'lower left' : 'lower right'} corner`); }
+    if (r.signature) { const g = r.signature; if (g.h > 26) problems.push(`signature is ${g.h}px high (quiet signature: about 20px)`); if (g.left > g.w * 0.45) problems.push('signature is not in the lower left'); if (!g.copyBeside) problems.push('the copyright sign is not beside the mark, vertically centred, on its left'); }
     if (mode.motion && r.infinite) problems.push(`${r.infinite} animations still loop forever`);
     if (problems.length) failures.push(`${pg} [${mode.name}]: ${problems.join('; ')}`);
     await p.close();
