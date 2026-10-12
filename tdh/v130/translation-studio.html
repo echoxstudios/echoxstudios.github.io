@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Translation Studio — The Dark Hierarchy v130 candidate</title>
+<meta name="description" content="A local-only conversation canvas for the Fifth Element in The Dark Hierarchy.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/a11y.css">
+<link rel="stylesheet" href="../a11y.css">
+<style>
+  :root { --black:#080806; --near:#0e0e0b; --off-white:#f0ece3; --bone:#e8e4dc; --gold:#d4a93e; --gold-dim:#b8963e; --text:#e2ddd2; --muted:#a39e93; --rule:rgba(184,150,62,.28); --soft:rgba(212,169,62,.06); }
+  * { box-sizing:border-box; }
+  html { background:var(--black); color:var(--text); font-size:24px; }
+  body { max-width:38rem; min-height:100vh; margin:0 auto; padding:3rem 1.5rem 4rem; font:300 1rem/1.65 'Cormorant Garamond', Georgia, serif; }
+  main { display:block; }
+  .back-link, .meta, .stage-number, .eyebrow, .choice-label, .button, .quiet, .status, .candidate { font-family:Inconsolata, monospace; }
+  .back-link { color:var(--muted); display:inline-block; font-size:.5rem; letter-spacing:.1em; margin-bottom:2.4rem; text-decoration:none; }
+  .back-link:hover { color:var(--gold); }
+  .back-link::before { content:'← '; }
+  header { text-align:center; }
+  .candidate { color:var(--gold-dim); font-size:.5rem; letter-spacing:.18em; text-transform:uppercase; }
+  h1 { color:var(--off-white); font:400 1.62rem/1.15 'IM Fell English', Georgia, serif; letter-spacing:.045em; margin:.5rem 0 .35rem; }
+  h2 { color:var(--off-white); font:400 1.08rem/1.25 'IM Fell English', Georgia, serif; margin:0 0 .8rem; }
+  .ornament { color:var(--gold); display:block; font-size:.78rem; margin:.45rem 0 1.5rem; }
+  .lead { color:var(--bone); font-size:.93rem; line-height:1.72; }
+  .lead p + p, .copy p + p { margin-top:.82rem; }
+  .rule { border:0; border-top:1px solid var(--rule); margin:1.8rem 0; }
+  .guardrails { border-left:1px solid var(--gold-dim); color:var(--muted); font-size:.79rem; line-height:1.7; padding:.15rem 0 .15rem 1rem; }
+  .guardrails strong { color:var(--bone); font-weight:400; }
+  .button-row { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1.5rem; }
+  button { border-radius:0; }
+  .button { background:transparent; border:1px solid var(--gold-dim); color:var(--gold); cursor:pointer; font-size:.54rem; letter-spacing:.14em; min-height:2.6rem; padding:.72rem 1rem; text-transform:uppercase; }
+  .button:hover { background:var(--soft); border-color:var(--gold); color:var(--off-white); }
+  .button.primary { background:var(--gold-dim); color:var(--black); }
+  .button.primary:hover { background:var(--gold); }
+  .button.muted { border-color:var(--rule); color:var(--muted); }
+  .button[disabled] { cursor:default; opacity:.48; }
+  .screen { display:none; }
+  .screen.active { display:block; }
+  .workbench { margin-top:1.2rem; }
+  .stage-top { align-items:baseline; display:flex; gap:.85rem; justify-content:space-between; margin-bottom:.8rem; }
+  .stage-number { color:var(--gold); font-size:.52rem; letter-spacing:.16em; text-transform:uppercase; }
+  .stage-name { color:var(--muted); font-size:.52rem; letter-spacing:.12em; text-align:right; text-transform:uppercase; }
+  .progress { background:rgba(212,169,62,.16); height:3px; margin-bottom:1.8rem; }
+  .progress > span { background:var(--gold); display:block; height:100%; transition:width .2s ease; }
+  fieldset { border:0; margin:0; padding:0; }
+  legend { color:var(--off-white); font:italic .98rem/1.45 'Cormorant Garamond', Georgia, serif; margin-bottom:.45rem; }
+  .hint { color:var(--muted); font:.55rem/1.65 Inconsolata, monospace; letter-spacing:.04em; margin:0 0 1rem; }
+  label { color:var(--bone); display:block; font-size:.78rem; margin:.78rem 0 .32rem; }
+  textarea, input[type=text] { background:var(--near); border:1px solid var(--rule); border-radius:0; color:var(--off-white); font:300 .82rem/1.55 'Cormorant Garamond', Georgia, serif; min-height:3.2rem; padding:.65rem .72rem; width:100%; }
+  textarea { min-height:7rem; resize:vertical; }
+  textarea:focus, input[type=text]:focus { border-color:var(--gold); outline:0; }
+  .choices { display:grid; gap:.48rem; grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .choice { background:var(--near); border:1px solid var(--rule); cursor:pointer; min-height:2.55rem; padding:.56rem .65rem; }
+  .choice:focus-within { border-color:var(--gold); outline:2px solid var(--gold); outline-offset:2px; }
+  .choice input { accent-color:var(--gold); margin-right:.35rem; }
+  .choice-label { color:var(--bone); font-size:.51rem; letter-spacing:.06em; line-height:1.3; }
+  .choice-label small { color:var(--muted); display:block; font-family:'Cormorant Garamond', Georgia, serif; font-size:.78rem; letter-spacing:0; margin:.2rem 0 0 1.2rem; }
+  .stage-nav { align-items:center; display:flex; gap:.6rem; justify-content:space-between; margin-top:1.45rem; }
+  .stage-nav .button:last-child { margin-left:auto; }
+  .pause { color:var(--muted); font-size:.72rem; font-style:italic; margin-top:1.2rem; }
+  .card { background:var(--near); border:1px solid var(--rule); padding:1.35rem; }
+  .card-title { color:var(--gold); font:.52rem/1.45 Inconsolata, monospace; letter-spacing:.18em; text-transform:uppercase; }
+  .card h2 { margin:.55rem 0 1rem; }
+  .card-section { border-top:1px solid var(--rule); padding:.88rem 0; }
+  .card-section:last-of-type { border-bottom:1px solid var(--rule); }
+  .card-label { color:var(--gold-dim); font:.48rem/1.4 Inconsolata, monospace; letter-spacing:.14em; text-transform:uppercase; }
+  .card-value { color:var(--bone); font-size:.82rem; margin:.26rem 0 0; overflow-wrap:anywhere; white-space:pre-wrap; }
+  .card-note { color:var(--muted); font-size:.68rem; font-style:italic; line-height:1.55; margin-top:1.2rem; }
+  .status { color:var(--muted); font-size:.53rem; letter-spacing:.04em; line-height:1.6; margin-top:.85rem; min-height:1.5rem; }
+  .local-note { color:var(--muted); font:.52rem/1.65 Inconsolata, monospace; letter-spacing:.03em; margin-top:1.4rem; }
+  [hidden] { display:none !important; }
+  @media (max-width:480px) { html { font-size:22px; } body { padding:2rem 1.25rem 3rem; } .choices { grid-template-columns:1fr; } }
+  @media print { html, body { background:#fff; color:#161512; } body { max-width:none; padding:1.6cm 2cm; font-family:Georgia, serif; } .back-link, #intro, #workbench, .button-row, .local-note, .status, .tdh-skip { display:none !important; } #card-screen { display:block !important; } .card { background:#fff; border-color:#a68a43; } .card-title, .card-label { color:#7b642e; } .card h2, .card-value { color:#161512; } .card-note { color:#45413b; } }
+</style>
+</head>
+<body>
+<main id="translation-main" tabindex="-1">
+  <a class="back-link" href="../index.html">The Dark Hierarchy</a>
+
+  <section id="intro" class="screen active" aria-labelledby="page-title">
+    <header>
+      <p class="candidate">v130 companion candidate · local-only</p>
+      <h1 id="page-title">Translation Studio</h1>
+      <span class="ornament" aria-hidden="true">✦</span>
+    </header>
+    <div class="lead">
+      <p>A private conversation canvas for the Fifth Element. It is not a fifth item, another trigger, or a private meaning to be extracted: it is the framework made when different things already known enter overlap — the room in which a trigger can take a new form. This studio helps people distinguish an offered sign from the condition it may make possible, then name a shared form that can be received, corrected, or left unresolved.</p>
+      <p>It does not diagnose desire, establish compatibility, or turn one person’s account into another person’s permission.</p>
+    </div>
+    <hr class="rule">
+    <aside class="guardrails" aria-label="Conditions of use">
+      <p><strong>Nothing is owed here.</strong> A person may explain, correct, remain uncertain, decline, pause, or stop without penalty. A trigger can be understood without being used. A card can end with no hypothesis and no action.</p>
+    </aside>
+    <div class="button-row"><button class="button primary" id="begin" type="button">Open the studio</button></div>
+    <p class="local-note">No account. No network request. No persistent storage. Refreshing or closing this page clears the canvas.</p>
+  </section>
+
+  <section id="workbench" class="screen" aria-labelledby="stage-heading">
+    <header>
+      <p class="candidate">Translation Studio · a shared reading</p>
+      <h1 id="stage-heading">The unfinished instrument</h1>
+      <span class="ornament" aria-hidden="true">✦</span>
+    </header>
+    <div class="workbench">
+      <div class="stage-top"><span id="stage-number" class="stage-number">1 / 6</span><span id="stage-name" class="stage-name">Offer</span></div>
+      <div class="progress" aria-hidden="true"><span id="progress-fill" style="width:16.667%"></span></div>
+
+      <section class="stage active" data-stage="0" aria-labelledby="offer-legend">
+        <fieldset>
+          <legend id="offer-legend">Name an object, gesture, or situation</legend>
+          <p class="hint">It can be precise, provisional, or left undescribed. Naming an offering does not require anyone else to share its meaning.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="offering-kind" value="Object"><span class="choice-label">Object</span></label>
+            <label class="choice"><input type="radio" name="offering-kind" value="Gesture"><span class="choice-label">Gesture</span></label>
+            <label class="choice"><input type="radio" name="offering-kind" value="Situation"><span class="choice-label">Situation</span></label>
+            <label class="choice"><input type="radio" name="offering-kind" value="Other"><span class="choice-label">Other or undecided</span></label>
+          </div>
+          <label for="offering">What is being offered to language?</label>
+          <textarea id="offering" maxlength="1200" placeholder="A word, image, object, gesture, or situation"></textarea>
+        </fieldset>
+      </section>
+
+      <section class="stage" data-stage="1" hidden aria-labelledby="possibility-legend">
+        <fieldset>
+          <legend id="possibility-legend">What might it allow or make possible?</legend>
+          <p class="hint">Not a demand for an explanation. A person may describe a feeling, a role, a change, a recognition — or simply choose not to know yet.</p>
+          <label for="possibility">First person’s account</label>
+          <textarea id="possibility" maxlength="1600" placeholder="It may make possible…"></textarea>
+          <label class="choice"><input id="possibility-unknown" type="checkbox"><span class="choice-label">It remains unknown for now<small>Uncertainty is a valid account.</small></span></label>
+        </fieldset>
+      </section>
+
+      <section class="stage" data-stage="2" hidden aria-labelledby="reflection-legend">
+        <fieldset>
+          <legend id="reflection-legend">Reflect what you understood</legend>
+          <p class="hint">The second person offers a reading, not a verdict. Use ordinary language. Avoid making the original object stand for more than was actually said.</p>
+          <label for="reflection">Second person’s reflection</label>
+          <textarea id="reflection" maxlength="1600" placeholder="I heard that it may be about…"></textarea>
+        </fieldset>
+      </section>
+
+      <section class="stage" data-stage="3" hidden aria-labelledby="recognition-legend">
+        <fieldset>
+          <legend id="recognition-legend">Let the account answer back</legend>
+          <p class="hint">The person who offered the sign decides whether the reflection is useful. No response creates permission to infer more.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="recognition" value="Confirmed"><span class="choice-label">Confirmed</span></label>
+            <label class="choice"><input type="radio" name="recognition" value="Corrected"><span class="choice-label">Corrected</span></label>
+            <label class="choice"><input type="radio" name="recognition" value="Uncertain"><span class="choice-label">Still uncertain</span></label>
+            <label class="choice"><input type="radio" name="recognition" value="Declined"><span class="choice-label">Declined or kept private</span></label>
+          </div>
+          <label for="recognition-note">Correction or boundary, if wanted</label>
+          <textarea id="recognition-note" maxlength="1200" placeholder="What needs revising, protecting, or leaving open?"></textarea>
+        </fieldset>
+      </section>
+
+      <section class="stage" data-stage="4" hidden aria-labelledby="hypothesis-legend">
+        <fieldset>
+          <legend id="hypothesis-legend">Name a reversible translation hypothesis — or none</legend>
+          <p class="hint">Translation asks whether a condition can be recognised in another form. It is not a command to reproduce, intensify, or test the original sign.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="hypothesis-state" value="A small, reversible hypothesis" checked><span class="choice-label">Hold a tentative hypothesis</span></label>
+            <label class="choice"><input id="hypothesis-none" type="radio" name="hypothesis-state" value="No hypothesis and no action"><span class="choice-label">No hypothesis and no action<small>This is a complete outcome.</small></span></label>
+          </div>
+          <label for="hypothesis">A possible condition, not an instruction</label>
+          <textarea id="hypothesis" maxlength="1600" placeholder="Perhaps the meaningful condition is…"></textarea>
+          <label for="limit">What keeps this provisional, reversible, or outside the scope?</label>
+          <textarea id="limit" maxlength="1200" placeholder="For now, the limit is…"></textarea>
+        </fieldset>
+      </section>
+
+      <section class="stage" data-stage="5" hidden aria-labelledby="debrief-legend">
+        <fieldset>
+          <legend id="debrief-legend">Return later, if you choose</legend>
+          <p class="hint">A later account can confirm, miss, change, or stop. It need not justify itself.</p>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="debrief" value="Confirmed later"><span class="choice-label">Confirmed later</span></label>
+            <label class="choice"><input type="radio" name="debrief" value="Missed"><span class="choice-label">Missed</span></label>
+            <label class="choice"><input type="radio" name="debrief" value="No longer wanted"><span class="choice-label">No longer wanted</span></label>
+            <label class="choice"><input type="radio" name="debrief" value="Stopped"><span class="choice-label">Stopped</span></label>
+          </div>
+          <label for="debrief-note">Later note, if any</label>
+          <textarea id="debrief-note" maxlength="1600" placeholder="What became clearer, or what should remain closed?"></textarea>
+        </fieldset>
+      </section>
+
+      <p class="pause">You may leave at any point. No response, uncertainty, and stopping are all valid endings.</p>
+      <div class="stage-nav">
+        <button class="button muted" id="back" type="button" disabled>Back</button>
+        <button class="button" id="next" type="button">Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="card-screen" class="screen" aria-labelledby="card-heading">
+    <header>
+      <p class="candidate">Translation Studio · local card</p>
+      <h1 id="card-heading">A provisional reading</h1>
+      <span class="ornament" aria-hidden="true">✦</span>
+    </header>
+    <div class="card" id="translation-card">
+      <p class="card-title">Translation card</p>
+      <h2>What was heard</h2>
+      <div class="card-section"><p class="card-label">Offered sign</p><p class="card-value" id="card-offering"></p></div>
+      <div class="card-section"><p class="card-label">What it may make possible</p><p class="card-value" id="card-possibility"></p></div>
+      <div class="card-section"><p class="card-label">Reflection received</p><p class="card-value" id="card-reflection"></p></div>
+      <div class="card-section"><p class="card-label">Recognition</p><p class="card-value" id="card-recognition"></p></div>
+      <div class="card-section"><p class="card-label">Translation hypothesis</p><p class="card-value" id="card-hypothesis"></p></div>
+      <div class="card-section"><p class="card-label">Later debrief</p><p class="card-value" id="card-debrief"></p></div>
+      <p class="card-note">This record is neither a diagnosis nor a compatibility measure. It is not standing permission to use any person’s trigger, language, or vulnerability.</p>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <div class="button-row">
+      <button class="button primary" id="copy-card" type="button">Copy card text</button>
+      <button class="button" id="print-card" type="button">Print</button>
+      <button class="button muted" id="restart" type="button">Start a new card</button>
+    </div>
+    <p class="local-note">The page retains this card only while it stays open. Copying and printing occur only when you choose them.</p>
+  </section>
+</main>
+<script src="../a11y.js"></script>
+<script>
+(() => {
+  'use strict';
+  const stages = [...document.querySelectorAll('[data-stage]')];
+  const names = ['Offer', 'Possibility', 'Reflection', 'Recognition', 'Hypothesis', 'Debrief'];
+  const workbench = document.querySelector('#workbench');
+  const intro = document.querySelector('#intro');
+  const cardScreen = document.querySelector('#card-screen');
+  const field = id => document.getElementById(id);
+  const selected = name => (document.querySelector('input[name="' + name + '"]:checked') || {}).value || '';
+  let current = 0;
+
+  function showScreen(screen) {
+    [intro, workbench, cardScreen].forEach(part => part.classList.toggle('active', part === screen));
+    screen.focus?.();
+  }
+  function showStage(index) {
+    current = Math.max(0, Math.min(index, stages.length - 1));
+    stages.forEach((stage, i) => { stage.hidden = i !== current; stage.classList.toggle('active', i === current); });
+    field('stage-number').textContent = (current + 1) + ' / ' + stages.length;
+    field('stage-name').textContent = names[current];
+    field('progress-fill').style.width = (((current + 1) / stages.length) * 100) + '%';
+    field('back').disabled = current === 0;
+    field('next').textContent = current === stages.length - 1 ? 'Make the card' : 'Continue';
+    field('stage-heading').textContent = names[current];
+    field('translation-main').focus();
+  }
+  function none(value, fallback) { return value && value.trim() ? value.trim() : fallback; }
+  function output(id, value) { field(id).textContent = value; }
+  function cardText() {
+    return [...document.querySelectorAll('#translation-card .card-label, #translation-card .card-value')]
+      .map(el => el.textContent.trim()).filter(Boolean).join('\n');
+  }
+  function renderCard() {
+    const kind = selected('offering-kind');
+    const offering = none(field('offering').value, 'Not named');
+    output('card-offering', (kind ? kind + ': ' : '') + offering);
+    output('card-possibility', field('possibility-unknown').checked ? 'Kept unknown for now.' : none(field('possibility').value, 'Not stated.'));
+    output('card-reflection', none(field('reflection').value, 'No reflection recorded.'));
+    const recognition = selected('recognition');
+    output('card-recognition', (recognition ? recognition + '. ' : 'No response recorded. ') + none(field('recognition-note').value, ''));
+    const hypothesisState = selected('hypothesis-state') || 'No hypothesis and no action';
+    const hypothesis = hypothesisState === 'No hypothesis and no action' ? 'No hypothesis and no action.' : none(field('hypothesis').value, 'A hypothesis was held open without a stated condition.');
+    output('card-hypothesis', hypothesis + (field('limit').value.trim() ? '\nLimit: ' + field('limit').value.trim() : ''));
+    const debrief = selected('debrief');
+    output('card-debrief', (debrief ? debrief + '. ' : 'No later debrief recorded. ') + none(field('debrief-note').value, ''));
+    showScreen(cardScreen);
+  }
+  function reset() {
+    document.querySelectorAll('textarea').forEach(el => { el.value = ''; });
+    document.querySelectorAll('input[type=radio], input[type=checkbox]').forEach(el => { el.checked = false; });
+    document.querySelector('input[name="hypothesis-state"][value="A small, reversible hypothesis"]').checked = true;
+    field('status').textContent = '';
+    showScreen(intro);
+    showStage(0);
+  }
+  field('begin').addEventListener('click', () => { showScreen(workbench); showStage(0); });
+  field('back').addEventListener('click', () => showStage(current - 1));
+  field('next').addEventListener('click', () => current === stages.length - 1 ? renderCard() : showStage(current + 1));
+  field('restart').addEventListener('click', reset);
+  field('print-card').addEventListener('click', () => window.print());
+  field('copy-card').addEventListener('click', async () => {
+    const text = cardText();
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(text);
+      field('status').textContent = 'Copied to your clipboard. Nothing is stored by this page.';
+    } catch (_) {
+      field('status').textContent = 'Copy is unavailable in this browser. You can select and copy the card text manually.';
+    }
+  });
+  showStage(0);
+})();
+</script>
+</body>
+</html>
