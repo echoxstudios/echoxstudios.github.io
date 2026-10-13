@@ -2,7 +2,7 @@
 (function (root) {
   "use strict";
   const data = {
-    "releaseEdition": "v149",
+    "releaseEdition": "v150",
     "editions": {
       "v124": {
         "status": "earlier release",
@@ -65,10 +65,16 @@
         "physicalPages": 388
       },
       "v149": {
-        "status": "release",
+        "status": "earlier release",
         "primaryPages": 314,
         "apparatusPages": 64,
         "physicalPages": 388
+      },
+      "v150": {
+        "status": "release",
+        "primaryPages": 314,
+        "apparatusPages": 66,
+        "physicalPages": 390
       }
     },
     "routes": {
@@ -1644,8 +1650,10 @@
   };
   function get(id, edition = data.releaseEdition) {
     const route = data.routes[id];
-    if (!route || !route.locations[edition]) throw new Error('Unknown book route or edition: ' + id + ' / ' + edition);
-    return Object.freeze({ id, edition, label: route.label, ...route.locations[edition] });
+    if (!route) throw new Error('Unknown book route: ' + id);
+    const location = route.locations[edition] || (edition === 'v150' ? route.locations.v149 : null);
+    if (!location) throw new Error('Unknown book route or edition: ' + id + ' / ' + edition);
+    return Object.freeze({ id, edition, label: route.label, ...location });
   }
   root.TDH_BOOK = Object.freeze({ releaseEdition: data.releaseEdition, get, reference: (id, edition) => get(id, edition).label });
 })(globalThis);
