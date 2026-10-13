@@ -31,7 +31,7 @@ try {
   await page.click('#next');
   await page.evaluate(`document.querySelector('#grammar').value = 'usually read as infantile'; document.querySelector('#possibility').value = 'rest when life is too much'; ${tick('possibility-tag', 'Comfort')} ${tick('possibility-tag', 'Play')} ${tick('possibility-tag', 'Rest')}`);
   await page.click('#next');
-  await page.evaluate(`document.querySelector('#reflection').value = 'I heard rest.'; ${tick('meet-tag', 'Play')} ${tick('meet-tag', 'Care')}`);
+  await page.evaluate(`document.querySelector('#reflection').value = 'i heard  rest ,and play'; ${tick('meet-tag', 'Play')} ${tick('meet-tag', 'Care')}`);
   await page.click('#next');
   await page.evaluate(tick('recognition', 'Uncertain'));
   await page.click('#next');
@@ -46,9 +46,11 @@ try {
   assert.equal(await page.visible('#card-screen'), true, 'card renders after voluntary stages');
   assert.match(await page.text('#card-hypothesis'), /No hypothesis and no action/, 'no-action choice is retained');
   assert.equal(await page.text('#card-shared'), 'Play.', 'shared ground is only what both people chose');
-  assert.match(await page.text('#card-grammar'), /usually read as infantile/, 'public grammar is kept apart from the personal account');
+  assert.match(await page.text('#card-grammar'), /Usually read as infantile\./, 'public grammar is kept apart from the personal account');
   assert.match(await page.text('#card-room'), /The nursery of the absurd/, 'the named room is on the card');
-  assert.match(await page.text('#card-renewal'), /a new city on foot/, 'renewal is on the card');
+  assert.match(await page.text('#card-renewal'), /A new city on foot\./, 'renewal is on the card, proofed as a sentence');
+  assert.match(await page.text('#card-reflection'), /^I heard rest, and play\./, 'free text is proofed before it reaches the card');
+  assert.match(await page.text('#card-room'), /^The nursery of the absurd$/, 'a name is proofed as a fragment, without a full stop');
   assert.equal(await page.evaluate(`document.querySelector('#translation-card img, #translation-card b') === null`), true, 'participant text is rendered as text, never markup');
   assert.equal(ctx.mock.calls.length, 0, 'studio made no worker request');
   assert.equal(await page.evaluate(`JSON.stringify(Object.keys(localStorage).sort())`), storageBefore, 'studio wrote no persistent storage');
