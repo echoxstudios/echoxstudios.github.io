@@ -278,6 +278,7 @@
   </section>
 </main>
 <script src="a11y.js"></script>
+<script src="sentence-fit.js?v=20261013"></script>
 <script>
 (() => {
   'use strict';
@@ -304,7 +305,7 @@
   const field = id => document.getElementById(id);
   const selected = name => (document.querySelector('input[name="' + name + '"]:checked') || {}).value || '';
   const ticked = name => [...document.querySelectorAll('input[name="' + name + '"]:checked')].map(el => el.value);
-  const lines = id => field(id).value.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 10);
+  const lines = id => field(id).value.split('\n').map(s => proof(s, 'fragment')).filter(Boolean).slice(0, 10);
   let current = 0;
 
   function showScreen(screen) {
@@ -322,7 +323,10 @@
     field('stage-heading').textContent = names[current];
     field('translation-main').focus();
   }
-  function none(value, fallback) { return value && value.trim() ? value.trim() : fallback; }
+  // Every answer is proofed before it reaches the card (sentence-fit.js): prose as sentences, names and
+  // list items as fragments. Only the form is corrected, never what was said.
+  const proof = (value, kind) => window.TDHFit ? TDHFit.proof(value, kind || 'statement') : String(value || '').trim();
+  function none(value, fallback, kind) { const v = value && value.trim() ? proof(value, kind) : ''; return v || fallback; }
   function output(id, value) { field(id).textContent = value; }
   function cardText() {
     return [...document.querySelectorAll('#translation-card .card-label, #translation-card .card-value')]
@@ -336,7 +340,7 @@
   }
   function renderCard() {
     const kind = selected('offering-kind');
-    output('card-offering', (kind ? kind + ': ' : '') + none(field('offering').value, 'Not named'));
+    output('card-offering', (kind ? kind + ': ' : '') + none(field('offering').value, 'Not named', 'fragment'));
     output('card-grammar', none(field('grammar').value, 'Not described.'));
     const unknown = field('possibility-unknown').checked;
     const possibleTags = ticked('possibility-tag');
@@ -349,10 +353,10 @@
     output('card-recognition', (recognition ? recognition + '. ' : 'No response recorded. ') + none(field('recognition-note').value, ''));
     const first = lines('brings-first'), second = lines('brings-second');
     output('card-overlap', [first.length ? 'First: ' + first.join('; ') : '', second.length ? 'Second: ' + second.join('; ') : '', none(field('overlap').value, '')].filter(Boolean).join('\n') || 'Nothing set side by side.');
-    output('card-room', none(field('room-name').value, 'Not named yet.'));
+    output('card-room', none(field('room-name').value, 'Not named yet.', 'fragment'));
     const hypothesisState = selected('hypothesis-state') || 'No hypothesis and no action';
     const hypothesis = hypothesisState === 'No hypothesis and no action' ? 'No hypothesis and no action.' : none(field('hypothesis').value, 'A hypothesis was held open without a stated condition.');
-    output('card-hypothesis', hypothesis + (field('limit').value.trim() ? '\nLimit: ' + field('limit').value.trim() : ''));
+    output('card-hypothesis', hypothesis + (field('limit').value.trim() ? '\nLimit: ' + proof(field('limit').value) : ''));
     output('card-renewal', none(field('renewal').value, 'None proposed.'));
     const debrief = selected('debrief');
     output('card-debrief', (debrief ? debrief + '. ' : 'No later debrief recorded. ') + none(field('debrief-note').value, ''));
