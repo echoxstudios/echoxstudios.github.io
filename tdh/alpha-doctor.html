@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Alpha Doctor — The Dark Hierarchy</title>
+<link rel="canonical" href="https://echoxstudios.art/tdh/alpha-doctor.html"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="description" content="A sustainability check-up for anyone who carries power: one room at a time, does it let you be who you want to be, and can it last? Unscored; keeps and sends nothing.">
+<meta property="og:image" content="https://echoxstudios.art/assets/og/alpha-doctor.png"/>
+<meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://echoxstudios.art/assets/og/alpha-doctor.png"/>
+<meta property="og:type" content="website"/><meta property="og:site_name" content="ECHOx"/><meta property="og:title" content="The Alpha Doctor — The Dark Hierarchy"/><meta property="og:description" content="A sustainability check-up for anyone who carries power. Not a real doctor. Real biscuits."/><meta property="og:url" content="https://echoxstudios.art/tdh/alpha-doctor.html"/>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/a11y.css">
+<link rel="stylesheet" href="a11y.css">
+<style>
+  :root { --black:#080806; --near:#0e0e0b; --off-white:#f0ece3; --bone:#e8e4dc; --gold:#d4a93e; --gold-dim:#b8963e; --text:#e2ddd2; --muted:#a39e93; --rule:rgba(184,150,62,.28); --soft:rgba(212,169,62,.06); }
+  * { box-sizing:border-box; }
+  html { background:var(--black); color:var(--text); font-size:24px; }
+  body { max-width:38rem; min-height:100vh; margin:0 auto; padding:3rem 1.5rem 4rem; font:300 1rem/1.65 'Cormorant Garamond', Georgia, serif; }
+  .back-link, .candidate, .stage-number, .choice-label, .button, .status, .local-note, .card-title, .card-label { font-family:Inconsolata, monospace; }
+  .back-link { color:var(--muted); display:inline-block; font-size:.5rem; letter-spacing:.1em; margin-bottom:2.4rem; text-decoration:none; }
+  .back-link::before { content:'← '; }
+  header { text-align:center; }
+  .candidate { color:var(--gold-dim); font-size:.5rem; letter-spacing:.18em; text-transform:uppercase; }
+  h1 { color:var(--off-white); font:400 1.62rem/1.15 'IM Fell English', Georgia, serif; margin:.5rem 0 .35rem; }
+  h2 { color:var(--off-white); font:400 1.08rem/1.25 'IM Fell English', Georgia, serif; margin:0 0 .8rem; }
+  .ornament { color:var(--gold); display:block; font-size:.78rem; margin:.45rem 0 1.5rem; }
+  .lead { color:var(--bone); font-size:.93rem; line-height:1.72; }
+  .lead p + p { margin-top:.82rem; }
+  .guardrails { border-left:1px solid var(--gold-dim); color:var(--muted); font-size:.79rem; padding:.15rem 0 .15rem 1rem; margin-top:1.6rem; }
+  .guardrails strong { color:var(--bone); font-weight:400; }
+  .button-row { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1.5rem; }
+  .button { background:transparent; border:1px solid var(--gold-dim); border-radius:0; color:var(--gold); cursor:pointer; font-size:.54rem; letter-spacing:.14em; min-height:2.6rem; padding:.72rem 1rem; text-transform:uppercase; }
+  .button.primary { background:var(--gold-dim); color:var(--black); }
+  .button.muted { border-color:var(--rule); color:var(--muted); }
+  .button[disabled] { opacity:.48; cursor:default; }
+  .screen { display:none; } .screen.active { display:block; }
+  .stage-number { color:var(--gold); font-size:.52rem; letter-spacing:.16em; text-transform:uppercase; display:block; margin:1.2rem 0 .8rem; }
+  fieldset { border:0; margin:0; padding:0; } fieldset + fieldset { margin-top:1.4rem; }
+  legend { color:var(--off-white); font:italic .98rem/1.45 'Cormorant Garamond', Georgia, serif; margin-bottom:.45rem; }
+  .hint { color:var(--muted); font:.55rem/1.65 Inconsolata, monospace; margin:0 0 1rem; }
+  label.field { color:var(--bone); display:block; font-size:.78rem; margin:.78rem 0 .32rem; }
+  input[type=text] { background:var(--near); border:1px solid var(--rule); color:var(--off-white); font:300 .82rem/1.55 'Cormorant Garamond', Georgia, serif; min-height:2.6rem; padding:.65rem .72rem; width:100%; }
+  .choices { display:grid; gap:.48rem; grid-template-columns:repeat(2, minmax(0, 1fr)); }
+  .choice { background:var(--near); border:1px solid var(--rule); cursor:pointer; margin:0; min-height:2.55rem; padding:.56rem .65rem; display:block; }
+  .choice:focus-within { outline:2px solid var(--gold); outline-offset:2px; }
+  .choice input { accent-color:var(--gold); margin-right:.35rem; }
+  .choice-label { color:var(--bone); font-size:.51rem; letter-spacing:.06em; }
+  .stage-nav { display:flex; justify-content:space-between; margin-top:1.45rem; }
+  .card { background:var(--near); border:1px solid var(--rule); padding:1.35rem; }
+  .card-title { color:var(--gold); font-size:.52rem; letter-spacing:.18em; text-transform:uppercase; }
+  .card-section { border-top:1px solid var(--rule); padding:.88rem 0; }
+  .card-label { color:var(--gold-dim); font-size:.48rem; letter-spacing:.14em; text-transform:uppercase; }
+  .card-value { color:var(--bone); font-size:.82rem; margin:.26rem 0 0; white-space:pre-wrap; }
+  .card-close { color:var(--gold); font:italic .95rem/1.5 'Cormorant Garamond', Georgia, serif; margin-top:1rem; text-align:center; }
+  .status, .local-note { color:var(--muted); font-size:.53rem; line-height:1.6; margin-top:1rem; }
+  .local-note a { color:var(--gold-dim); }
+  [hidden] { display:none !important; }
+  @media (max-width:480px) { html { font-size:22px; } body { padding:2rem 1.25rem 3rem; } }
+  @media (max-width:360px) { .choices { grid-template-columns:1fr; } }
+  @media print { html, body { background:#fff; color:#161512; } .back-link, #intro, #workbench, .button-row, .local-note, .status { display:none !important; } #card-screen { display:block !important; } .card { background:#fff; } .card-value { color:#161512; } }
+</style>
+</head>
+<body>
+<main id="doctor-main" tabindex="-1">
+  <a class="back-link" href="index.html">The Dark Hierarchy</a>
+
+  <section id="intro" class="screen active" aria-labelledby="page-title">
+    <header>
+      <p class="candidate">Companion · a sustainability check-up · local-only</p>
+      <h1 id="page-title">The Alpha Doctor</h1>
+      <span class="ornament" aria-hidden="true">✦</span>
+    </header>
+    <div class="lead">
+      <p>Not a real doctor. Real biscuits.</p>
+      <p>For anyone who carries power, desire, or a hypersexual way of living: hypermasculine, hyperfeminine, or however you carry it. Do you want to claim, own the room, command attention, be worshipped? Nothing you want counts against you here. The question is never whether to live it, only how: so that it keeps recharging you and the people you live it with, and is not lonely, not destructive, not isolating, but reinforcing.</p>
+      <p>Take one room at a time: a lover, a dynamic, friends, work, family, being alone. The same person can be a different Alpha in a different room.</p>
+    </div>
+    <aside class="guardrails" aria-label="Conditions of use">
+      <p><strong>A reading, not a diagnosis.</strong> No score, no verdict, no clinical advice. If someone is being hurt, stopping comes before anything on this page. If you are breaking, talk to someone you trust or a professional.</p>
+    </aside>
+    <div class="button-row"><button class="button primary" id="begin" type="button">Open the consultation</button></div>
+    <p class="local-note">No account. No network request. No storage. Not scored and never part of the research counters. <a href="research.html">About the research</a></p>
+  </section>
+
+  <section id="workbench" class="screen" aria-labelledby="stage-heading">
+    <header><h1 id="stage-heading">The room</h1><span class="ornament" aria-hidden="true">✦</span></header>
+    <span id="stage-number" class="stage-number">1 / 6</span>
+
+    <section class="stage" data-stage="0">
+      <fieldset>
+        <legend>Which room are you looking at?</legend>
+        <div class="choices" data-radio="room" data-options="A lover or partner|A dynamic|Friends|Work or a group|Family|Being alone"></div>
+        <label class="field" for="room-name">A name for it, if you like (optional)</label>
+        <input type="text" id="room-name" maxlength="80" placeholder="A working name">
+      </fieldset>
+    </section>
+
+    <section class="stage" data-stage="1" hidden>
+      <fieldset>
+        <legend>Does this room let you be who you want to be?</legend>
+        <div class="choices" data-radio="throb" data-options="Yes, fully|Partly|Not yet|No"></div>
+      </fieldset>
+      <fieldset>
+        <legend>What do you want here? No shame.</legend>
+        <div class="choices" data-check="want" data-options="To claim|To own the room|To command attention|To be worshipped|To lead|To excel|To carry|To be carried|To yield|Something else"></div>
+      </fieldset>
+    </section>
+
+    <section class="stage" data-stage="2" hidden>
+      <fieldset>
+        <legend>Who confirms you there?</legend>
+        <div class="choices" data-radio="who" data-options="The people in the room|Nobody|Only myself|An audience outside the room"></div>
+      </fieldset>
+      <fieldset>
+        <legend>How do you get your place there?</legend>
+        <div class="choices" data-radio="path" data-options="I was let in|I'm still searching for the key|I force my way|I withdraw|I endure it"></div>
+      </fieldset>
+    </section>
+
+    <section class="stage" data-stage="3" hidden>
+      <fieldset>
+        <legend>Is it sustainable for you?</legend>
+        <div class="choices" data-radio="you" data-options="It recharges me|It balances out|It drains me|I carry it alone"></div>
+      </fieldset>
+    </section>
+
+    <section class="stage" data-stage="4" hidden>
+      <fieldset>
+        <legend>Is it sustainable for them?</legend>
+        <div class="choices" data-radio="them" data-options="They come out more themselves|About the same|They come out less themselves|I don't know"></div>
+      </fieldset>
+    </section>
+
+    <section class="stage" data-stage="5" hidden>
+      <fieldset>
+        <legend>And for the people around it?</legend>
+        <div class="choices" data-radio="field" data-options="Nobody outside pays for it|Someone outside might|Someone outside does"></div>
+      </fieldset>
+    </section>
+
+    <div class="stage-nav">
+      <button class="button muted" id="back" type="button" disabled>Back</button>
+      <button class="button" id="next" type="button">Continue</button>
+    </div>
+  </section>
+
+  <section id="card-screen" class="screen" aria-labelledby="card-heading">
+    <header><h1 id="card-heading">The reading</h1><span class="ornament" aria-hidden="true">✦</span></header>
+    <div class="card" id="doctor-card">
+      <p class="card-title">Alpha Doctor · one room</p>
+      <div class="card-section"><p class="card-label">The room</p><p class="card-value" id="card-room"></p></div>
+      <div class="card-section"><p class="card-label">What you want</p><p class="card-value" id="card-want"></p></div>
+      <div class="card-section"><p class="card-label">The reading</p><p class="card-value" id="card-reading"></p></div>
+      <div class="card-section"><p class="card-label">The prescription</p><p class="card-value" id="card-rx"></p></div>
+      <p class="card-close">The true Alpha lives to throb another day.</p>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <div class="button-row">
+      <button class="button primary" id="copy-card" type="button">Copy reading</button>
+      <button class="button" id="print-card" type="button">Print</button>
+      <button class="button muted" id="restart" type="button">Another room</button>
+    </div>
+  </section>
+</main>
+<script src="a11y.js"></script>
+<script src="sentence-fit.js?v=20261013"></script>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  document.querySelectorAll('[data-radio],[data-check]').forEach(group => {
+    const radio = group.dataset.radio, name = radio || group.dataset.check;
+    group.setAttribute('role', radio ? 'radiogroup' : 'group');
+    group.dataset.options.split('|').forEach(opt => {
+      const label = document.createElement('label'); label.className = 'choice';
+      const input = document.createElement('input'); input.type = radio ? 'radio' : 'checkbox'; input.name = name; input.value = opt;
+      const span = document.createElement('span'); span.className = 'choice-label'; span.textContent = opt;
+      label.append(input, span); group.append(label);
+    });
+  });
+  const pick = n => (document.querySelector('input[name="' + n + '"]:checked') || {}).value || '';
+  const picks = n => [...document.querySelectorAll('input[name="' + n + '"]:checked')].map(e => e.value);
+  const stages = [...document.querySelectorAll('[data-stage]')];
+  const names = ['The room', 'Does it make you throb?', 'How?', 'Sustainable for you?', 'Sustainable for them?', 'Sustainable for the field?'];
+  let current = 0;
+  function show(screen) { ['intro', 'workbench', 'card-screen'].forEach(id => $(id).classList.toggle('active', id === screen)); $('doctor-main').focus(); }
+  function stage(i) {
+    current = Math.max(0, Math.min(i, stages.length - 1));
+    stages.forEach((s, k) => { s.hidden = k !== current; });
+    $('stage-number').textContent = (current + 1) + ' / ' + stages.length;
+    $('stage-heading').textContent = names[current];
+    $('back').disabled = current === 0;
+    $('next').textContent = current === stages.length - 1 ? 'Read the room' : 'Continue';
+    $('doctor-main').focus();
+  }
+  function reading() {
+    const throb = pick('throb'), who = pick('who'), path = pick('path'), you = pick('you'), them = pick('them'), field = pick('field');
+    const r = [], rx = [];
+    if (who === 'The people in the room') r.push('You are confirmed by the people in the room: relational, the real thing.');
+    if (who === 'Nobody') { r.push('Nobody confirms you here: a standard kept for a ghost.'); rx.push('Ask who it is for, and let someone in.'); }
+    if (who === 'Only myself') { r.push('Only you confirm yourself here: a monologue, Narcissus at the pool. In the long run it brings the dark night.'); rx.push('Accept yourself alone; be confirmed with others.'); }
+    if (who === 'An audience outside the room') { r.push('Your confirmation comes from an audience outside the room. Someone in the room may be paying for their applause.'); rx.push('Ask who you are really doing this for: the person in front of you, or the people watching?'); }
+    if (path === 'I force my way') { r.push('You force your way in: taking what can only be given.'); rx.push('Win the crown instead of taking it. Ask, excel, be let in: a crown that is taken never confirms you.'); }
+    if (path === "I'm still searching for the key" || throb === 'Not yet') rx.push('Search for the key: what this room confirms in them, and how it can meet what it confirms in you.');
+    if (path === 'I withdraw') { r.push('You stand alone in this room.'); rx.push('Search for a key, or change rooms. Both are honourable.'); }
+    if (path === 'I endure it') { r.push('You stay in a room you are not happy in.'); rx.push('Choose: search for keys, or change rooms. Staying without choosing is how the dark night arrives.'); }
+    if (throb === 'No') rx.push('This room does not let you be who you want to be. That is not your shame. Find the key, or change rooms.');
+    if (you === 'It drains me' || you === 'I carry it alone') { r.push('You are carrying this room ' + (you === 'I carry it alone' ? 'single-handed' : 'at a loss') + '. What carries can break.'); rx.push('Ask for shelter, or a break, before you need it. Share the weight.'); }
+    if (them === 'They come out less themselves') { r.push('Not sustainable for them.'); rx.push('Stop, ask, repair. An act that leaves someone less themselves is the line.'); }
+    if (them === "I don't know") rx.push('Ask them. Consent is how you know beforehand; whether they leave more themselves is how you know afterwards.');
+    if (field === 'Someone outside does' || field === 'Someone outside might') { r.push('The field may pay for this room.'); rx.push('Keep it in the room. Nobody outside should pay for what happens inside.'); }
+    const sustainable = who === 'The people in the room' && (you === 'It recharges me' || you === 'It balances out') && them === 'They come out more themselves' && field === 'Nobody outside pays for it' && path !== 'I force my way';
+    if (sustainable) { r.unshift('This room is sustainable: not lonely, not destructive, not isolating, but reinforcing.'); rx.unshift('Tend it. Keep building, and keep what you have built from breaking.'); }
+    if (!r.length) r.push('Not enough answered to read this room yet. Leaving it open is a complete answer.');
+    if (!rx.length) rx.push('Come back to this room when you know more.');
+    return { r, rx };
+  }
+  function render() {
+    const name = $('room-name').value.trim();
+    const room = pick('room') || 'A room';
+    $('card-room').textContent = room + (name ? ': ' + (window.TDHFit ? TDHFit.proof(name, 'fragment') : name) : '');
+    const want = picks('want');
+    $('card-want').textContent = want.length ? want.map((w, i) => i ? w.charAt(0).toLowerCase() + w.slice(1) : w).join(', ') + '. No shame in any of it; the only question is how you live it.' : 'Not named.';
+    const { r, rx } = reading();
+    $('card-reading').textContent = r.join('\n\n');
+    $('card-rx').textContent = rx.join('\n\n');
+    show('card-screen');
+  }
+  function reset() {
+    document.querySelectorAll('input').forEach(e => { if (e.type === 'text') e.value = ''; else e.checked = false; });
+    $('status').textContent = '';
+    show('workbench'); stage(0);
+  }
+  $('begin').addEventListener('click', () => { show('workbench'); stage(0); });
+  $('back').addEventListener('click', () => stage(current - 1));
+  $('next').addEventListener('click', () => current === stages.length - 1 ? render() : stage(current + 1));
+  $('restart').addEventListener('click', reset);
+  $('print-card').addEventListener('click', () => window.print());
+  $('copy-card').addEventListener('click', async () => {
+    const text = [...document.querySelectorAll('#doctor-card .card-label, #doctor-card .card-value, #doctor-card .card-close')].map(e => e.textContent.trim()).filter(Boolean).join('\n');
+    try { await navigator.clipboard.writeText(text); $('status').textContent = 'Copied. Nothing is stored by this page.'; }
+    catch (_) { $('status').textContent = 'Copy is unavailable here; select the text and copy it manually.'; }
+  });
+  stage(0);
+})();
+</script>
+<script src="../brand-mark.js?v=20261002t"></script>
+<script src="../brand-signature.js?v=20261012c"></script>
+</body>
+</html>
