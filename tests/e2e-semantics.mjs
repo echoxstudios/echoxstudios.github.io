@@ -27,7 +27,7 @@ try {
       assert.equal(expected.length, 2);
       for (const label of expected) assert.ok(html.includes(label), label);
     }
-    assert.equal(await page.evaluate('TDH_BOOK.releaseEdition'), 'v155');
+    assert.equal(await page.evaluate('TDH_BOOK.releaseEdition'), 'v156');
     assert.deepEqual(page.errors, []);
     console.log(`ok all four reading routes resolve to the released book at ${width}px`); checks++;
     await page.goto('tdh/tool-4-dark-night.html');
@@ -40,12 +40,12 @@ try {
         release:TDH_BOOK.get('dark-night'), withdrawnRejected
       };
     })()`);
-    assert.match(failureRoutes.refs[0], /Chapter One, Section VII — Performance Without Presence/);
-    assert.match(failureRoutes.refs[1], /Chapter One, Section I — The Anatomy of Drift/);
-    assert.equal(failureRoutes.release.edition,'v155');
+    assert.match(failureRoutes.refs[0], /Section XIV — The Canticle of the Flame: What Starves the Charge/);
+    assert.match(failureRoutes.refs[1], /Book V, Chapter One — Sustaining the Flame/);
+    assert.equal(failureRoutes.release.edition,'v156');
     assert.equal(failureRoutes.withdrawnRejected,true);
     assert.deepEqual(page.errors, []);
-    console.log(`ok failure references use v155 and reject the withdrawn edition at ${width}px`); checks++;
+    console.log(`ok failure references use v156 and reject the withdrawn edition at ${width}px`); checks++;
     await page.goto('tdh/tool-6-threshold.html');
     const tied = await page.evaluate(`(() => {
       resp = { T1:4, T2:4, T3:4, T4:4 };

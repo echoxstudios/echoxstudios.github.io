@@ -71,7 +71,7 @@ Contributors are self-selected readers and visitors. Phase 1 results will always
 
 ## 9. Institutional co-projects: what is offered and asked
 
-**Offered:** the 316-page primary reading text and its separately numbered 67-page scholarly apparatus (393 pages complete); seven instruments with documented item logic; a working, privacy-hardened data pipeline; a ready participant route among readers; open credit and co-authorship on terms agreed in advance.
+**Offered:** the 304-page primary reading text and its separately numbered 67-page scholarly apparatus (381 pages complete); seven instruments with documented item logic; a working, privacy-hardened data pipeline; a ready participant route among readers; open credit and co-authorship on terms agreed in advance.
 **Asked:** an ethics sponsor, a methodological lead, access to established comparison measures, and a commitment to pre-registration and open reporting.
 
 Contact: inbox@echoxstudios.art
