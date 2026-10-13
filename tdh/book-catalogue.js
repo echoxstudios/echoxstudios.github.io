@@ -2,7 +2,7 @@
 (function (root) {
   "use strict";
   const data = {
-    "releaseEdition": "v143",
+    "releaseEdition": "v144",
     "editions": {
       "v124": {
         "status": "earlier release",
@@ -29,6 +29,12 @@
         "physicalPages": 380
       },
       "v143": {
+        "status": "earlier release",
+        "primaryPages": 310,
+        "apparatusPages": 63,
+        "physicalPages": 383
+      },
+      "v144": {
         "status": "release",
         "primaryPages": 310,
         "apparatusPages": 63,
@@ -58,6 +64,10 @@
           "v143": {
             "printedPage": "11",
             "physicalPage": 21
+          },
+          "v144": {
+            "printedPage": "11",
+            "physicalPage": 21
           }
         }
       },
@@ -81,6 +91,10 @@
             "physicalPage": 29
           },
           "v143": {
+            "printedPage": "19",
+            "physicalPage": 29
+          },
+          "v144": {
             "printedPage": "19",
             "physicalPage": 29
           }
@@ -108,6 +122,10 @@
           "v143": {
             "printedPage": "99",
             "physicalPage": 109
+          },
+          "v144": {
+            "printedPage": "99",
+            "physicalPage": 109
           }
         }
       },
@@ -131,6 +149,10 @@
             "physicalPage": 175
           },
           "v143": {
+            "printedPage": "167",
+            "physicalPage": 177
+          },
+          "v144": {
             "printedPage": "167",
             "physicalPage": 177
           }
@@ -158,6 +180,10 @@
           "v143": {
             "printedPage": "247",
             "physicalPage": 257
+          },
+          "v144": {
+            "printedPage": "247",
+            "physicalPage": 257
           }
         }
       },
@@ -181,6 +207,10 @@
             "physicalPage": 29
           },
           "v143": {
+            "printedPage": "19",
+            "physicalPage": 29
+          },
+          "v144": {
             "printedPage": "19",
             "physicalPage": 29
           }
@@ -208,6 +238,10 @@
           "v143": {
             "printedPage": "21",
             "physicalPage": 31
+          },
+          "v144": {
+            "printedPage": "21",
+            "physicalPage": 31
           }
         }
       },
@@ -231,6 +265,10 @@
             "physicalPage": 62
           },
           "v143": {
+            "printedPage": "52",
+            "physicalPage": 62
+          },
+          "v144": {
             "printedPage": "52",
             "physicalPage": 62
           }
@@ -258,6 +296,10 @@
           "v143": {
             "printedPage": "58",
             "physicalPage": 68
+          },
+          "v144": {
+            "printedPage": "58",
+            "physicalPage": 68
           }
         }
       },
@@ -281,6 +323,10 @@
             "physicalPage": 67
           },
           "v143": {
+            "printedPage": "57",
+            "physicalPage": 67
+          },
+          "v144": {
             "printedPage": "57",
             "physicalPage": 67
           }
@@ -308,6 +354,10 @@
           "v143": {
             "printedPage": "57",
             "physicalPage": 67
+          },
+          "v144": {
+            "printedPage": "57",
+            "physicalPage": 67
           }
         }
       },
@@ -331,6 +381,10 @@
             "physicalPage": 69
           },
           "v143": {
+            "printedPage": "59",
+            "physicalPage": 69
+          },
+          "v144": {
             "printedPage": "59",
             "physicalPage": 69
           }
@@ -358,6 +412,10 @@
           "v143": {
             "printedPage": "54",
             "physicalPage": 64
+          },
+          "v144": {
+            "printedPage": "54",
+            "physicalPage": 64
           }
         }
       },
@@ -381,6 +439,10 @@
             "physicalPage": 66
           },
           "v143": {
+            "printedPage": "56",
+            "physicalPage": 66
+          },
+          "v144": {
             "printedPage": "56",
             "physicalPage": 66
           }
@@ -408,6 +470,10 @@
           "v143": {
             "printedPage": "46",
             "physicalPage": 56
+          },
+          "v144": {
+            "printedPage": "46",
+            "physicalPage": 56
           }
         }
       },
@@ -431,6 +497,10 @@
             "physicalPage": 130
           },
           "v143": {
+            "printedPage": "122",
+            "physicalPage": 132
+          },
+          "v144": {
             "printedPage": "122",
             "physicalPage": 132
           }
@@ -458,6 +528,10 @@
           "v143": {
             "printedPage": "125",
             "physicalPage": 135
+          },
+          "v144": {
+            "printedPage": "125",
+            "physicalPage": 135
           }
         }
       },
@@ -481,6 +555,10 @@
             "physicalPage": 48
           },
           "v143": {
+            "printedPage": "38",
+            "physicalPage": 48
+          },
+          "v144": {
             "printedPage": "38",
             "physicalPage": 48
           }
@@ -508,6 +586,10 @@
           "v143": {
             "printedPage": "38",
             "physicalPage": 48
+          },
+          "v144": {
+            "printedPage": "38",
+            "physicalPage": 48
           }
         }
       },
@@ -531,6 +613,10 @@
             "physicalPage": 47
           },
           "v143": {
+            "printedPage": "37",
+            "physicalPage": 47
+          },
+          "v144": {
             "printedPage": "37",
             "physicalPage": 47
           }
@@ -558,6 +644,10 @@
           "v143": {
             "printedPage": "38",
             "physicalPage": 48
+          },
+          "v144": {
+            "printedPage": "38",
+            "physicalPage": 48
           }
         }
       },
@@ -581,6 +671,10 @@
             "physicalPage": 258
           },
           "v143": {
+            "printedPage": "250",
+            "physicalPage": 260
+          },
+          "v144": {
             "printedPage": "250",
             "physicalPage": 260
           }
@@ -608,6 +702,10 @@
           "v143": {
             "printedPage": "268",
             "physicalPage": 278
+          },
+          "v144": {
+            "printedPage": "268",
+            "physicalPage": 278
           }
         }
       },
@@ -631,6 +729,10 @@
             "physicalPage": 270
           },
           "v143": {
+            "printedPage": "262",
+            "physicalPage": 272
+          },
+          "v144": {
             "printedPage": "262",
             "physicalPage": 272
           }
@@ -658,6 +760,10 @@
           "v143": {
             "printedPage": "294",
             "physicalPage": 304
+          },
+          "v144": {
+            "printedPage": "294",
+            "physicalPage": 304
           }
         }
       },
@@ -681,6 +787,10 @@
             "physicalPage": 300
           },
           "v143": {
+            "printedPage": "292",
+            "physicalPage": 302
+          },
+          "v144": {
             "printedPage": "292",
             "physicalPage": 302
           }
@@ -708,6 +818,10 @@
           "v143": {
             "printedPage": "285",
             "physicalPage": 295
+          },
+          "v144": {
+            "printedPage": "285",
+            "physicalPage": 295
           }
         }
       },
@@ -731,6 +845,10 @@
             "physicalPage": 154
           },
           "v143": {
+            "printedPage": "146",
+            "physicalPage": 156
+          },
+          "v144": {
             "printedPage": "146",
             "physicalPage": 156
           }
@@ -758,6 +876,10 @@
           "v143": {
             "printedPage": "150",
             "physicalPage": 160
+          },
+          "v144": {
+            "printedPage": "150",
+            "physicalPage": 160
           }
         }
       },
@@ -781,6 +903,10 @@
             "physicalPage": 162
           },
           "v143": {
+            "printedPage": "154",
+            "physicalPage": 164
+          },
+          "v144": {
             "printedPage": "154",
             "physicalPage": 164
           }
@@ -808,6 +934,10 @@
           "v143": {
             "printedPage": "226",
             "physicalPage": 236
+          },
+          "v144": {
+            "printedPage": "226",
+            "physicalPage": 236
           }
         }
       },
@@ -831,6 +961,10 @@
             "physicalPage": 312
           },
           "v143": {
+            "printedPage": "304",
+            "physicalPage": 314
+          },
+          "v144": {
             "printedPage": "304",
             "physicalPage": 314
           }
