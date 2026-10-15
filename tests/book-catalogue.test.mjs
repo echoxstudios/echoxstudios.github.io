@@ -5,16 +5,16 @@ const code = fs.readFileSync(new URL('../tdh/book-catalogue.js', import.meta.url
 const ctx = vm.createContext({});
 vm.runInContext(code, ctx);
 const catalogue = ctx.TDH_BOOK;
-assert.equal(catalogue.releaseEdition, 'v158');
+assert.equal(catalogue.releaseEdition, 'v159');
 console.log('ok book catalogue defaults to the released edition');
 assert.equal(catalogue.get('dark-night', 'v124').printedPage, '227');
 assert.equal(catalogue.get('dark-night', 'v135').printedPage, '234');
-assert.equal(catalogue.get('dark-night').edition, 'v158', 'the default destination is the released edition');
+assert.equal(catalogue.get('dark-night').edition, 'v159', 'the default destination is the released edition');
 const routeIds = Object.keys(JSON.parse(code.slice(code.indexOf('{', code.indexOf('const data')), code.indexOf('};', code.indexOf('const data')) + 1)).routes);
 assert.equal(routeIds.length, 32, 'all 32 reading destinations are present');
 for (const id of routeIds) {
-  for (const edition of ['v124', 'v135', 'v141', 'v142', 'v143', 'v144', 'v145', 'v146', 'v147', 'v148', 'v149', 'v150', 'v151', 'v152', 'v153', 'v154', 'v155', 'v157', 'v158']) assert.ok(catalogue.get(id, edition).physicalPage > 10, `${id} @ ${edition}`);
-  assert.ok(Number(catalogue.get(id, 'v158').printedPage) <= 308, `${id} lies within the v158 reading text`);
+  for (const edition of ['v124', 'v135', 'v141', 'v142', 'v143', 'v144', 'v145', 'v146', 'v147', 'v148', 'v149', 'v150', 'v151', 'v152', 'v153', 'v154', 'v155', 'v157', 'v158', 'v159']) assert.ok(catalogue.get(id, edition).physicalPage > 10, `${id} @ ${edition}`);
+  assert.ok(Number(catalogue.get(id, 'v159').printedPage) <= 308, `${id} lies within the v159 reading text`);
 }
 console.log(`ok all ${routeIds.length} destinations resolve in both editions`);
 assert.ok(catalogue.get('practice.drift', 'v124').physicalPage > 10);
