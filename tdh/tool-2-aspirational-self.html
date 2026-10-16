@@ -433,7 +433,7 @@
 
   <div class="intro-body">
     <p>The book argues that desire is the confirmation of a specific self — the sexual persona you most fully want to inhabit. It may precede language, or be discovered over time, or be consciously chosen and refined. What matters is not its origin but its function: it is the self the right person lets you feel, completely, without translation.</p>
-    <p>This tool gives you the architecture to describe it. Not what acts you want — who you want to be. Some are oriented toward holding, some toward yielding; the orientation is not gendered, and neither pole is higher than the other. Fourteen prompts, mostly open text. You write; the tool assembles your answers into a single profile you can keep.</p>
+    <p>This tool helps you describe what you aspire to be sexually with a particular person. Choose one lover, encounter, or imagined room as you answer; a different relation may make a different self possible. Some are oriented toward holding, some toward yielding; neither pole is higher than the other. Fourteen prompts, mostly open text. You write; the tool assembles your answers into a single profile you can keep.</p>
     <p>Nothing you write here is sent anywhere. It lives on your device unless you choose to save it.</p>
   </div>
 
@@ -569,7 +569,7 @@
   <aside class="further-reflection" aria-labelledby="fr2-label">
     <p class="fr-kicker">Further reflection · not scored, not saved</p>
     <label id="fr2-label" for="fr2-note">In whose presence do you move toward this self, and in whose do you move away from it?</label>
-    <p class="fr-hint">Research on what psychologists call the Michelangelo phenomenon finds that close partners can help, or hinder, a person’s movement toward the self they hope to become. Write here if it helps. This note stays on this page: it is not part of your result, your code, your e-mail or the research counters, and it is gone when you leave.</p>
+    <p class="fr-hint">Research on the Michelangelo phenomenon concerns partners helping or hindering movement toward an ideal self. Here the question is more specific: what sexual self becomes possible with this person? Write here if it helps. This note stays on this page: it is not part of your result, your code, your e-mail or the research counters, and it is gone when you leave.</p>
     <textarea id="fr2-note" maxlength="1600" placeholder="Toward… / away from…"></textarea>
   </aside>
 
@@ -609,7 +609,7 @@ const STEPS = [
   {
     id: 'Q1',
     movement: { num: 1, title: 'Identity',
-      intro: 'These first three questions ask you to describe the version of yourself you most want to feel like, sexually. Not who you are. Who you want to feel yourself as. Answer with whatever language comes.'
+      intro: 'These first three questions ask what you aspire to be sexually with a particular person. Keep one relation or imagined encounter in view. This is not a general ideal of the person you should become. Answer with whatever language comes.'
     },
     type: 'textarea',
     prompt: 'When I feel most fully myself sexually, I am\u2026',
@@ -1049,9 +1049,9 @@ function buildProfile() {
   html += `<hr class="rule">`;
 
   // I — Identity
-  html += `<p class="profile-section-title">Who you are reaching toward</p>`;
+  html += `<p class="profile-section-title">Who you aspire to be in this sexual relation</p>`;
   html += line('You are most fully yourself sexually when you are', a.Q1);
-  html += line('The version of yourself you most want to feel like is', a.Q2);
+  html += line('The sexual self you aspire to inhabit in this relation is', a.Q2);
   html += line('What you most want to feel about yourself in the moment of being desired is', a.Q3);
 
   // II — Posture
