@@ -12,6 +12,8 @@ assert.doesNotMatch(source, /localStorage|sessionStorage|fetch\(|TDHResearch|pri
 assert.match(source, /Not a real doctor\. Real biscuits\./, 'the doctor must own the joke');
 assert.match(source, /not a diagnosis/i, 'the doctor must say it gives no diagnosis');
 assert.match(source, /hyperfeminine/, 'the doctor must speak to every way of carrying it');
+assert.doesNotMatch(source, /In the long run it brings the dark night|This room is sustainable:/, 'a reflective answer must not assert an inevitable prognosis or verified sustainability');
+assert.match(source, /Your answers describe a room that appears sustainable/, 'sustainability is scoped to the answers given');
 
 const pick = (name, value) => `document.querySelector('input[name="${name}"][value="${value}"]').click();`;
 const app = await launch();

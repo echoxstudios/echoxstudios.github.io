@@ -204,7 +204,7 @@
     const r = [], rx = [];
     if (who === 'The people in the room') r.push('You are confirmed by the people in the room: relational, the real thing.');
     if (who === 'Nobody') { r.push('Nobody confirms you here: a standard kept for a ghost.'); rx.push('Ask who it is for, and let someone in.'); }
-    if (who === 'Only myself') { r.push('Only you confirm yourself here: a monologue, Narcissus at the pool. In the long run it brings the dark night.'); rx.push('Accept yourself alone; be confirmed with others.'); }
+    if (who === 'Only myself') { r.push('Only you are named as confirming you here. Is this solitude you enjoy, or recognition you are missing?'); rx.push('Ask what this private room makes possible, and whether an actual or imagined other gives it meaning.'); }
     if (who === 'An audience outside the room') { r.push('Your confirmation comes from an audience outside the room. Someone in the room may be paying for their applause.'); rx.push('Ask who you are really doing this for: the person in front of you, or the people watching?'); }
     if (path === 'I force my way') { r.push('You force your way in: taking what can only be given.'); rx.push('Win the crown instead of taking it. Ask, excel, be let in: a crown that is taken never confirms you.'); }
     if (path === "I'm still searching for the key" || throb === 'Not yet') rx.push('Search for the key: what this room confirms in them, and how it can meet what it confirms in you.');
@@ -216,7 +216,7 @@
     if (them === "I don't know") rx.push('Ask them. Consent is how you know beforehand; whether they leave more themselves is how you know afterwards.');
     if (field === 'Someone outside does' || field === 'Someone outside might') { r.push('The field may pay for this room.'); rx.push('Keep it in the room. Nobody outside should pay for what happens inside.'); }
     const sustainable = who === 'The people in the room' && (you === 'It recharges me' || you === 'It balances out') && them === 'They come out more themselves' && field === 'Nobody outside pays for it' && path !== 'I force my way';
-    if (sustainable) { r.unshift('This room is sustainable: not lonely, not destructive, not isolating, but reinforcing.'); rx.unshift('Tend it. Keep building, and keep what you have built from breaking.'); }
+    if (sustainable) { r.unshift('Your answers describe a room that appears sustainable: not lonely, not destructive, not isolating, but reinforcing.'); rx.unshift('Tend it. Keep building, and keep what you have built from breaking.'); }
     if (!r.length) r.push('Not enough answered to read this room yet. Leaving it open is a complete answer.');
     if (!rx.length) rx.push('Come back to this room when you know more.');
     return { r, rx };
