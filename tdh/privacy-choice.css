@@ -35,8 +35,8 @@
 .tdh-privacy-kicker {
   margin: 0 0 0.7rem;
   color: var(--tdh-choice-gold);
-  font: 500 0.55rem/1.4 'Inconsolata', monospace;
-  letter-spacing: 0.24em;
+  font: 500 0.7rem/1.4 'Inconsolata', monospace;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
@@ -49,7 +49,7 @@
 .tdh-privacy-panel p {
   margin: 0 0 0.8rem;
   color: var(--tdh-choice-muted);
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.6;
 }
 
@@ -65,11 +65,16 @@
   border: 1px solid var(--tdh-choice-rule);
   background: var(--tdh-choice-near);
   color: var(--tdh-choice-bone);
-  font: 400 0.62rem/1.5 'Inconsolata', monospace;
-  letter-spacing: 0.04em;
+  font: 400 0.82rem/1.5 'Inconsolata', monospace;
+  letter-spacing: 0.02em;
 }
 
-.tdh-age-confirm input { margin-top: 0.12rem; accent-color: var(--tdh-choice-gold); }
+.tdh-age-confirm input, .tdh-wipe input { appearance: none; -webkit-appearance: none; border: 1px solid rgba(212,169,62,0.55); background: transparent; border-radius: 0; display: inline-grid; place-content: center; cursor: pointer; margin-top: 0.12rem; width: 1.15rem; height: 1.15rem; flex: none;
+}
+.tdh-age-confirm input:checked, .tdh-wipe input:checked { background: rgba(212,169,62,0.22); border-color: var(--tdh-choice-gold); }
+.tdh-age-confirm input:checked::after, .tdh-wipe input:checked::after { content: ''; width: 0.55rem; height: 0.3rem; border-left: 2px solid var(--tdh-choice-gold); border-bottom: 2px solid var(--tdh-choice-gold); transform: rotate(-45deg) translate(1px,-1px); }
+.tdh-age-confirm input:focus-visible, .tdh-wipe input:focus-visible { outline: 2px solid var(--tdh-choice-gold); outline-offset: 3px; }
+.tdh-age-confirm input {  accent-color: var(--tdh-choice-gold); }
 
 .tdh-choice-grid {
   display: grid;
@@ -81,9 +86,9 @@
 .tdh-choice-opt { display: flex; flex-direction: column; gap: 0.5rem; }
 .tdh-choice-opt .tdh-choice-button { width: 100%; }
 .tdh-choice-wide { grid-column: 1 / -1; }
-.tdh-wipe { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.8rem; line-height: 1.5; }
+.tdh-wipe { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.95rem; line-height: 1.5; }
 .tdh-fine { font-size: 0.72em; }
-.tdh-choice-note { margin: 0; font-size: 0.8rem; line-height: 1.5; opacity: 0.8; }
+.tdh-choice-note { margin: 0; font-size: 0.95rem; line-height: 1.5; opacity: 0.9; }
 
 .tdh-choice-button {
   min-height: 3.2rem;
@@ -92,16 +97,20 @@
   background: transparent;
   color: var(--tdh-choice-bone);
   cursor: pointer;
-  font: 500 0.58rem/1.35 'Inconsolata', monospace;
-  letter-spacing: 0.09em;
+  font: 500 0.78rem/1.35 'Inconsolata', monospace;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
-.tdh-choice-button[data-mode='remote'] {
-  border-color: var(--tdh-choice-gold);
-  background: var(--tdh-choice-gold);
-  color: #080806;
-}
+.tdh-choice-button.is-picked { border-color: var(--tdh-choice-gold); background: var(--tdh-choice-gold); color: #080806; }
+.tdh-choice-button[data-mode='remote']:not(.is-picked) { border-color: var(--tdh-choice-gold); }
+.tdh-choice-step { margin: 1.2rem 0 0 !important; color: var(--tdh-choice-bone) !important; }
+.tdh-choice-confirm { display: block; width: 100%; margin-top: 1.1rem; min-height: 3.2rem; border: 1px solid var(--tdh-choice-gold); background: transparent; color: var(--tdh-choice-gold); cursor: pointer; font: 500 0.85rem/1.2 'Inconsolata', monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+.tdh-choice-confirm:not(:disabled) { background: var(--tdh-choice-gold); color: #080806; }
+.tdh-choice-confirm:disabled { cursor: not-allowed; opacity: 0.35; }
+.tdh-terms { margin: 0 0 0.8rem; }
+.tdh-terms summary { cursor: pointer; color: var(--tdh-choice-gold); font: 500 0.78rem/1.4 'Inconsolata', monospace; letter-spacing: 0.06em; }
+.tdh-terms p { margin-top: 0.7rem; }
 
 .tdh-choice-button:disabled { cursor: not-allowed; opacity: 0.35; }
 .tdh-choice-button:not(:disabled):hover,
@@ -111,8 +120,8 @@
   margin-top: 1rem !important;
   padding-top: 0.8rem;
   border-top: 1px solid var(--tdh-choice-rule);
-  font: 400 0.52rem/1.55 'Inconsolata', monospace !important;
-  letter-spacing: 0.04em;
+  font: 400 0.8rem/1.55 'Inconsolata', monospace !important;
+  letter-spacing: 0.02em;
 }
 
 .tdh-privacy-settings {
@@ -125,8 +134,8 @@
   background: rgba(8, 8, 6, 0.94);
   color: var(--tdh-choice-muted);
   cursor: pointer;
-  font: 500 0.48rem/1 'Inconsolata', monospace;
-  letter-spacing: 0.12em;
+  font: 500 0.68rem/1 'Inconsolata', monospace;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -141,8 +150,8 @@
   .tdh-privacy-settings {
     right: max(0.5rem, env(safe-area-inset-right));
     bottom: max(0.5rem, env(safe-area-inset-bottom));
-    padding: 0.4rem 0.55rem;
-    font-size: 0.44rem;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.66rem;
   }
 }
 
@@ -162,3 +171,6 @@
 
 .tdh-research-receipt[data-status="failed"],
 .tdh-research-receipt[data-status="paused"] { color: var(--tdh-choice-muted); }
+
+.tdh-part { display: flex; gap: 0.7rem; align-items: baseline; margin: 1.6rem 0 0.7rem; color: #f3efe7; font: 400 1.3rem/1.25 'IM Fell English', Georgia, serif; }
+.tdh-part span { flex: none; display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 1px solid var(--tdh-choice-gold); color: var(--tdh-choice-gold); font: 500 0.8rem/1 'Inconsolata', monospace; }
