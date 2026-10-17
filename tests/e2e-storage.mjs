@@ -17,6 +17,7 @@ async function choose(mode, mock) {
   await p.waitFor(`!!document.querySelector('#tdh-research-check')`, 8000);
   await p.evaluate(`document.querySelector('#tdh-age-check').click(); document.querySelector('#tdh-research-check').click()`);
   await p.click(`.tdh-choice-button[data-mode="${mode}"]`);
+  await p.click('.tdh-choice-confirm');
   await p.waitFor(`!document.querySelector('.tdh-privacy-backdrop')`, 5000);
   await completeTool(p, tool);
   await p.waitFor(`/[A-Z0-9]{12}/.test((document.querySelector('#code-box')||{}).textContent||'')`, 12000);
@@ -31,7 +32,7 @@ await t('the gate offers Recommended, Limited and Nothing, each with the read-he
   assert.deepEqual(labels.map(x => x.split('|')[0]), ['remote', 'local', 'none']);
   assert.match(labels[0], /Recommended/); assert.match(labels[1], /Limited access/); assert.match(labels[2], /Nothing saved/);
   assert.match(await p.text('.tdh-privacy-panel'), /any device and browser/);
-  assert.match(await p.text('.tdh-privacy-panel'), /no way to come back to this result after the window is closed/);
+  assert.match(await p.text('.tdh-privacy-panel'), /no way for you to come back to this result after the window is closed/);
   assert.equal(await p.evaluate(`document.querySelectorAll('.tdh-choice-note a[href*="tdh-storage-difference"]').length`), 2);
   assert.equal(await p.evaluate(`[...document.querySelectorAll('.tdh-choice-button')].every(x => x.disabled)`), true);
   await c.dispose();
@@ -84,6 +85,7 @@ await t('Nothing: offers to remove results already saved on this device, and rem
     await p.evaluate(`document.querySelector('#tdh-age-check').click(); document.querySelector('#tdh-research-check').click()`);
     if (tick) await p.evaluate(`document.querySelector('#tdh-wipe-check').click()`);
     await p.click('.tdh-choice-button[data-mode="none"]');
+    await p.click('.tdh-choice-confirm');
     await p.waitFor(`!document.querySelector('.tdh-privacy-backdrop')`, 5000);
     const left = await p.evaluate(`${REAL}.getItem('tdh_t1_ABCDEFGH2345') !== null`);
     assert.equal(left, !tick, tick ? 'removed when ticked' : 'kept when not ticked');

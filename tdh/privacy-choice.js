@@ -269,22 +269,23 @@
     backdrop.innerHTML =
       '<section class="tdh-privacy-panel">' +
         '<p class="tdh-privacy-kicker">Adults only · Privacy choice</p>' +
-        '<h2 id="tdh-privacy-title">Should your code work on any device and browser?</h2>' +
+        '<h2 id="tdh-privacy-title">Before you begin</h2>' +
         '<p>The tools give you a personal result and a code. <strong>No analytics, and no individual result statistics, are sent.</strong> Read the <a href="/privacy.html#tdh-data" target="_blank" rel="noopener">data-protection details</a>.</p>' +
-        '<label class="tdh-age-confirm"><input type="checkbox" id="tdh-age-check"' + (store.get(AGE_KEY) === 'yes' ? ' checked' : '') + '> <span>I confirm that I am 18 or older and understand that the tools may process sensitive personal reflections.</span></label>' +
+        '<h3 class="tdh-part"><span>1</span>Confirm 18+</h3><label class="tdh-age-confirm"><input type="checkbox" id="tdh-age-check"' + (store.get(AGE_KEY) === 'yes' ? ' checked' : '') + '> <span>I confirm that I am 18 or older and understand that the tools may process sensitive personal reflections.</span></label>' +
         (researchAvailable()
-          ? '<p class="tdh-choice-current"><strong>Terms of use:</strong> the tools are free. In return, each result adds a few anonymous, rounded counters (for example &ldquo;visual: 60&ndash;70&rdquo;) to a research tally, at most once per tool per month. No code, name, e-mail, IP address, device identifier, free text or per-person record is ever stored, so nothing can be traced back to you. The full anonymous aggregate counter table may be used, published or shared for research, cultural-science work, publication or media. There is no public results page: the counters are readable only by the author, who decides whether, when, to whom and through which media anything is released, and releases nothing until there is a solid base for it. <a href="/tdh/research.html" target="_blank" rel="noopener">How it works</a>.</p>' +
+          ? '<h3 class="tdh-part"><span>2</span>Agreement for science: anonymous results, not traceable</h3><details class="tdh-terms"><summary>Terms of use: what the anonymous counters are</summary><p class="tdh-choice-current"><strong>Terms of use:</strong> the tools are free. In return, each result adds a few anonymous, rounded counters (for example &ldquo;visual: 60&ndash;70&rdquo;) to a research tally, at most once per tool per month. No code, name, e-mail, IP address, device identifier, free text or per-person record is ever stored, so nothing can be traced back to you. The full anonymous aggregate counter table may be used, published or shared for research, cultural-science work, publication or media. There is no public results page: the counters are readable only by the author, who decides whether, when, to whom and through which media anything is released, and releases nothing until there is a solid base for it. <a href="/tdh/research.html" target="_blank" rel="noopener">How it works</a>.</p></details>' +
             '<label class="tdh-age-confirm"><input type="checkbox" id="tdh-research-check"' + (store.get(RESEARCH_KEY) === RESEARCH_VERSION ? ' checked' : '') + '> <span>I agree that these anonymous, untraceable counters may be stored without a time limit and used for research, cultural-science work, publication and sharing. I understand they cannot be traced to me, so they cannot be located or withdrawn later.</span></label>'
           : '') +
-        '<div class="tdh-choice-grid">' +
-          '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="remote" type="button">Recommended: works on any device and browser</button>' +
-            '<p class="tdh-choice-note">Your result is saved under your code, and you can delete it at any time. Choosing this is your consent to saving it. <span class="tdh-fine">Results are deleted after two years without use.</span></p></div>' +
-          '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="local" type="button">Limited access: this device and browser only</button>' +
-            '<p class="tdh-choice-note">Nothing is saved anywhere else, and your code only works in this browser on this device. <a href="/privacy.html#tdh-storage-difference" target="_blank" rel="noopener">Read here about the difference</a>.</p></div>' +
-          '<div class="tdh-choice-opt tdh-choice-wide"><button class="tdh-choice-button" data-mode="none" type="button">Nothing saved: most privacy</button>' +
-            '<p class="tdh-choice-note">Nothing is saved, not even on this device. There is no way to come back to this result after the window is closed. <a href="/privacy.html#tdh-storage-difference" target="_blank" rel="noopener">Read here about the difference</a>.</p>' +
+        '<h3 class="tdh-part"><span>3</span>Your result, your way</h3><p class="tdh-choice-step">These choices decide only how you can open your result again. They are for you, not for anyone else. Choose one, then confirm.</p><div class="tdh-choice-grid" role="radiogroup" aria-label="Where your result is kept">' +
+          '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="remote" type="button" role="radio" aria-checked="false">Recommended: works on any device and browser</button>' +
+            '<p class="tdh-choice-note">Saved under your code. Choosing this is your consent to saving it. You can delete it at any time. <span class="tdh-fine">Deleted after two years without use.</span></p></div>' +
+          '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="local" type="button" role="radio" aria-checked="false">Limited access: this device and browser only</button>' +
+            '<p class="tdh-choice-note">Your code works only in this browser on this device. <a href="/privacy.html#tdh-storage-difference" target="_blank" rel="noopener">Read here about the difference</a>.</p></div>' +
+          '<div class="tdh-choice-opt tdh-choice-wide"><button class="tdh-choice-button" data-mode="none" type="button" role="radio" aria-checked="false">Nothing saved: most privacy</button>' +
+            '<p class="tdh-choice-note">Nothing is saved. There is no way for you to come back to this result after the window is closed. <a href="/privacy.html#tdh-storage-difference" target="_blank" rel="noopener">Read here about the difference</a>.</p>' +
             (localCodes().length ? '<label class="tdh-wipe"><input type="checkbox" id="tdh-wipe-check"> <span>Also remove the ' + localCodes().length + (localCodes().length === 1 ? ' result' : ' results') + ' already saved on this device.</span></label>' : '') + '</div>' +
         '</div>' +
+        '<button class="tdh-choice-confirm" type="button" disabled>Confirm choice</button>' +
         (current ? '<p class="tdh-choice-current">Current choice: ' + (current === 'remote' ? 'your code works on any device and browser' : current === 'none' ? 'nothing saved' : 'this device and browser only') + '. Choosing "this device and browser only" or "nothing saved" now withdraws consent for future saving of results. To erase previously stored profiles, <button type="button" class="tdh-choice-link" id="tdh-delete-request">prepare a deletion request with this device\'s retrieval codes</button> (opens your email app; nothing is sent until you send it).</p>' : '') +
       '</section>';
 
@@ -294,9 +295,12 @@
     var check = backdrop.querySelector('#tdh-age-check');
     var rcheck = backdrop.querySelector('#tdh-research-check');
     var buttons = Array.prototype.slice.call(backdrop.querySelectorAll('.tdh-choice-button'));
+    var confirmButton = backdrop.querySelector('.tdh-choice-confirm');
+    var picked = null;
     function sync() {
       var ok = check.checked && (!rcheck || rcheck.checked);
       buttons.forEach(function (button) { button.disabled = !ok; });
+      confirmButton.disabled = !(ok && picked);
     }
     check.addEventListener('change', sync);
     if (rcheck) rcheck.addEventListener('change', sync);
@@ -316,14 +320,24 @@
 
     buttons.forEach(function (button) {
       button.addEventListener('click', function () {
-        if (!check.checked || (rcheck && !rcheck.checked)) return;
-        var wipe = backdrop.querySelector('#tdh-wipe-check');
-        if (button.getAttribute('data-mode') === 'none' && wipe && wipe.checked) wipeLocalResults();
-        setMode(button.getAttribute('data-mode'));
-        codeWhereNote();
-        store.set(RESEARCH_KEY, RESEARCH_VERSION);
-        closePanel(backdrop);
+        if (button.disabled) return;
+        picked = button.getAttribute('data-mode');
+        buttons.forEach(function (b) {
+          var on = b === button;
+          b.classList.toggle('is-picked', on);
+          b.setAttribute('aria-checked', on ? 'true' : 'false');
+        });
+        sync();
       });
+    });
+    confirmButton.addEventListener('click', function () {
+      if (!picked || !check.checked || (rcheck && !rcheck.checked)) return;
+      var wipe = backdrop.querySelector('#tdh-wipe-check');
+      if (picked === 'none' && wipe && wipe.checked) wipeLocalResults();
+      setMode(picked);
+      codeWhereNote();
+      store.set(RESEARCH_KEY, RESEARCH_VERSION);
+      closePanel(backdrop);
     });
 
     if (!required) {

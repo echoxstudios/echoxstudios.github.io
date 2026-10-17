@@ -18,9 +18,9 @@
 <meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://echoxstudios.art/assets/og/tool-1.png"/>
-<link rel="stylesheet" href="privacy-choice.css?v=20261002">
+<link rel="stylesheet" href="privacy-choice.css?v=20261017">
 <link rel="stylesheet" href="a11y.css?v=20261002">
-<script src="privacy-choice.js?v=20261007-owner-only"></script>
+<script src="privacy-choice.js?v=20261021"></script>
 <link rel="stylesheet" href="../assets/fonts/fonts.css"/>
 <link rel="stylesheet" href="../assets/a11y.css"/>
 <style>
@@ -54,7 +54,7 @@
 
   .back-link {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     color: var(--muted);
     text-decoration: none;
     letter-spacing: 0.1em;
@@ -69,7 +69,7 @@
   .page-header { text-align: center; margin-bottom: 0.5rem; }
   .tool-label {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--gold-dim);
@@ -94,7 +94,7 @@
   .meta-row { display: flex; gap: 2rem; margin: 1.5rem 0; }
   .meta-item {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     letter-spacing: 0.12em;
     color: var(--muted);
   }
@@ -110,7 +110,7 @@
   .btn-primary {
     display: block; width: 100%;
     font-family: 'Inconsolata', monospace;
-    font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--black); background: var(--gold-dim);
     border: none; padding: 0.85rem 1.5rem; cursor: pointer;
     transition: background 0.2s; margin-top: 1.5rem;
@@ -124,19 +124,19 @@
   .gate-lead { font-size:0.9rem; line-height:1.75; color:var(--text); margin-bottom:1.5rem; }
   .gate-lead em { color:var(--bone); font-style:italic; }
   .gate-field { margin-bottom:1.4rem; }
-  .gate-label { font-family:'Inconsolata',monospace; font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:0.6rem; }
+  .gate-label { font-family:'Inconsolata',monospace; font-size: 0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:0.6rem; }
   .gate-opts { display:flex; flex-wrap:wrap; gap:0.5rem; }
-  .gate-opt { font-family:'Inconsolata',monospace; font-size:0.62rem; letter-spacing:0.08em; color:var(--bone); background:transparent; border:1px solid rgba(212,169,62,0.4); padding:0.55rem 0.9rem; cursor:pointer; transition:all 0.18s; }
+  .gate-opt { font-family:'Inconsolata',monospace; font-size: 0.7rem; letter-spacing:0.08em; color:var(--bone); background:transparent; border:1px solid rgba(212,169,62,0.4); padding:0.55rem 0.9rem; cursor:pointer; transition:all 0.18s; }
   .gate-opt:hover { border-color:var(--gold); }
   .gate-opt.sel { background:var(--gold); color:var(--black); border-color:var(--gold); }
-  .gate-skip { font-family:'Inconsolata',monospace; font-size:0.55rem; letter-spacing:0.1em; color:var(--muted); background:none; border:none; cursor:pointer; text-decoration:underline; margin-top:0.5rem; }
+  .gate-skip { font-family:'Inconsolata',monospace; font-size: 0.7rem; letter-spacing:0.1em; color:var(--muted); background:none; border:none; cursor:pointer; text-decoration:underline; margin-top:0.5rem; }
   .gate-skip:hover { color:var(--gold-dim); }
   .btn-reveal { width:100%; font-family:'Inconsolata',monospace; font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--black); background:var(--gold); border:none; padding:0.9rem; cursor:pointer; margin-top:1rem; transition:background 0.2s; }
   .btn-reveal:hover { background:var(--off-white); }
 
   .progress-label {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem; color: var(--muted);
+    font-size: 0.7rem; color: var(--muted);
     letter-spacing: 0.15em; text-align: right; margin-bottom: 0.35rem;
   }
   .progress-track {
@@ -158,7 +158,7 @@
   }
   .likert-labels span {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.4rem; color: var(--muted); letter-spacing: 0.06em;
+    font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em;
   }
 
   .likert-row {
@@ -184,7 +184,7 @@
   }
   .btn-back, .btn-next {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
     background: none; padding: 0.65rem 1.1rem; cursor: pointer;
     transition: border-color 0.2s, color 0.2s;
   }
@@ -195,14 +195,27 @@
   .btn-next { border: 1px solid var(--gold-dim); color: var(--gold-dim); margin-left: auto; }
   .btn-next:hover { border-color: var(--gold); color: var(--gold); }
 
-  .meaning-row { margin: 1.1rem 0 0; padding: 0.7rem 0.9rem; border: 1px solid var(--rule); }
-  .meaning-label { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.85rem; line-height: 1.5; color: var(--text); cursor: pointer; }
-  .meaning-label input { margin-top: 0.25rem; accent-color: var(--gold); flex: none; width: 1rem; height: 1rem; }
-  .meaning-hint { margin: 0.35rem 0 0 1.7rem; font-family: 'Inconsolata', monospace; font-size: 0.5rem; letter-spacing: 0.08em; color: var(--muted); }
+  .meaning-row { margin: 3rem auto 0; width: 12.5rem; max-width: 100%; padding: 0.8rem 0.8rem 0.9rem; border: 1px solid var(--rule); display: grid; gap: 0.55rem; }
+  .meaning-opt { font-family: 'Inconsolata', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  .meaning-why summary { cursor: pointer; font-family: 'Inconsolata', monospace; font-size: 0.7rem; letter-spacing: 0.1em; color: var(--muted); }
+  .meaning-why p { margin-top: 0.5rem; font-size: 0.85rem; line-height: 1.5; color: var(--text); }
+  .meaning-label { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.95rem; line-height: 1.4; color: var(--text); cursor: pointer; }
+  .meaning-label input, .eg-box { appearance: none; -webkit-appearance: none; margin: 0.15rem 0 0; flex: none; width: 1.15rem; height: 1.15rem; border: 1px solid rgba(212,169,62,0.55); background: transparent; border-radius: 0; display: inline-grid; place-content: center; cursor: pointer; }
+  .meaning-label input:checked, .eg-box.on { background: rgba(212,169,62,0.22); border-color: var(--gold); }
+  .meaning-label input:checked::after, .eg-box.on::after { content: ''; width: 0.55rem; height: 0.3rem; border-left: 2px solid var(--gold); border-bottom: 2px solid var(--gold); transform: rotate(-45deg) translate(1px,-1px); }
+  .meaning-label input:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .eg { margin: 1.6rem 0 0; padding: 1rem; border: 1px solid var(--rule); }
+  .eg-cap { font-family: 'Inconsolata', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; }
+  .eg-q { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.05rem; line-height: 1.5; color: var(--off-white); }
+  .eg-scale { display: flex; gap: 0.3rem; margin: 0.8rem 0; }
+  .eg-scale span { flex: 1; text-align: center; padding: 0.3rem 0; border: 1px solid var(--rule); border-radius: 1rem; font-family: 'Inconsolata', monospace; font-size: 0.75rem; color: var(--muted); }
+  .eg-scale span.pick { border-color: var(--gold); color: var(--gold); }
+  .eg-opt { display: flex; gap: 0.7rem; align-items: center; font-size: 0.95rem; color: var(--text); }
+  .eg-note { margin-top: 0.8rem; font-size: 0.9rem; line-height: 1.55; color: var(--muted); }
   .meaning-note { margin-top: 0.9rem; font-style: italic; color: var(--muted); }
   .req-msg {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem; color: var(--gold-dim);
+    font-size: 0.7rem; color: var(--gold-dim);
     letter-spacing: 0.08em; margin-top: 0.5rem; display: none;
   }
   .req-msg.show { display: block; }
@@ -219,7 +232,7 @@
 
   .section-lbl {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.62rem; letter-spacing: 0.28em;
+    font-size: 0.7rem; letter-spacing: 0.28em;
     text-transform: uppercase; color: var(--gold);
     margin-bottom: 1rem;
   }
@@ -231,7 +244,7 @@
   }
   .bar-lbl {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.62rem; letter-spacing: 0.15em;
+    font-size: 0.7rem; letter-spacing: 0.15em;
     text-transform: uppercase; color: var(--muted);
     width: 6rem; flex-shrink: 0;
   }
@@ -254,7 +267,7 @@
   .cmp-legend-item {
     display: flex; align-items: center; gap: 0.4rem;
     font-family: 'Inconsolata', monospace;
-    font-size: 0.42rem; color: var(--muted); letter-spacing: 0.06em;
+    font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em;
   }
   .cmp-legend-line { width: 1rem; height: 2px; flex-shrink: 0; }
   .cmp-legend-line.you { background: var(--gold); }
@@ -266,7 +279,7 @@
   }
   .cmp-lbl {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.62rem; letter-spacing: 0.15em;
+    font-size: 0.7rem; letter-spacing: 0.15em;
     text-transform: uppercase; color: var(--muted);
     width: 6rem; flex-shrink: 0;
   }
@@ -277,7 +290,7 @@
 
   /* interpretation */
   .interp {
-    font-size: 0.88rem; line-height: 1.78; color: var(--text);
+    font-size: 1.02rem; line-height: 1.65; color: var(--text);
   }
   .interp p + p { margin-top: 0.85em; }
   .interp strong { color: var(--bone); font-weight: 500; }
@@ -305,7 +318,7 @@
 
   .disclaimer {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     line-height: 1.7;
@@ -314,7 +327,7 @@
   }
   .result-disclaimer {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.42rem;
+    font-size: 0.7rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     line-height: 1.65;
@@ -332,7 +345,7 @@
     margin-bottom: 1.5rem;
   }
   .share-label {
-    font-family: 'Inconsolata', monospace; font-size: 0.6rem;
+    font-family: 'Inconsolata', monospace; font-size: 0.7rem;
     letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--gold-dim); display: block; margin-bottom: 0.65rem;
   }
@@ -341,14 +354,14 @@
     margin-bottom: 0.6rem;
   }
   .share-url-text {
-    font-family: 'Inconsolata', monospace; font-size: 0.6rem;
+    font-family: 'Inconsolata', monospace; font-size: 0.7rem;
     color: var(--muted); letter-spacing: 0.04em;
     background: var(--black); border: 1px solid var(--rule);
     padding: 0.45rem 0.65rem; flex: 1;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .btn-copy {
-    font-family: 'Inconsolata', monospace; font-size: 0.6rem;
+    font-family: 'Inconsolata', monospace; font-size: 0.7rem;
     letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--gold-dim); background: none;
     border: 1px solid var(--gold-dim);
@@ -358,7 +371,7 @@
   .btn-copy:hover { background: var(--gold-dim); color: var(--black); }
   .btn-copy.copied { border-color: var(--gold); color: var(--gold); }
   .share-note {
-    font-family: 'Inconsolata', monospace; font-size: 0.4rem;
+    font-family: 'Inconsolata', monospace; font-size: 0.7rem;
     color: var(--muted); opacity: 0.8; letter-spacing: 0.04em; line-height: 1.55;
   }
   .share-actions { display: flex; gap: 0.6rem; margin-top: 0.65rem; }
@@ -376,11 +389,11 @@
   .card-modal-overlay.open { display:flex; }
   .card-modal-overlay img { max-width:100%; max-height:80vh; display:block; }
   .card-modal-note {
-    font-family:'Inconsolata',monospace; font-size:0.55rem;
+    font-family:'Inconsolata',monospace; font-size: 0.7rem;
     color:var(--muted); letter-spacing:0.1em; text-align:center; line-height:1.6;
   }
   .card-modal-close {
-    font-family:'Inconsolata',monospace; font-size:0.52rem;
+    font-family:'Inconsolata',monospace; font-size: 0.7rem;
     letter-spacing:0.15em; text-transform:uppercase;
     color:var(--gold-dim); background:none; border:1px solid var(--gold-dim);
     padding:0.55rem 1.2rem; cursor:pointer;
@@ -405,34 +418,34 @@
   }
   .code-box.show { display:block; }
   .code-hint {
-    font-family:'Inconsolata',monospace; font-size:0.5rem;
+    font-family:'Inconsolata',monospace; font-size: 0.7rem;
     letter-spacing:0.1em; color:var(--muted); text-align:center;
     margin-top:0.4rem; line-height:1.6;
   }
   .send-opts { display:flex; gap:1rem; margin:1rem 0 0.7rem; }
   .send-opt-label {
     display:flex; align-items:center; gap:0.4rem; cursor:pointer;
-    font-family:'Inconsolata',monospace; font-size:0.6rem;
+    font-family:'Inconsolata',monospace; font-size: 0.7rem;
     letter-spacing:0.1em; text-transform:uppercase; color:var(--bone); user-select:none;
   }
   .send-opt-label input { display:none; }
   .opt-box {
     width:1.1rem; height:1.1rem; border:1px solid var(--gold-dim);
     display:flex; align-items:center; justify-content:center;
-    font-size:0.6rem; color:var(--black); flex-shrink:0; transition:background 0.15s,border-color 0.15s;
+    font-size: 0.7rem; color:var(--black); flex-shrink:0; transition:background 0.15s,border-color 0.15s;
   }
   .send-opt-label input:checked ~ .opt-box { background:var(--gold); border-color:var(--gold); }
   .send-opt-label input:checked ~ .opt-box::after { content:'\2713'; }
   .send-row { display:flex; gap:0.5rem; }
   .send-input {
     flex:1; background:var(--near); border:1px solid rgba(212,169,62,0.35);
-    color:var(--text); font-family:'Inconsolata',monospace; font-size:0.6rem;
+    color:var(--text); font-family:'Inconsolata',monospace; font-size: 0.7rem;
     padding:0.7rem 0.85rem; outline:none; min-width:0; transition:border-color 0.2s;
   }
   .send-input:focus { border-color:var(--gold); }
   .send-input::placeholder { color:var(--muted); }
   .btn-send-email {
-    font-family:'Inconsolata',monospace; font-size:0.6rem;
+    font-family:'Inconsolata',monospace; font-size: 0.7rem;
     letter-spacing:0.15em; text-transform:uppercase; color:var(--black);
     background:var(--gold); border:none; padding:0.7rem 1.2rem; cursor:pointer;
     flex-shrink:0; transition:background 0.2s;
@@ -440,21 +453,21 @@
   .btn-send-email:hover { background:var(--off-white); }
   .btn-send-email:disabled { opacity:0.5; cursor:default; }
   .send-feedback {
-    font-family:'Inconsolata',monospace; font-size:0.55rem;
+    font-family:'Inconsolata',monospace; font-size: 0.7rem;
     letter-spacing:0.06em; margin-top:0.5rem; min-height:1.1rem;
   }
   .send-feedback.ok  { color:#6ab07a; }
   .send-feedback.err { color:#d06a6a; }
   .retake-link {
     display:inline-block; margin-top:2rem;
-    font-family:'Inconsolata',monospace; font-size:0.55rem;
+    font-family:'Inconsolata',monospace; font-size: 0.7rem;
     letter-spacing:0.15em; text-transform:uppercase;
     color:var(--gold-dim); text-decoration:none; transition:color 0.2s;
   }
   .retake-link:hover { color:var(--gold); }
 
 </style>
-  <link rel="stylesheet" href="type.css?v=20261010"/>
+  <link rel="stylesheet" href="type.css?v=20261017"/>
 </head>
 <body>
 
@@ -472,7 +485,7 @@
 
   <div class="intro-body">
     <p>Desire arrives as confirmation — the experience of feeling like the version of yourself you most want to be, in the presence of another person. That confirmation can arrive through four channels: <em>Visual</em> (appearance, form), <em>Emotional</em> (connection, relational atmosphere), <em>Tactile</em> (touch, physical presence), or <em>Intellectual</em> (shared sexual understanding, being recognised). Most people have all four active — but in different proportions.</p>
-    <p>This tool maps your personal gradient across the four channels and shows which ones carry most of the confirmatory weight for you. It also offers a provisional framework reference for reflection; it is not a population benchmark, census, or research finding.</p>
+    <p>This tool maps your personal gradient across the four channels and shows which ones carry most of the confirmatory weight for you. It also offers a reference for reflection; it is not a population benchmark, census, or research finding.</p>
     <p>No reading of the book is required. Answer for yourself as you actually are.</p>
   </div>
 
@@ -486,6 +499,14 @@
 
   <div class="intro-body">
     <p>Answer each statement on a scale of 1 to 7, where 1 is <em>strongly disagree</em> and 7 is <em>strongly agree</em>. Answer for yourself as you are, not as you think you should be.</p>
+  </div>
+
+  <div class="eg" role="group" aria-label="Example of the optional box">
+    <p class="eg-cap">Example</p>
+    <p class="eg-q">The specific way someone touches me matters more to my desire than how they look.</p>
+    <div class="eg-scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span class="pick">5</span><span>6</span><span>7</span></div>
+    <div class="eg-opt"><span class="eg-box on" aria-hidden="true"></span><span>The meaning, not the touch</span></div>
+    <p class="eg-note">On some statements about touch, a look or the connection between two people, this optional box appears. Tick it if what matters is what the touch or look means, not the sensation or the sight itself. A ticked statement then counts toward Intellectual. Leave it empty and the statement counts as written.</p>
   </div>
 
   <button class="btn-primary" id="btn-start">Begin</button>
@@ -508,8 +529,9 @@
   </div>
   <div class="likert-row" id="likert-row"></div>
   <div class="meaning-row" id="meaning-row" hidden>
+    <span class="meaning-opt">Optional</span>
     <label class="meaning-label" for="meaning-check"><input type="checkbox" id="meaning-check"> <span id="meaning-text"></span></label>
-    <p class="meaning-hint">Optional. If ticked, this answer counts toward Intellectual.</p>
+    <details class="meaning-why"><summary>Why?</summary><p id="meaning-long"></p></details>
   </div>
 
   <div class="survey-nav">
@@ -555,8 +577,8 @@
       <!-- axes + rings drawn by JS -->
     </svg>
     <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.6rem">
-      <button id="btn-toggle-cohort" type="button" style="font-family:'Inconsolata',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-dim);background:rgba(212,169,62,0.06);border:1px solid var(--rule);padding:0.35rem 0.75rem;cursor:pointer;border-radius:2px;transition:all 0.2s">Show Framework Reference Overlay</button>
-      <span id="cohort-badge" style="display:none;font-family:'Inconsolata',monospace;font-size:0.48rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase">Reference: I30 · E25 · T24 · V20</span>
+      <button id="btn-toggle-cohort" type="button" style="font-family:'Inconsolata',monospace;font-size: 0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-dim);background:rgba(212,169,62,0.06);border:1px solid var(--rule);padding:0.35rem 0.75rem;cursor:pointer;border-radius:2px;transition:all 0.2s">Show Framework Reference Overlay</button>
+      <span id="cohort-badge" style="display:none;font-family:'Inconsolata',monospace;font-size: 0.7rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase">Reference: I30 · E25 · T24 · V20</span>
     </div>
   </div>
 
@@ -612,7 +634,7 @@
   <hr class="rule">
   <p class="section-lbl">Share your result</p>
   <p class="code-hint">This link opens your exact result on any device — share it anywhere.</p>
-  <p class="code-hint" style="color:var(--muted);font-size:0.55rem;margin-top:0.4rem">Anyone with this link or code can view this result. There is no password. Share it only where you are comfortable.</p>
+  <p class="code-hint" style="color:var(--muted);font-size: 0.7rem;margin-top:0.4rem">Anyone with this link or code can view this result. There is no password. Share it only where you are comfortable.</p>
   <div class="share-url-box">
     <span class="share-url-text" id="share-url-text">&nbsp;</span>
     <button class="btn-copy" id="btn-copy-url" onclick="copyShareURL()">Copy link</button>
@@ -622,7 +644,7 @@
     <button class="btn-copy" id="btn-share-native" style="flex:1" onclick="shareWithFriend()">Invite / Compare with a Friend</button>
     <button class="btn-copy" style="flex:1" onclick="downloadCard()">Download Card (Image)</button>
   </div>
-  <p class="code-hint" style="color:var(--muted);font-size:0.52rem;margin-top:0.5rem">Strict Anonymous Policy: No identity, IP, or personal metadata is ever coupled with your desire gradient. Codes are anonymous, randomized alphanumeric hashes.</p>
+  <p class="code-hint" style="color:var(--muted);font-size: 0.7rem;margin-top:0.5rem">Strict Anonymous Policy: No identity, IP, or personal metadata is ever coupled with your desire gradient. Codes are anonymous, randomized alphanumeric hashes.</p>
 
   <p class="result-disclaimer">This result is an instrument for personal reflection, not a clinical or diagnostic assessment. It does not constitute psychological or therapeutic advice. No professional relationship is formed by using this tool. If you are experiencing distress, please seek support from a qualified professional.</p>
 
@@ -679,7 +701,7 @@ const PRIMARY_MAIN = {
   V: 'Visual confirmation carries the most weight for you — appearance, form, and how someone looks are the primary channel through which desire arrives. When someone activates the aspirational self visually, that is the confirmation. The visual channel is load-bearing for you, not decorative.',
   E: 'Emotional confirmation carries the most weight for you — the relational atmosphere is the primary channel through which desire arrives. The quality of what exists between two people is the ground on which the aspirational self becomes real. Without the right emotional register, the confirmation does not occur.',
   T: 'Tactile confirmation carries the most weight for you — touch is the primary channel through which the aspirational self is confirmed. Physical contact is not a consequence of desire already formed; it is the mechanism through which desire arrives. The body reads what the eye and mind have not yet processed.',
-  I: 'Intellectual confirmation carries the most weight for you — not someone\'s intelligence, but a shared sexual understanding. Being recognised as the sexual self you aspire to be, and sharing a reading of the dynamic between you, is the primary channel through which desire is confirmed. It arrives through recognition. The book describes this distribution from inside.'
+  I: 'Intellectual confirmation carries the most weight for you — not someone\'s intelligence, but a shared sexual understanding. Being recognised as the sexual self you aspire to be, and sharing a reading of the dynamic between you, is the primary channel through which desire is confirmed. It arrives through recognition.'
 };
 
 const SECONDARY_FRAG = {
@@ -726,11 +748,13 @@ let current    = 0;
 // statement can reach a person through meaning. Offered only on non-reversed statements that name such an instrument
 // (a touch, a look, a connection). Ticking it counts that statement's points toward Intellectual.
 const MEANING_IDS = { T1:'touch', T2:'touch', T3:'touch', T5:'touch', T6:'touch', V1:'sight', V2:'sight', V3:'sight', V4:'sight', V6:'sight', E2:'connection', E4:'connection', E6:'connection' };
-const MEANING_TEXT = {
+const MEANING_TEXT = { touch: 'The meaning, not the touch', sight: 'The meaning, not the look', connection: 'The meaning, not the feeling' };
+const MEANING_LONG = {
   touch: 'What matters here is what the touch means to us, not the sensation itself.',
   sight: 'What matters here is what the sight declares, not the look itself.',
   connection: 'What matters here is what the connection means, not the feeling itself.'
 };
+const MEANING_RULE = ' If ticked, this answer counts toward Intellectual.';
 let responses  = {};
 let meaning    = {};
 let savedCode  = null;
@@ -836,12 +860,9 @@ function buildInterpretation(pct) {
     paras.push(`Your answers give an even gradient — Visual (${pct.V}%), Emotional (${pct.E}%), Tactile (${pct.T}%), and Intellectual (${pct.I}%) carry comparable shares of the questionnaire points. No channel dominates this result. That does not establish how common the pattern is, how much desire you experience, or that every channel is necessary. Use it to ask which forms of recognition matter in actual encounters.`);
   } else {
     // Primary paragraph
-    let p1 = `Your answers place the most weight on the <strong>${CH_NAME[primary]}</strong> — ${pct[primary]}% of the questionnaire points, not a measured proportion of your desire. Within the book's framework, this suggests the following possibilities; keep only what fits your experience. ${PRIMARY_MAIN[primary]}`;
+    let p1 = `Your answers place the most weight on the <strong>${CH_NAME[primary]}</strong> — ${pct[primary]}% of the questionnaire points, not a measured proportion of your desire. Keep only what fits your experience. ${PRIMARY_MAIN[primary]}`;
 
     // Edge case overlays
-    if (primary === 'I' && pct.I >= 50) {
-      p1 += ` Your Intellectual channel above 50% places you in territory the book describes from inside. The intellectual-channel sections may be especially recognizable.`;
-    }
     if (primary === 'V' && pct.V >= 60) {
       p1 += ` Visual carries at least 60% of the questionnaire points. That does not establish the influence of culture on you; the book's discussion of cultural distortion is a question to consider, not a conclusion about your result.`;
     }
@@ -872,14 +893,14 @@ function buildInterpretation(pct) {
 }
 
 function buildComparison(pct) {
-  // The book's provisional reference is illustrative, not an empirical cohort or a norm.
-  const reference = { V:20, E:25, T:24, I:30 };
+  // The book's reference is illustrative, not an empirical cohort or a norm.
+  const reference = { V:13, E:30, T:19, I:38 };
   const diffs = ['V','E','T','I'].map(ch => ({ ch, d: Math.abs(pct[ch] - reference[ch]) }));
   const biggest = diffs.reduce((a,b) => a.d >= b.d ? a : b);
   const difference = Math.abs(pct[biggest.ch] - reference[biggest.ch]);
   const direction = pct[biggest.ch] >= reference[biggest.ch] ? 'sits at or above' : 'sits below';
 
-  return `<p>The largest difference from the book's provisional reference is in the <strong>${CH_NAME[biggest.ch]}</strong> channel: your questionnaire result ${direction} it by ${difference} points. The reference is Intellectual 30%, Emotional 25%, Tactile 24%, Visual 20% (rounded values total 99%). It is an illustrative framework reference, not an empirical cohort, a population baseline, a clinical norm, or a target to reach. Return to what recognition means in your own experience.</p>`;
+  return `<p>The largest difference from the book's reference is in the <strong>${CH_NAME[biggest.ch]}</strong> channel: your questionnaire result ${direction} it by ${difference} points. The reference is the author's own gradient, read literally: Intellectual 38%, Emotional 30%, Tactile 19%, Visual 13%. Counted for the meaning that touch and sight carry for him, it is about 89% Intellectual; the literal reading is the floor. It is a provisional framework reference, not an empirical cohort, a population baseline, a clinical norm, or a target to reach. Return to what recognition means in your own experience.</p>`;
 }
 
 function buildRecs(pct) {
@@ -925,6 +946,8 @@ function renderQuestion(idx) {
   mrow.hidden = !kind;
   if (kind) {
     document.getElementById('meaning-text').textContent = MEANING_TEXT[kind];
+    document.getElementById('meaning-long').textContent = MEANING_LONG[kind] + MEANING_RULE;
+    document.querySelector('.meaning-why').open = false;
     const box = document.getElementById('meaning-check');
     box.checked = !!meaning[q.id];
     box.onchange = () => { if (box.checked) meaning[q.id] = true; else delete meaning[q.id]; };
@@ -936,7 +959,7 @@ function renderQuestion(idx) {
 // ══════════════════════════════════════════════
 
 var showCohortOverlay = false;
-var cohortAverages = { V: 20, E: 25, T: 24, I: 30 }; // Provisional framework reference
+var cohortAverages = { V: 13, E: 30, T: 19, I: 38 }; // The author's own gradient, read literally (the floor for Intellectual)
 
 function drawPetal(pct) {
   var svg = document.getElementById('petal-svg');
@@ -1053,13 +1076,16 @@ function showResults(pct) {
     });
   });
 
-  document.getElementById('interp-text').innerHTML  = buildInterpretation(pct);
   var __mm = window.__t1Meaning || [];
+  var __html = buildInterpretation(pct);
   if (__mm.length) {
-    document.getElementById('interp-text').innerHTML += '<p class="meaning-note">You marked ' + __mm.length + (__mm.length === 1 ? ' statement' : ' statements') +
-      ' as mattering mainly for what ' + (__mm.length === 1 ? 'it means' : 'they mean') + ', not for the sensation or the look itself. In the book\u2019s account the framework is the ground that touch, sight and feeling carry, so ' +
-      (__mm.length === 1 ? 'its points are' : 'their points are') + ' counted under Intellectual.</p>';
+    var __pl = window.__plainPct, __note = '<p class="meaning-note">You marked ' + __mm.length + (__mm.length === 1 ? ' statement' : ' statements') +
+      ' as mattering for meaning, so ' + (__mm.length === 1 ? 'its points are' : 'their points are') + ' counted under Intellectual; Visual, Tactile and Emotional read lower for that reason.' +
+      (__pl ? ' Counted without your marks: Visual ' + __pl.V + '%, Emotional ' + __pl.E + '%, Tactile ' + __pl.T + '%, Intellectual ' + __pl.I + '%.' : '') + '</p>';
+    var __i = __html.indexOf('</p>') + 4;
+    __html = __html.slice(0, __i) + __note + __html.slice(__i);
   }
+  document.getElementById('interp-text').innerHTML = __html;
   document.getElementById('cmp-text').innerHTML     = buildComparison(pct);
   document.getElementById('reading-recs').innerHTML = buildRecs(pct);
 
@@ -1354,6 +1380,7 @@ document.getElementById('btn-next').addEventListener('click', () => {
     // Final question — show demographic gate before result
     window.__pendingPct = computeGradient(responses, meaning);
     window.__t1Meaning = Object.keys(meaning).filter(id => meaning[id] && MEANING_IDS[id]);
+    window.__plainPct = computeGradient(responses, {});
     hide('view-survey');
     document.getElementById('view-gate').style.display = 'block';
     window.scrollTo({ top: 0 });
