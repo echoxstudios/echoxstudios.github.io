@@ -20,7 +20,7 @@
 <meta name="twitter:image" content="https://echoxstudios.art/assets/og/tool-1.png"/>
 <link rel="stylesheet" href="privacy-choice.css?v=20261017">
 <link rel="stylesheet" href="a11y.css?v=20261002">
-<script src="privacy-choice.js?v=20261021"></script>
+<script src="privacy-choice.js?v=20261023"></script>
 <link rel="stylesheet" href="../assets/fonts/fonts.css"/>
 <link rel="stylesheet" href="../assets/a11y.css"/>
 <style>
@@ -158,7 +158,7 @@
   }
   .likert-labels span {
     font-family: 'Inconsolata', monospace;
-    font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em;
+    font-size: 0.7rem; color: var(--text); letter-spacing: 0.06em;
   }
 
   .likert-row {
@@ -169,14 +169,14 @@
   .lbtn {
     flex: 1;
     min-height: 3.2rem; min-width: 3.2rem; max-width: 3.6rem;
-    border: 1px solid var(--rule);
-    background: transparent; color: var(--muted);
-    font-family: 'Inconsolata', monospace; font-size: 0.7rem;
+    border: 1px solid rgba(212,169,62,0.5);
+    background: transparent; color: var(--text);
+    font-family: 'Inconsolata', monospace; font-size: 0.85rem;
     cursor: pointer; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     padding: 0; transition: border-color 0.15s, background 0.15s, color 0.15s;
   }
-  .lbtn:hover { border-color: var(--gold-dim); color: var(--text); }
+  .lbtn:hover { border-color: var(--gold); color: var(--text); }
   .lbtn.sel { border-color: var(--gold); background: var(--gold); color: var(--black); }
 
   .survey-nav {
@@ -195,8 +195,9 @@
   .btn-next { border: 1px solid var(--gold-dim); color: var(--gold-dim); margin-left: auto; }
   .btn-next:hover { border-color: var(--gold); color: var(--gold); }
 
-  .meaning-row { margin: 3rem auto 0; width: 12.5rem; max-width: 100%; padding: 0.8rem 0.8rem 0.9rem; border: 1px solid var(--rule); display: grid; gap: 0.55rem; }
-  .meaning-opt { font-family: 'Inconsolata', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  .meaning-row { margin: 2.4rem 0 1.6rem; padding: 1rem 1.1rem; border: 1px solid rgba(212,169,62,0.4); display: grid; grid-template-columns: auto 1fr; column-gap: 1.1rem; row-gap: 0.5rem; align-items: center; }
+  .meaning-opt { grid-row: 1 / span 2; align-self: center; padding-right: 1.1rem; border-right: 1px solid rgba(212,169,62,0.3); line-height: 1.2; font-family: 'Inconsolata', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  .meaning-why { grid-column: 2; }
   .meaning-why summary { cursor: pointer; font-family: 'Inconsolata', monospace; font-size: 0.7rem; letter-spacing: 0.1em; color: var(--muted); }
   .meaning-why p { margin-top: 0.5rem; font-size: 0.85rem; line-height: 1.5; color: var(--text); }
   .meaning-label { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.95rem; line-height: 1.4; color: var(--text); cursor: pointer; }
@@ -467,7 +468,7 @@
   .retake-link:hover { color:var(--gold); }
 
 </style>
-  <link rel="stylesheet" href="type.css?v=20261017"/>
+  <link rel="stylesheet" href="type.css?v=20261022"/>
 </head>
 <body>
 
@@ -484,9 +485,8 @@
   </div>
 
   <div class="intro-body">
-    <p>Desire arrives as confirmation — the experience of feeling like the version of yourself you most want to be, in the presence of another person. That confirmation can arrive through four channels: <em>Visual</em> (appearance, form), <em>Emotional</em> (connection, relational atmosphere), <em>Tactile</em> (touch, physical presence), or <em>Intellectual</em> (shared sexual understanding, being recognised). Most people have all four active — but in different proportions.</p>
-    <p>This tool maps your personal gradient across the four channels and shows which ones carry most of the confirmatory weight for you. It also offers a reference for reflection; it is not a population benchmark, census, or research finding.</p>
-    <p>No reading of the book is required. Answer for yourself as you actually are.</p>
+    <p>Desire arrives as confirmation: feeling like the version of yourself you most want to be, in the presence of another person. It can arrive through four channels: <em>Visual</em> (appearance), <em>Emotional</em> (connection), <em>Tactile</em> (touch) or <em>Intellectual</em> (shared understanding). Most people have all four, in different proportions.</p>
+    <p>This tool maps your own gradient. It is a reflection, not a benchmark or a research finding. No reading of the book is required.</p>
   </div>
 
   <div class="meta-row">
@@ -506,12 +506,12 @@
     <p class="eg-q">The specific way someone touches me matters more to my desire than how they look.</p>
     <div class="eg-scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span class="pick">5</span><span>6</span><span>7</span></div>
     <div class="eg-opt"><span class="eg-box on" aria-hidden="true"></span><span>The meaning, not the touch</span></div>
-    <p class="eg-note">On some statements about touch, a look or the connection between two people, this optional box appears. Tick it if what matters is what the touch or look means, not the sensation or the sight itself. A ticked statement then counts toward Intellectual. Leave it empty and the statement counts as written.</p>
+    <p class="eg-note">Some statements show this optional box. Tick it if what matters is the meaning, not the sensation or the sight. That statement then counts toward Intellectual.</p>
   </div>
 
   <button class="btn-primary" id="btn-start">Begin</button>
 
-  <p class="disclaimer">This tool is an instrument for personal reflection only. It does not constitute psychological, therapeutic, or clinical advice, and no professional relationship is formed by using it. Results remain in this browser unless you explicitly enable cross-device storage or request email delivery.</p>
+  <p class="disclaimer">For personal reflection only. Not psychological, therapeutic or clinical advice. Your result stays in this browser unless you choose a code or email it to yourself.</p>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
