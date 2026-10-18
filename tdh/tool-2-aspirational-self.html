@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="privacy-choice.css?v=20261017">
 <link rel="stylesheet" href="a11y.css?v=20261002">
 <script src="sentence-fit.js?v=20261013"></script>
-<script src="privacy-choice.js?v=20261030"></script>
+<script src="privacy-choice.js?v=20261034"></script>
 <meta name="description" content="Explore the aspirational sexual self through a structured profile connected to The Dark Hierarchy."/>
 <link rel="canonical" href="https://echoxstudios.art/tdh/tool-2-aspirational-self.html"/>
 <meta property="og:type" content="website"/><meta property="og:site_name" content="ECHOx"/>
@@ -1385,7 +1385,7 @@ document.getElementById('btn-start').addEventListener('click', () => {
 (function() {
   try {
     const params = new URLSearchParams(window.location.search);
-    const code   = (params.get('code') || '').toUpperCase();
+    const code   = (params.get('code') || sessionStorage.getItem('tdh_code_t2') || '').toUpperCase();
     const packed = params.get('v');
     const order  = ['dom','see','pur','ref','wor','pow','sin','tra'];
 
@@ -1439,11 +1439,7 @@ document.getElementById('btn-start').addEventListener('click', () => {
     var box = document.getElementById('code-box');
     if (box) { box.textContent = code; box.classList.add('show'); }
     try { var _su=document.getElementById('share-url-text'); if(_su) _su.textContent = (typeof makeShareURL==='function'?makeShareURL():window.location.href.split('?')[0]+'?code='+code); } catch(e) {}
-    try {
-      var u = new URL(window.location.href);
-      u.searchParams.set('code', code);
-      history.replaceState(null, '', u.toString());
-    } catch(e) {}
+    /* the code is shown on the page only: it is kept out of the address bar and so out of the browser history */
   }
 
   (function attachSend() {

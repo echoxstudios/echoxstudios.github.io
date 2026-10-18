@@ -17,14 +17,47 @@
      which the browser wipes when the window closes. The choice itself lives only there, so a new window asks again. */
   var realStorage = null;
   try { realStorage = window.localStorage; } catch (error) { realStorage = null; }
+  var nativeDesc = null;
+  try { nativeDesc = Object.getOwnPropertyDescriptor(window, 'localStorage') || null; } catch (error) { nativeDesc = null; }
+  /* Puts the browser's own storage back; deleting the property outright would remove it. */
+  function restoreNative() {
+    try { if (nativeDesc) Object.defineProperty(window, 'localStorage', nativeDesc); else delete window.localStorage; } catch (error) { /* ignore */ }
+  }
   function installNoneShim() {
     try { Object.defineProperty(window, 'localStorage', { configurable: true, get: function () { return window.sessionStorage; } }); } catch (error) { /* keep default */ }
   }
   function removeNoneShim() {
-    try { delete window.localStorage; } catch (error) { /* ignore */ }
+    restoreNative();
     try { window.sessionStorage.removeItem(MODE_KEY); } catch (error) { /* ignore */ }
   }
   try { if (window.sessionStorage.getItem(MODE_KEY) === 'none') installNoneShim(); } catch (error) { /* ignore */ }
+
+  /* "Yes, I want a code": the code is the user's to keep. Results and codes live in this window only (session storage), so
+     a friend or relative using the same browser finds nothing; preferences such as the age confirmation stay as they are. */
+  var RESULT_KEY = /^tdh_(?:t[1-7]_|code_t[1-7]$)/;
+  function installRemoteShim() {
+    var sess = null;
+    try { sess = window.sessionStorage; } catch (error) { return; }
+    if (!realStorage || !sess) return;
+    function keys() {
+      var list = [], i;
+      for (i = 0; i < realStorage.length; i++) list.push(realStorage.key(i));
+      for (i = 0; i < sess.length; i++) if (RESULT_KEY.test(sess.key(i)) && list.indexOf(sess.key(i)) < 0) list.push(sess.key(i));
+      return list;
+    }
+    /* New results and codes are written to this window only; anything older already in the browser can still be read (and wiped). */
+    var split = {
+      getItem: function (k) { if (RESULT_KEY.test(k)) { var v = sess.getItem(k); return v !== null ? v : realStorage.getItem(k); } return realStorage.getItem(k); },
+      setItem: function (k, v) { (RESULT_KEY.test(k) ? sess : realStorage).setItem(k, v); },
+      removeItem: function (k) { sess.removeItem(k); realStorage.removeItem(k); },
+      key: function (n) { var l = keys(); return n < l.length ? l[n] : null; },
+      clear: function () { sess.clear(); realStorage.clear(); }
+    };
+    Object.defineProperty(split, 'length', { get: function () { return keys().length; } });
+    try { Object.defineProperty(window, 'localStorage', { configurable: true, get: function () { return split; } }); } catch (error) { /* keep default */ }
+  }
+  function removeRemoteShim() { restoreNative(); }
+  try { if (window.sessionStorage.getItem(MODE_KEY) !== 'none' && realStorage && realStorage.getItem(MODE_KEY) !== 'local') installRemoteShim(); } catch (error) { /* ignore */ }
 
   /* Retrieval-code length. Generation uses 12 characters (worker/profile.mjs deployed); 6-character legacy codes remain readable. */
   var CODE_LENGTH = 12;
@@ -204,7 +237,9 @@
       return;
     }
     if (store.get(MODE_KEY) === 'none') removeNoneShim();
+    removeRemoteShim();
     store.set(MODE_KEY, nextMode);
+    if (nextMode === 'remote') installRemoteShim();
     store.set(AGE_KEY, 'yes');
     if (nextMode === 'remote') {
       store.set(CONSENT_KEY, new Date().toISOString());
@@ -278,7 +313,7 @@
           : '') +
         '<h3 class="tdh-part"><span>3</span>Your result, your way</h3><p class="tdh-choice-step">These choices are for you. No name or email is kept with a result; only your code opens it, so keep it private. Choose one, then confirm.</p><div class="tdh-choice-grid" role="radiogroup" aria-label="Where your result is kept">' +
           '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="remote" type="button" role="radio" aria-checked="false">Yes, I want a code</button>' +
-            '<p class="tdh-choice-note">Works on any device and browser. Your result is stored under your code, which is the only way back. You are in charge of saving the code; we cannot recover it, and we can email it to you. Choosing this is your consent to saving it. <span class="tdh-fine">Delete it any time. Deleted after two years without use.</span></p></div>' +
+            '<p class="tdh-choice-note">Works on any device and browser. Nothing is kept in this browser. Your result is stored under your code, which is the only way back. You are in charge of saving the code; we cannot recover it, and we can email it to you. Choosing this is your consent to saving it. <span class="tdh-fine">Delete it any time. Deleted after two years without use.</span></p></div>' +
           '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="none" type="button" role="radio" aria-checked="false">No, full privacy</button>' +
             '<p class="tdh-choice-note">One test. Nothing is saved. The result shows on the screen this one time. There is no way for you to come back to this result after the window is closed. <a href="/privacy.html#tdh-storage-difference" target="_blank" rel="noopener">Read here about the difference</a>.</p>' +
             (localCodes().length ? '<label class="tdh-wipe"><input type="checkbox" id="tdh-wipe-check"> <span>Also remove the ' + localCodes().length + (localCodes().length === 1 ? ' result' : ' results') + ' already saved on this device.</span></label>' : '') + '</div>' +
@@ -353,12 +388,23 @@
     setTimeout(function () { check.focus(); }, 0);
   }
 
+  /* A code that arrives in the address (a link, or the retrieval page) is read by the tool at load, then removed from the address bar
+     so it does not stay in the browser history. */
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      try {
+        var u = new URL(window.location.href);
+        if (u.searchParams.has('code')) { u.searchParams.delete('code'); history.replaceState(null, '', u.pathname + (u.search || '') + u.hash); }
+      } catch (error) { /* ignore */ }
+    }, 1500);
+  });
+
   function codeWhereNote() {
     var box = document.getElementById('code-box') || document.getElementById('res-code');
     if (!box || !box.parentNode) return;
     var n = document.getElementById('tdh-code-where');
     if (!n) { n = document.createElement('p'); n.id = 'tdh-code-where'; n.className = 'code-hint'; box.parentNode.insertBefore(n, box.nextSibling); }
-    n.textContent = mode() === 'none' ? 'Nothing is saved. This result is gone when you close this window and the code will not work later. Emailing yourself the result is the only way to keep it.' : mode() === 'remote' ? 'Your result is saved under this code, so the code works on any device and browser.' : 'Your result is kept on this device only, so this code works only in this browser on this device. It will not work in another browser or on another device.';
+    n.textContent = mode() === 'none' ? 'Nothing is saved. This result is gone when you close this window and the code will not work later. Emailing yourself the result is the only way to keep it.' : mode() === 'remote' ? 'Your result is saved under this code, so the code works on any device and browser. Nothing is kept in this browser, so the code is the only way back.' : 'Your result is kept on this device only, so this code works only in this browser on this device. It will not work in another browser or on another device.';
   }
 
   function init() {

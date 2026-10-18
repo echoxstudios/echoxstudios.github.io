@@ -10,7 +10,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="privacy-choice.css?v=20261017">
 <link rel="stylesheet" href="a11y.css?v=20261002">
-<script src="privacy-choice.js?v=20261030"></script>
+<script src="privacy-choice.js?v=20261034"></script>
 <meta name="description" content="Map quiet domestic liturgies, non-negotiable boundaries, and friction protocols inside the hierarchical dynamic."/>
 <link rel="canonical" href="https://echoxstudios.art/tdh/tool-7-liturgy-matrix.html"/>
 <meta property="og:type" content="website"/><meta property="og:site_name" content="ECHOx"/>
@@ -291,7 +291,7 @@ document.getElementById('btn-generate').addEventListener('click', async function
     });
   });
   renderMatrix(code, chosenItems);
-  try { var u = new URL(window.location.href); u.searchParams.set('code', code); history.replaceState(null, '', u.toString()); } catch(e) {}
+  /* code kept out of the address bar */
 
   // Store. The remote service expects tool id "t7" and the record as {chosen, ts}.
   var record = { chosen: chosenItems, ts: Date.now() };
@@ -325,7 +325,7 @@ function renderMatrix(code, chosenItems) {
 // Reopen a stored matrix from ?code= (this device, or cached there by result.html). A damaged record is ignored.
 (function() {
   try {
-    var code = (new URLSearchParams(window.location.search).get('code') || '').toUpperCase();
+    var code = (new URLSearchParams(window.location.search).get('code') || sessionStorage.getItem('tdh_code_t7') || '').toUpperCase();
     if (code.length !== 6 && code.length !== 12) return;
     var stored = JSON.parse(localStorage.getItem('tdh_t7_' + code) || 'null');
     var chosen = stored && (stored.data && stored.data.chosen || stored.chosen);

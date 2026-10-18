@@ -31,6 +31,7 @@
     var s = String(raw == null ? '' : raw).replace(/\s+/g, ' ').trim();
     s = s.replace(/^["'“”‘’«»]+|["'“”‘’«»]+$/g, '').trim();
     s = s.replace(/^(\.\.\.|…)\s*/, '');
+    s = s.replace(/^[-–—•*]+\s+/, '').replace(/^[(\[{]+\s*|\s*[)\]}]+$/g, '').trim();
     return s;
   }
 
@@ -47,7 +48,7 @@
   var INFORMAL = [
     [/\bi\b(?=[\s'’.,;:!?]|$)/g, 'I'], [/\bidk\b/gi, 'I don’t know'],
     [/\bim\b/gi, 'I’m'], [/\bive\b/gi, 'I’ve'],
-    [/\b(do|does|did|ca|wo|is|are|was|were|have|has|had|should|would|could)nt\b/gi, function (m, a) { return (/^ca$/i.test(a) ? a + 'n' : a) + 'n’t'; }],
+    [/\b(do|does|did|ca|wo|is|are|was|were|have|has|had|should|would|could)nt\b/gi, function (m, a) { return /^ca$/i.test(a) ? 'can’t' : a + 'n’t'; }],
     [/\bcant\b/gi, 'can’t'], [/\b(you|they|we)re\b/gi, '$1’re'], [/\b(that|what|it)s(?=\s+(?:a|an|the|not|so|how|what|when|why|all|just|enough|me|my|your|about|been|going|like|hard|okay|ok|fine|true|over|because|really|always|never|only|still|too|very)\b)/gi, '$1’s'],
     [/\bu\b/gi, 'you'], [/\bur\b/gi, 'your'],
     [/\byour\s+(?=(?:not|enough|so|too|very|welcome|right|loved|wanted|safe|good|worth|beautiful|perfect|allowed|okay|ok|home|mine|here|seen|held|forgiven|free|strong|brave|ready|doing|going|a|an|the|my)\b)/gi, 'you’re '],
@@ -114,6 +115,8 @@
     var w = word.toLowerCase();
     var irregular = { be: 'is', are: 'is', have: 'has', do: 'does', go: 'goes', 'don’t': 'doesn’t', "don't": "doesn't", "aren't": "isn't", 'aren’t': 'isn’t', "haven't": "hasn't", 'haven’t': 'hasn’t', "'re": 'is', 're': 'is' };
     if (irregular[w]) return irregular[w];
+    if (/n['’]t$/.test(w)) return word;                      // isn't, doesn't, wasn't already agree
+    if (/^(?:who|whom|whose|which|where|what|how|why|because|so|if|although|though|than|and|or|but)$/.test(w)) return word;
     if (MODALS.test(w) || NOT_VERBS.test(w)) return word;
     if (/(?:[^s]s|'s|’s|ed)$/.test(w)) return word;        // already agreeing, or past tense
     if (/(?:ss|sh|ch|x|z|o)$/.test(w)) return word + 'es';
@@ -144,13 +147,13 @@
     var q = flip ? toSecondPerson(s) : s;
     q = q.replace(/"([^"]*)"/g, '‘$1’').replace(/'/g, '’');
     q = spacing(upperFirst(q.trim())).replace(/([.!?…]\s+)([a-z])/g, function (m, p, c) { return p + c.toUpperCase(); });
-    if (!/[.!?…]$/.test(q)) q += /^(would|could|can|will|do|does|did|is|are|am|may|might|should|how|what|why|when|where|who|which)\b/i.test(q) ? '?' : '.';
+    if (!/[.!?…]$/.test(q)) q += (/^(?:would|could|can|will|do|does|did|is|are|am|may|might|should|have|has)\s+(?:i|you|we|they|he|she|it|there|this|that|the|a|an|my|your|someone|anyone|everyone)\b/i.test(q) || /^(?:how|what|why|when|where|who|which)\s+(?:would|could|can|will|do|does|did|is|are|am|may|might|should|have|has)\b/i.test(q)) ? '?' : '.';
     return { mode: 'quote', text: '“' + q + '”' };
   }
 
   function fit(raw, slot) {
     var s = tidy(raw);
-    if (!s || !/[A-Za-zÀ-ɏ?]/.test(s)) return null;
+    if (!s || !/[A-Za-zÀ-ɏ]/.test(s)) return null;
     slot = slot || 'complement';
     s = normalise(s);
     if ((slot === 'complement' || slot === 'verb') && UNCERTAIN.test(stripEnd(s))) return { mode: 'open', text: asQuote(stripEnd(s), false).text };
@@ -172,10 +175,13 @@
       // Contracted subjects first: "they're gentle", "she's patient" -> "is gentle", "is patient".
       var contracted = /^(?:(?:when|if|once|whenever)\s+)?(?:they|he|she|you)(?:'re|\u2019re|'s|\u2019s)\s+/i;
       if (contracted.test(s)) return { mode: 'inline', text: lowerFirst(toSecondPerson(s.replace(contracted, 'is '))) };
+      var before0 = s;
+      if (/^(?:who|whom|whose|which|where|what|how|why|because)\b/i.test(s.replace(VERB_SUBJECT, ''))) return asQuote(s, false);   // a fragment such as "who sees me" cannot follow "the other person"
       // The slot needs a verb; an answer that opens with a pronoun or object cannot continue it.
       if (/^(?:me|my|mine|myself|you|your|yours|yourself|I|it|its)\b/i.test(s.replace(VERB_SUBJECT, ''))) return asQuote(s, false);
       var removed = VERB_SUBJECT.test(s);
       s = s.replace(VERB_SUBJECT, '');
+      if (/^(?!(?:thing|king|string|spring|bring|sing)\b)[A-Za-z]+ing\b/i.test(s)) return asQuote(before0, false);   // "the other person knowing when to stop" cannot be repaired
       if (removed) s = s.replace(/^(?:are|'re|\u2019re)\s+/i, 'is ');
       s = toSecondPerson(s);
       s = agreeThirdPerson(s, removed);
@@ -184,9 +190,13 @@
 
     // complement
     var before = s;
+    // A question ("am I allowed") cannot complete "when you are ..."; it is quoted as asked.
+    if (/^(?:am|are|is|do|does|did|can|could|would|should|will|have|has)\s+(?:i|you|we|they|he|she)\b/i.test(s)) return asQuote(before, false);
     s = s.replace(/^(?:when|while|whenever|if)\s+(?:I|you)\s*(?:am|are|’m|'m|’re|'re)\s+/i, '');
     s = s.replace(COMPLEMENT_ECHO, '');
     s = toSecondPerson(s);
+    // "you make me feel ...": a clause with its own subject cannot follow "you are"; quote it instead.
+    if (/^you\s+(?!are\b|were\b|’re\b|'re\b|’ve\b|'ve\b|’ll\b|'ll\b)\w+/i.test(s) && !/^(?:i|you)\s+(?:am|are|was|were|feel|’m|'m)\b/i.test(before)) return asQuote(before, false);
     // A complete clause with its own new subject ("she holds me") cannot follow "is"; quote it instead.
     if (/^(?:she|he|they|someone|somebody|people|everyone|nobody)\s+\w+/i.test(s) && !/^(?:she|he|they)\s+(?:is|are)\b/i.test(before)) {
       return asQuote(before, false);
@@ -228,6 +238,9 @@
     flag(/^[“‘"]?[a-z]/, 'no capital at the start');
     flag(/[^.!?…”’]$|[^.!?…][”’]$/, 'no closing punctuation');
     flag(/\b(?:you am|you is|you was|you has|you does|yous|I are|I is)\b/, 'agreement');
+    flag(/\b(?:am|are|is|was|were)\s+been\b/i, 'agreement');
+    flag(/n[’']ts\b/, 'agreement');
+    flag(/\b(?:are|is|am)\s+(?:can|could|will|would|should|must|cannot|do|does|did|don[’']t|doesn[’']t|didn[’']t|won[’']t|can[’']t|couldn[’']t|wouldn[’']t|shouldn[’']t)\b/i, 'verb after copula');
     flag(/\b(?:are|is|am)\s+(?:are|is|am)\b/i, 'doubled verb');
     flag(/\b(?:are|is)\s+(?:when|while|whenever)\b/i, 'clause after copula');
     flag(/(?:^|[^’'\w])i(?=[\s'’.,;:!?]|$)|\b(?:im|dont|doesnt|didnt|cant|wont|isnt|ive)\b/, 'informal spelling');
@@ -262,7 +275,7 @@
     if (f.mode === 'inline') {
       var s = finish(join(label, f.text));
       if (!check(s).length) return s;
-      f = asQuote(tidy(raw), false);
+      f = asQuote(normalise(tidy(raw)), false);
     }
     return finish(ql + ' ' + f.text);
   }

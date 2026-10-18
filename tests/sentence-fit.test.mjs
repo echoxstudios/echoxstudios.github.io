@@ -10,6 +10,20 @@ const R = 'If you could ask one thing, you would ask:';
 const T = 'The thing you most want to be told is this:';
 const cases = [
   [C, 'unhurried', 'complement', null, `${C} unhurried.`],
+  // Awkwardly put answers: repaired when safe, quoted when not, never shown ungrammatical.
+  [C, '- unhurried', 'complement', null, `${C} unhurried.`],
+  [C, '(held)', 'complement', null, `${C} held.`],
+  [C, 'i am been looked at', 'complement', null, `${C}, in your own words, “I am been looked at.”`],
+  [C, 'u make me feel like im enough', 'complement', null, `${C}, in your own words, “You make me feel like I’m enough.”`],
+  [C, 'am I allowed', 'complement', null, `${C}, in your own words, “Am I allowed?”`],
+  [C, "when i feel safe i can finally breathe and then everything else just falls away and i don't have to think", 'complement', null, `${C}, in your own words, “When I feel safe I can finally breathe and then everything else just falls away and I don’t have to think.”`],
+  [C, 'cant be rushed', 'complement', null, `${C}, in your own words, “Can’t be rushed.”`],
+  [C, '?', 'complement', null, null],
+  [R, '?', 'request', null, null],
+  [V, 'knowing when to stop', 'verb', VQ, `${VQ} “Knowing when to stop.”`],
+  [V, 'who sees me', 'verb', VQ, `${VQ} “Who sees me.”`],
+  [V, 'doesnt ask', 'verb', VQ, `${V} doesn’t ask.`],
+  [V, "isn't afraid of me", 'verb', VQ, `${V} isn't afraid of you.`],
   [C, 'Unhurried.', 'complement', null, `${C} unhurried.`],
   [C, 'I am unhurried', 'complement', null, `${C} unhurried.`],
   [C, "I'm like the last one awake in a quiet house", 'complement', null, `${C} like the last one awake in a quiet house.`],

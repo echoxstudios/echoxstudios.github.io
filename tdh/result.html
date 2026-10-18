@@ -62,7 +62,7 @@ const TOOLS = [
 
   try {
     for (const tool of TOOLS) {
-      const raw = localStorage.getItem(tool.prefix + norm);
+      const raw = localStorage.getItem(tool.prefix + norm) || sessionStorage.getItem(tool.prefix + norm);
       if (raw) {
         document.getElementById('msg').textContent = 'Result found. Redirecting\u2026';
         window.location.replace(tool.path + '?code=' + norm);
@@ -83,7 +83,8 @@ const TOOLS = [
   })).then(function (hits) {
     const hit = hits.find(Boolean);
     if (hit) {
-      try { localStorage.setItem(hit.tool.prefix + norm, JSON.stringify(hit.data)); } catch (e) { /* the tool page will say storage is blocked */ }
+      /* a result fetched by its code is held for this window only, not in the browser's permanent storage */
+      try { sessionStorage.setItem(hit.tool.prefix + norm, JSON.stringify(hit.data)); } catch (e) { /* the tool page will say storage is blocked */ }
       document.getElementById('msg').textContent = 'Result found. Redirecting\u2026';
       window.location.replace(hit.tool.path + '?code=' + norm);
       return;

@@ -46,7 +46,7 @@ for (const tool of TOOLS) {
     assert.deepEqual(unnamed, []);
   });
 
-  await t(`${label}: refresh keeps the result (code in the address)`, async () => {
+  await t(`${label}: refresh keeps the result in this window (the code is not in the address)`, async () => {
     if (tool.n === 5) return;
     await p.call('Page.reload', {});
     await p.sleep(500);
