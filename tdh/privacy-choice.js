@@ -399,6 +399,58 @@
     }, 1500);
   });
 
+  /* One code for all tests: records are stored per tool and code, so one code can hold every test. Under a result's code, the person may
+     enter a code from another test; this result is then saved under that code too, and the code it had is removed. */
+  function installMerge() {
+    if (mode() !== 'remote') return;
+    var box = document.getElementById('code-box') || document.getElementById('res-code');
+    if (!box || !box.parentNode || document.getElementById('tdh-merge')) return;
+    var current = (box.textContent || '').trim().toUpperCase();
+    if (!/^[A-Z0-9]{12}$/.test(current)) return;
+    var host = document.createElement('details');
+    host.id = 'tdh-merge'; host.className = 'tdh-merge';
+    host.innerHTML = '<summary>One code for all your tests</summary>' +
+      '<p>Already have a code from another test? Enter it here. This result is then saved under that code as well, so one code opens all your tests.</p>' +
+      '<div class="tdh-merge-row"><input id="tdh-merge-code" maxlength="12" autocomplete="off" spellcheck="false" aria-label="A code you already have" placeholder="——————"> <button type="button" id="tdh-merge-go">Use this code</button></div>' +
+      '<p id="tdh-merge-msg" role="status"></p>';
+    var anchor = document.getElementById('tdh-code-where') || box;
+    anchor.parentNode.insertBefore(host, anchor.nextSibling);
+    function say(text, bad) { var m = document.getElementById('tdh-merge-msg'); m.textContent = text; m.className = bad ? 'bad' : 'ok'; }
+    document.getElementById('tdh-merge-go').addEventListener('click', function () {
+      var now = (box.textContent || '').trim().toUpperCase();
+      var next = document.getElementById('tdh-merge-code').value.trim().toUpperCase();
+      if (!/^[A-Z0-9]{12}$/.test(next)) { say('A code has twelve letters and numbers.', true); return; }
+      if (next === now) { say('This result already has that code.', true); return; }
+      var tool = null, i, k, m;
+      for (i = 0; i < localStorage.length; i++) { k = localStorage.key(i); m = k && k.match(/^tdh_t([1-7])_(.+)$/); if (m && m[2] === now) { tool = m[1]; break; } }
+      var record = tool ? localStorage.getItem('tdh_t' + tool + '_' + now) : null;
+      if (!record) { say('This result is no longer in this window, so it cannot be moved.', true); return; }
+      var data; try { data = JSON.parse(record); } catch (error) { say('This result could not be read.', true); return; }
+      fetch(WORKER + '/profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: next, tool: 't' + tool, data: data }) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return r.ok && b.saved !== false; }); })
+        .catch(function () { return false; })
+        .then(function (ok) {
+          if (!ok) { say('Could not save under that code. Nothing was changed.', true); return; }
+          localStorage.setItem('tdh_t' + tool + '_' + next, record);
+          localStorage.setItem('tdh_code_t' + tool, next);
+          localStorage.removeItem('tdh_t' + tool + '_' + now);
+          fetch(WORKER + '/profile?code=' + encodeURIComponent(now) + '&tool=t' + tool, { method: 'DELETE' }).catch(function () { /* the old record expires on its own */ });
+          box.textContent = next; window.savedCode = next;
+          var link = document.getElementById('share-url-text');
+          if (link) link.textContent = link.textContent.split(now).join(next);
+          say('Saved. This result and your other tests now open with the code ' + next + '. Keep it safe.', false);
+        });
+    });
+  }
+  if (typeof MutationObserver !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', function () {
+      var box = document.getElementById('code-box') || document.getElementById('res-code');
+      if (!box) return;
+      new MutationObserver(installMerge).observe(box, { childList: true, characterData: true, subtree: true, attributes: true });
+      installMerge();
+    });
+  }
+
   function codeWhereNote() {
     var box = document.getElementById('code-box') || document.getElementById('res-code');
     if (!box || !box.parentNode) return;

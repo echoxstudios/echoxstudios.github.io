@@ -69,6 +69,7 @@ export async function launch() {
           if (mock.profileMode === 'limited') return respond(p, 429, { error: 'slow down' });
           const key = (t, c) => t + c;
           if (method === 'POST') { const b = JSON.parse(p.request.postData || '{}'); if (!b.privacy) return respond(p, 403, { error: 'consent required' }); mock.profiles.set(key(b.tool, b.code), b.data); return respond(p, 200, { saved: true }); }
+          if (method === 'DELETE') { mock.profiles.delete(key(u.searchParams.get('tool'), u.searchParams.get('code'))); return respond(p, 200, { deleted: true }); }
           if (method === 'GET') { const d = mock.profiles.get(key(u.searchParams.get('tool'), u.searchParams.get('code'))); return d ? respond(p, 200, { found: true, data: d }) : respond(p, 404, { found: false }); }
         }
         if (host.startsWith('tdh-mail')) {
