@@ -34,7 +34,7 @@ const test = (name, fn) => { fn(); passed++; console.log('ok  ' + name); };
 
 // ---------- Tool 1: trigger gradient ----------
 {
-  const { ctx, api } = load('tool-1-trigger-gradient.html', ['const QUESTIONS = [', 'const MEANING_IDS = {', 'function computeGradient(']);
+  const { ctx, api } = load('tool-1-trigger-gradient.html', ['const QUESTIONS = [', 'const MEANING_IDS = {', 'function sharesOf(', 'function computeGradient(', 'function computeCounted(', 'function meaningShare(']);
   const Q = api.QUESTIONS, chans = ['V', 'E', 'T', 'I'];
   test('tool 1: every channel has items and ids are unique', () => {
     chans.forEach(c => assert.ok(Q.filter(q => q.ch === c).length >= 3, c));
@@ -154,7 +154,7 @@ const test = (name, fn) => { fn(); passed++; console.log('ok  ' + name); };
 // ---------- Cross-cutting: monotonicity, invalid input, and a golden snapshot ----------
 import crypto from 'node:crypto';
 {
-  const t1 = load('tool-1-trigger-gradient.html', ['const QUESTIONS = [', 'const MEANING_IDS = {', 'function computeGradient(']).api;
+  const t1 = load('tool-1-trigger-gradient.html', ['const QUESTIONS = [', 'const MEANING_IDS = {', 'function sharesOf(', 'function computeGradient(', 'function computeCounted(', 'function meaningShare(']).api;
   const t3 = load('tool-3-attachment-confirmation.html', ['const QUESTIONS = [', 'function computeScores(']).api;
   const base1 = Object.fromEntries(t1.QUESTIONS.map(q => [q.id, 4]));
   test('tool 1: raising an item that belongs to a channel never lowers that channel (monotonic)', () => {
@@ -213,7 +213,7 @@ import crypto from 'node:crypto';
 
 // ---------- Tool 1: the optional "matters for what it means" box ----------
 {
-  const t1 = load('tool-1-trigger-gradient.html', ['const QUESTIONS = [', 'const MEANING_IDS = {', 'function computeGradient(']).api;
+  const t1 = load('tool-1-trigger-gradient.html', ['const QUESTIONS = [', 'const MEANING_IDS = {', 'function sharesOf(', 'function computeGradient(', 'function computeCounted(', 'function meaningShare(']).api;
   const base = Object.fromEntries(t1.QUESTIONS.map(q => [q.id, 4]));
   test('meaning box: only non-reversed touch, sight and connection statements offer it', () => {
     const ids = Object.keys(t1.MEANING_IDS);
@@ -227,12 +227,13 @@ import crypto from 'node:crypto';
     const r = rng(5);
     for (let n = 0; n < 200; n++) {
       const resp = Object.fromEntries(t1.QUESTIONS.map(q => [q.id, 1 + Math.floor(r() * 7)]));
-      assert.deepEqual(JSON.parse(JSON.stringify(t1.computeGradient(resp, {}))), JSON.parse(JSON.stringify(t1.computeGradient(resp))));
+      assert.deepEqual(JSON.parse(JSON.stringify(t1.computeCounted(resp, {}))), JSON.parse(JSON.stringify(t1.computeGradient(resp))));
     }
   });
-  test('meaning box: a ticked touch statement moves its points from Tactile to Intellectual', () => {
+  test('meaning box: ticking never changes the gradient as answered; the counted reading moves the points', () => {
     const resp = { ...base, T3: 7 };
-    const plain = t1.computeGradient(resp), ticked = t1.computeGradient(resp, { T3: true });
+    const plain = t1.computeGradient(resp), ticked = t1.computeCounted(resp, { T3: true });
+    assert.deepEqual(JSON.parse(JSON.stringify(t1.computeGradient(resp, { T3: true }))), JSON.parse(JSON.stringify(plain)), 'plain ignores ticks');
     assert.ok(ticked.I > plain.I, 'Intellectual rises');
     assert.ok(ticked.T < plain.T, 'Tactile falls');
     assert.equal(ticked.V + ticked.E + ticked.T + ticked.I, 100);
@@ -242,10 +243,17 @@ import crypto from 'node:crypto';
     for (let n = 0; n < 200; n++) {
       const resp = Object.fromEntries(t1.QUESTIONS.map(q => [q.id, 1 + Math.floor(r() * 7)]));
       const all = Object.fromEntries(Object.keys(t1.MEANING_IDS).map(id => [id, true]));
-      assert.ok(t1.computeGradient(resp, all).I >= t1.computeGradient(resp).I);
+      assert.ok(t1.computeCounted(resp, all).I >= t1.computeGradient(resp).I);
     }
     const resp = { ...base, T4: 2, V5: 6, E3: 1, I1: 7, E1: 7, E5: 7 };
-    assert.deepEqual(JSON.parse(JSON.stringify(t1.computeGradient(resp, { T4: true, V5: true, E3: true, I1: true, E1: true, E5: true }))), JSON.parse(JSON.stringify(t1.computeGradient(resp))));
+    assert.deepEqual(JSON.parse(JSON.stringify(t1.computeCounted(resp, { T4: true, V5: true, E3: true, I1: true, E1: true, E5: true }))), JSON.parse(JSON.stringify(t1.computeGradient(resp))));
+  });
+  test('meaning box: the share of each channel that reached the person as meaning', () => {
+    const resp = { ...base, T1: 7, T2: 7, T3: 7, T5: 7, T6: 7 };
+    const all = Object.fromEntries(Object.keys(t1.MEANING_IDS).map(id => [id, true]));
+    const s = t1.meaningShare(resp, all);
+    assert.equal(s.T, 90, "five marked statements of 7 points, one unmarked reversed statement of 4"); assert.ok(s.V <= 100 && s.E <= 100);
+    assert.equal(t1.meaningShare(resp, {}).T, 0);
   });
 }
 

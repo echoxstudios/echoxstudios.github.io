@@ -42,11 +42,13 @@ await t('the box is offered on exactly 13 statements and nothing changes when it
   assert.equal(plain.pct.V + plain.pct.E + plain.pct.T + plain.pct.I, 100);
   await c.dispose();
 });
-await t('ticking moves points to Intellectual and the result says so', async () => {
+await t('ticking leaves the gradient as answered and adds a second reading, and the result says so', async () => {
   tickedCtx = await b.context(); tickedPage = await tickedCtx.page(T1);
   ticked = await run(tickedPage, { tick: true });
-  assert.ok(ticked.pct.I > plain.pct.I, `Intellectual ${ticked.pct.I}% should exceed ${plain.pct.I}%`);
-  assert.ok(ticked.pct.T < plain.pct.T && ticked.pct.V < plain.pct.V, 'Tactile and Visual fall');
+  assert.equal(ticked.pct.V + ticked.pct.E + ticked.pct.T + ticked.pct.I, 100);
+  assert.ok(ticked.pct.T > 5 && ticked.pct.V > 5, 'Tactile and Visual are not emptied by ticking');
+  assert.equal(await tickedPage.evaluate(`document.getElementById('gl-legend').classList.contains('show')`), true, 'legend shows the second reading');
+  assert.ok((await tickedPage.evaluate(`parseInt(document.getElementById('barc-I').style.width)`)) > ticked.pct.I, 'counted Intellectual exceeds the answered one');
   assert.match(await tickedPage.text('.meaning-note'), /You marked 13 statements/);
   assert.deepEqual(tickedPage.errors, []);
 });
