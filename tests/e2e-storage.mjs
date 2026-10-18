@@ -1,4 +1,4 @@
-// The three storage choices at the privacy gate (recommended / limited / nothing saved), in a real browser against mocked workers.
+// The two storage choices at the privacy gate (recommended / nothing saved), in a real browser against mocked workers.
 // Run: node tests/e2e-storage.mjs
 import assert from 'node:assert/strict';
 import { launch, CHROME } from './lib/browser.mjs';
@@ -25,15 +25,15 @@ async function choose(mode, mock) {
   return { c, p };
 }
 
-await t('the gate offers Recommended, Limited and Nothing, each with the read-here explainer where it matters', async () => {
+await t('the gate offers Access code and No access code, with the read-here explainer on Nothing', async () => {
   const c = await b.context({ seed: blank }); const p = await c.page(tool.file);
   await p.waitFor(`!!document.querySelector('.tdh-choice-grid')`, 8000);
   const labels = await p.evaluate(`[...document.querySelectorAll('.tdh-choice-button')].map(x => x.getAttribute('data-mode') + '|' + x.textContent)`);
-  assert.deepEqual(labels.map(x => x.split('|')[0]), ['remote', 'local', 'none']);
-  assert.match(labels[0], /Recommended/); assert.match(labels[1], /Limited access/); assert.match(labels[2], /Nothing saved/);
+  assert.deepEqual(labels.map(x => x.split('|')[0]), ['remote', 'none']);
+  assert.match(labels[0], /Access code/); assert.match(labels[1], /No access code/);
   assert.match(await p.text('.tdh-privacy-panel'), /any device and browser/);
   assert.match(await p.text('.tdh-privacy-panel'), /no way for you to come back to this result after the window is closed/);
-  assert.equal(await p.evaluate(`document.querySelectorAll('.tdh-choice-note a[href*="tdh-storage-difference"]').length`), 2);
+  assert.equal(await p.evaluate(`document.querySelectorAll('.tdh-choice-note a[href*="tdh-storage-difference"]').length`), 1);
   assert.equal(await p.evaluate(`[...document.querySelectorAll('.tdh-choice-button')].every(x => x.disabled)`), true);
   await c.dispose();
 });
@@ -43,14 +43,6 @@ await t('Recommended: saved under the code, works anywhere, and the note says so
   assert.equal(c.mock.profiles.size, 1);
   assert.match(await p.text('#tdh-code-where'), /works on any device and browser/);
   assert.ok(await p.evaluate(`Object.keys(${REAL}).some(k => k.startsWith('tdh_t1_'))`), 'also kept locally');
-  await c.dispose();
-});
-
-await t('Limited: kept in this browser only, nothing sent to the profile service, and the note says so', async () => {
-  const { c, p } = await choose('local');
-  assert.equal(c.mock.profiles.size, 0);
-  assert.match(await p.text('#tdh-code-where'), /only in this browser on this device/);
-  assert.ok(await p.evaluate(`Object.keys(${REAL}).some(k => k.startsWith('tdh_t1_'))`));
   await c.dispose();
 });
 
