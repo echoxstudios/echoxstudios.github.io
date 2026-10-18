@@ -6,7 +6,7 @@ repository's audit checks the sales material against the same table. Change this
 
 | Topic | Required public truth | Status |
 | :-- | :-- | :-- |
-| Result storage | The visitor chooses at the gate, with no pre-ticked box: either the result is saved under a random 12-character code so the code works on any device (recommended; saving is the visitor's explicit consent), or it stays in the browser on this device only and the code works only there (limited access), or nothing is saved at all, not even on the device, and the result is gone when the window closes (nothing saved). | Live |
+| Result storage | The visitor chooses at the gate, with no pre-ticked box: either the result is saved under a random 12-character code so the code works on any device (recommended; saving is the visitor's explicit consent), or nothing is saved at all, not even on the device, and the result is gone when the window closes (nothing saved). | Live |
 | Research data | Anonymous aggregate counters only: tool, dimension, 10-point bucket, calendar month. No profile, e-mail, IP address, device identifier, free text, demographic or per-person record. | Live since 2026-10-03 |
 | Which tools contribute | Tools 1, 2, 3, 4 and 6. Tools 5 and 7 (free-text protocols) never contribute. A result opened from a link or a code never contributes. The Translation Studio (the companion for two) makes no network request, stores nothing and never contributes; the optional reflection questions in tools 2 and 3 are neither scored, saved nor sent. | Live |
 | Contribution rule | At most once per tool per device per month (in the nothing-saved choice the device cannot remember, so at most once per tool per window), as a stated term of use, shown before first use, with a separate required checkbox agreeing that the anonymous counters may be stored without a time limit and used for research, cultural-science work, publication and sharing. Automated browsers never contribute. | Live |
@@ -19,7 +19,7 @@ repository's audit checks the sales material against the same table. Change this
 | Ratings | No ratings, reader scores or review scores are published anywhere. | Always |
 
 ## Scoring note (tool 1)
-From 2026-10-02 tool 1 offers an optional box on 13 statements ("what matters is what it means"). A ticked statement counts toward Intellectual. Unticked scoring is unchanged. The research counters carry the resulting channel percentages; the test row recorded on 2026-10-02 predates the box and used plain scoring.
+From 2026-10-02 tool 1 offers an optional box on 13 statements ("what matters is what it means"). Ticking never changes the gradient as answered; it adds a second reading in which ticked statements count toward Intellectual. The research counters carry the channel percentages as answered; the test row recorded on 2026-10-02 predates the box and used plain scoring.
 
 ## Receipt shown on the result screen
 
