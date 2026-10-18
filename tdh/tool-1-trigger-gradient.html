@@ -205,14 +205,6 @@
   .meaning-label input:checked, .eg-box.on { background: rgba(212,169,62,0.22); border-color: var(--gold); }
   .meaning-label input:checked::after, .eg-box.on::after { content: ''; width: 0.55rem; height: 0.3rem; border-left: 2px solid var(--gold); border-bottom: 2px solid var(--gold); transform: rotate(-45deg) translate(1px,-1px); }
   .meaning-label input:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-  .eg { margin: 1.6rem 0 0; padding: 1rem; border: 1px solid var(--rule); }
-  .eg-cap { font-family: 'Inconsolata', monospace; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.7rem; }
-  .eg-q { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 1.05rem; line-height: 1.5; color: var(--off-white); }
-  .eg-scale { display: flex; gap: 0.3rem; margin: 0.8rem 0; }
-  .eg-scale span { flex: 1; text-align: center; padding: 0.3rem 0; border: 1px solid var(--rule); border-radius: 1rem; font-family: 'Inconsolata', monospace; font-size: 0.75rem; color: var(--muted); }
-  .eg-scale span.pick { border-color: var(--gold); color: var(--gold); }
-  .eg-opt { display: flex; gap: 0.7rem; align-items: center; font-size: 0.95rem; color: var(--text); }
-  .eg-note { margin-top: 0.8rem; font-size: 0.9rem; line-height: 1.55; color: var(--muted); }
   .meaning-note { margin-top: 0.9rem; font-style: italic; color: var(--muted); }
   .req-msg {
     font-family: 'Inconsolata', monospace;
@@ -255,6 +247,11 @@
     position: relative;
   }
   .bar-fill { height: 100%; background: var(--gold); width: 0; transition: width 0.9s ease; }
+  .bar-counted { position: absolute; left: 0; top: 7px; height: 3px; background: #b86b86; width: 0; transition: width 0.9s ease; }
+  .bar-track.has-counted { margin-bottom: 8px; }
+  .gl-legend { display: none; gap: 1.2rem; flex-wrap: wrap; margin: 0.9rem 0 0; font-family: 'Inconsolata', monospace; font-size: 0.72rem; color: var(--text); }
+  .gl-legend.show { display: flex; }
+  .gl-legend i { display: inline-block; width: 1.1rem; height: 3px; margin-right: 0.45rem; vertical-align: middle; }
   .bar-pct {
     font-family: 'Inconsolata', monospace;
     font-size: 0.75rem; color: var(--gold);
@@ -468,7 +465,7 @@
   .retake-link:hover { color:var(--gold); }
 
 </style>
-  <link rel="stylesheet" href="type.css?v=20261022"/>
+  <link rel="stylesheet" href="type.css?v=20261025"/>
 </head>
 <body>
 
@@ -499,14 +496,6 @@
 
   <div class="intro-body">
     <p>Answer each statement on a scale of 1 to 7, where 1 is <em>strongly disagree</em> and 7 is <em>strongly agree</em>. Answer for yourself as you are, not as you think you should be.</p>
-  </div>
-
-  <div class="eg" role="group" aria-label="Example of the optional box">
-    <p class="eg-cap">Example</p>
-    <p class="eg-q">The specific way someone touches me matters more to my desire than how they look.</p>
-    <div class="eg-scale" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span class="pick">5</span><span>6</span><span>7</span></div>
-    <div class="eg-opt"><span class="eg-box on" aria-hidden="true"></span><span>The meaning, not the touch</span></div>
-    <p class="eg-note">Some statements show this optional box. Tick it if what matters is the meaning, not the sensation or the sight. That statement then counts toward Intellectual.</p>
   </div>
 
   <button class="btn-primary" id="btn-start">Begin</button>
@@ -576,16 +565,17 @@
     <svg id="petal-svg" viewBox="-72 0 452 320" width="320" height="280" style="max-width:100%">
       <!-- axes + rings drawn by JS -->
     </svg>
+    <div class="gl-legend" id="gl-legend"><span><i style="background:#d4a93e"></i>As you answered</span><span><i style="background:#b86b86"></i>Marks counted as meaning</span></div>
     <div style="margin-top:0.75rem;display:flex;align-items:center;gap:0.6rem">
       <button id="btn-toggle-cohort" type="button" style="font-family:'Inconsolata',monospace;font-size: 0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-dim);background:rgba(212,169,62,0.06);border:1px solid var(--rule);padding:0.35rem 0.75rem;cursor:pointer;border-radius:2px;transition:all 0.2s">Show Framework Reference Overlay</button>
-      <span id="cohort-badge" style="display:none;font-family:'Inconsolata',monospace;font-size: 0.7rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase">Reference: I30 · E25 · T24 · V20</span>
+      <span id="cohort-badge" style="display:none;font-family:'Inconsolata',monospace;font-size: 0.7rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase">Reference: I38 · E30 · T19 · V13</span>
     </div>
   </div>
 
-  <div class="bar-row"><span class="bar-lbl">Visual</span><div class="bar-track"><div class="bar-fill" id="bar-V"></div></div><span class="bar-pct" id="pct-V"></span></div>
-  <div class="bar-row"><span class="bar-lbl">Emotional</span><div class="bar-track"><div class="bar-fill" id="bar-E"></div></div><span class="bar-pct" id="pct-E"></span></div>
-  <div class="bar-row"><span class="bar-lbl">Tactile</span><div class="bar-track"><div class="bar-fill" id="bar-T"></div></div><span class="bar-pct" id="pct-T"></span></div>
-  <div class="bar-row"><span class="bar-lbl">Intellectual</span><div class="bar-track"><div class="bar-fill" id="bar-I"></div></div><span class="bar-pct" id="pct-I"></span></div>
+  <div class="bar-row"><span class="bar-lbl">Visual</span><div class="bar-track"><div class="bar-fill" id="bar-V"></div><div class="bar-counted" id="barc-V"></div></div><span class="bar-pct" id="pct-V"></span></div>
+  <div class="bar-row"><span class="bar-lbl">Emotional</span><div class="bar-track"><div class="bar-fill" id="bar-E"></div><div class="bar-counted" id="barc-E"></div></div><span class="bar-pct" id="pct-E"></span></div>
+  <div class="bar-row"><span class="bar-lbl">Tactile</span><div class="bar-track"><div class="bar-fill" id="bar-T"></div><div class="bar-counted" id="barc-T"></div></div><span class="bar-pct" id="pct-T"></span></div>
+  <div class="bar-row"><span class="bar-lbl">Intellectual</span><div class="bar-track"><div class="bar-fill" id="bar-I"></div><div class="bar-counted" id="barc-I"></div></div><span class="bar-pct" id="pct-I"></span></div>
 
   <hr class="rule">
 
@@ -819,15 +809,7 @@ function hide(id)  { document.getElementById(id).style.display = 'none'; }
 // SCORING
 // ══════════════════════════════════════════════
 
-function computeGradient(resp, meant) {
-  const raw = { V:0, E:0, T:0, I:0 };
-  meant = meant || {};
-  QUESTIONS.forEach(q => {
-    const r = resp[q.id] || 4;
-    // a statement marked as mattering for its meaning counts toward Intellectual (never a reversed one)
-    const ch = (meant[q.id] && !q.rev && MEANING_IDS[q.id]) ? 'I' : q.ch;
-    raw[ch] += q.rev ? (8 - r) : r;
-  });
+function sharesOf(raw) {
   const total = raw.V + raw.E + raw.T + raw.I;
   let pct = { V:0, E:0, T:0, I:0 };
   ['V','E','T','I'].forEach(ch => { pct[ch] = Math.round(raw[ch] / total * 100); });
@@ -838,6 +820,41 @@ function computeGradient(resp, meant) {
     pct[largest] += diff;
   }
   return pct;
+}
+
+// The gradient as answered: every statement counts toward its own channel, ticked or not.
+function computeGradient(resp) {
+  const raw = { V:0, E:0, T:0, I:0 };
+  QUESTIONS.forEach(q => {
+    const r = resp[q.id] || 4;
+    raw[q.ch] += q.rev ? (8 - r) : r;
+  });
+  return sharesOf(raw);
+}
+
+// The second reading: a statement marked as mattering for its meaning counts toward Intellectual (never a reversed one).
+function computeCounted(resp, meant) {
+  const raw = { V:0, E:0, T:0, I:0 };
+  meant = meant || {};
+  QUESTIONS.forEach(q => {
+    const r = resp[q.id] || 4;
+    const ch = (meant[q.id] && !q.rev && MEANING_IDS[q.id]) ? 'I' : q.ch;
+    raw[ch] += q.rev ? (8 - r) : r;
+  });
+  return sharesOf(raw);
+}
+
+// Of each channel's points, the share that came from statements marked as mattering for meaning.
+function meaningShare(resp, meant) {
+  const all = { V:0, E:0, T:0 }, marked = { V:0, E:0, T:0 };
+  meant = meant || {};
+  QUESTIONS.forEach(q => {
+    if (q.ch === 'I') return;
+    const r = resp[q.id] || 4, pts = q.rev ? (8 - r) : r;
+    all[q.ch] += pts;
+    if (meant[q.id] && !q.rev && MEANING_IDS[q.id]) marked[q.ch] += pts;
+  });
+  return { V: Math.round(marked.V / all.V * 100), E: Math.round(marked.E / all.E * 100), T: Math.round(marked.T / all.T * 100) };
 }
 
 // ══════════════════════════════════════════════
@@ -1009,7 +1026,8 @@ function drawPetal(pct) {
     svg.appendChild(t);
   });
 
-  var maxVal = Math.max(pct.V, pct.E, pct.T, pct.I, showCohortOverlay ? Math.max(cohortAverages.V, cohortAverages.E, cohortAverages.T, cohortAverages.I) : 0, 1);
+  var counted = window.__countedPct || null;
+  var maxVal = Math.max(pct.V, pct.E, pct.T, pct.I, counted ? Math.max(counted.V, counted.E, counted.T, counted.I) : 0, showCohortOverlay ? Math.max(cohortAverages.V, cohortAverages.E, cohortAverages.T, cohortAverages.I) : 0, 1);
   var scale = R / Math.max(maxVal, 50);
 
   // Optional Cohort Ghost Polygon
@@ -1029,6 +1047,25 @@ function drawPetal(pct) {
       var c = document.createElementNS(svgNS, 'circle');
       c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', '2.5');
       c.setAttribute('fill', 'rgba(184,150,62,0.8)');
+      svg.appendChild(c);
+    });
+  }
+
+  // Second reading beneath the gold: the same answers with the marks counted as meaning
+  if (counted) {
+    var cPts = axes.map(function(ax){ var p = pt(ax.ang, counted[ax.k] * scale); return p[0]+','+p[1]; }).join(' ');
+    var cPoly = document.createElementNS(svgNS, 'polygon');
+    cPoly.setAttribute('points', cPts);
+    cPoly.setAttribute('fill', 'rgba(184,107,134,0.22)');
+    cPoly.setAttribute('stroke', '#b86b86');
+    cPoly.setAttribute('stroke-width', '2');
+    cPoly.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(cPoly);
+    axes.forEach(function(ax) {
+      var p = pt(ax.ang, counted[ax.k] * scale);
+      var c = document.createElementNS(svgNS, 'circle');
+      c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', '3.5');
+      c.setAttribute('fill', '#b86b86');
       svg.appendChild(c);
     });
   }
@@ -1071,7 +1108,10 @@ function showResults(pct) {
         document.getElementById('bar-' + ch).style.width  = pct[ch] + '%';
         document.getElementById('pct-' + ch).textContent  = pct[ch] + '%';
         document.getElementById('cmp-' + ch).style.width  = pct[ch] + '%';
+        var cb = document.getElementById('barc-' + ch), cp = window.__countedPct;
+        if (cb) { cb.style.width = cp ? cp[ch] + '%' : '0'; cb.parentNode.classList.toggle('has-counted', !!cp); }
       });
+      var lg = document.getElementById('gl-legend'); if (lg) lg.classList.toggle('show', !!window.__countedPct);
       drawPetal(pct);
     });
   });
@@ -1079,9 +1119,11 @@ function showResults(pct) {
   var __mm = window.__t1Meaning || [];
   var __html = buildInterpretation(pct);
   if (__mm.length) {
-    var __pl = window.__plainPct, __note = '<p class="meaning-note">You marked ' + __mm.length + (__mm.length === 1 ? ' statement' : ' statements') +
-      ' as mattering for meaning, so ' + (__mm.length === 1 ? 'its points are' : 'their points are') + ' counted under Intellectual; Visual, Tactile and Emotional read lower for that reason.' +
-      (__pl ? ' Counted without your marks: Visual ' + __pl.V + '%, Emotional ' + __pl.E + '%, Tactile ' + __pl.T + '%, Intellectual ' + __pl.I + '%.' : '') + '</p>';
+    var __cp = window.__countedPct, __ms = window.__meaningShare;
+    var __note = '<p class="meaning-note">You marked ' + __mm.length + (__mm.length === 1 ? ' statement' : ' statements') + ' as mattering for meaning, not for the sensation or the sight itself. ' +
+      'The gold shape shows your answers as given; nothing was moved.' +
+      (__ms ? ' Of your points in each channel, this much reached you as meaning: Visual ' + __ms.V + '%, Emotional ' + __ms.E + '%, Tactile ' + __ms.T + '%.' : '') +
+      (__cp ? ' The rose shape shows how the gradient reads if those marks are counted as Intellectual: Visual ' + __cp.V + '%, Emotional ' + __cp.E + '%, Tactile ' + __cp.T + '%, Intellectual ' + __cp.I + '%.' : '') + '</p>';
     var __i = __html.indexOf('</p>') + 4;
     __html = __html.slice(0, __i) + __note + __html.slice(__i);
   }
@@ -1103,6 +1145,7 @@ function tryRetrieve(code) {
       savedCode = code;
       hide('view-intro');
       window.__t1Meaning = Array.isArray(data.meaning) ? data.meaning.filter(id => MEANING_IDS[id]) : [];
+      window.__countedPct = data.counted || null; window.__meaningShare = data.share || null;
       showResults(data.pct || data.result);
       // Mark as already saved
       requestAnimationFrame(() => {
@@ -1378,9 +1421,10 @@ document.getElementById('btn-next').addEventListener('click', () => {
     window.scrollTo({ top: 0 });
   } else {
     // Final question — show demographic gate before result
-    window.__pendingPct = computeGradient(responses, meaning);
+    window.__pendingPct = computeGradient(responses);
     window.__t1Meaning = Object.keys(meaning).filter(id => meaning[id] && MEANING_IDS[id]);
-    window.__plainPct = computeGradient(responses, {});
+    window.__countedPct = window.__t1Meaning.length ? computeCounted(responses, meaning) : null;
+    window.__meaningShare = window.__t1Meaning.length ? meaningShare(responses, meaning) : null;
     hide('view-survey');
     document.getElementById('view-gate').style.display = 'block';
     window.scrollTo({ top: 0 });
@@ -1423,7 +1467,7 @@ document.getElementById('btn-reveal').addEventListener('click', function() {
     window.savedCode = code;
     var result = window.__lastResult || {};
     if (window.TDHResearch) TDHResearch.submit(1, result);
-    var _t1obj = { ts: Date.now(), result: result, meaning: window.__t1Meaning || [] };
+    var _t1obj = { ts: Date.now(), result: result, meaning: window.__t1Meaning || [], counted: window.__countedPct || null, share: window.__meaningShare || null };
     try { localStorage.setItem('tdh_t1_' + code, JSON.stringify(_t1obj)); } catch(e) {}
     try { await saveToProfile(code, 't1', _t1obj); } catch(e) {}
     var box = document.getElementById('code-box');
@@ -1494,7 +1538,7 @@ document.getElementById('btn-reveal').addEventListener('click', function() {
 
       var resultPart = '<p style="font-family:monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4a93e;margin:0 0 2px">Your trigger gradient</p>'
         + barsTable
-        + ((window.__t1Meaning || []).length ? '<p style="font-family:Georgia,serif;font-size:13px;color:#a09890;margin:6px 0 0">' + (window.__t1Meaning || []).length + ' of your answers were marked as mattering mainly for what they mean, and are counted under Intellectual.</p>' : '');
+        + ((window.__t1Meaning || []).length ? '<p style="font-family:Georgia,serif;font-size:13px;color:#a09890;margin:6px 0 0">' + (window.__t1Meaning || []).length + ' of your answers were marked as mattering for what they mean. Your gradient above is as you answered; nothing was moved.</p>' : '');
 
       var _emailCode = window.savedCode || '';
       var codePart = '<p style="font-family:monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4a93e;margin:0 0 6px">Your code for this test</p>'
