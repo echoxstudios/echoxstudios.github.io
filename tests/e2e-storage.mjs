@@ -25,12 +25,12 @@ async function choose(mode, mock) {
   return { c, p };
 }
 
-await t('the gate offers Access code and No access code, with the read-here explainer on Nothing', async () => {
+await t('the gate offers Yes, I want a code and No, full privacy, with the read-here explainer on Nothing', async () => {
   const c = await b.context({ seed: blank }); const p = await c.page(tool.file);
   await p.waitFor(`!!document.querySelector('.tdh-choice-grid')`, 8000);
   const labels = await p.evaluate(`[...document.querySelectorAll('.tdh-choice-button')].map(x => x.getAttribute('data-mode') + '|' + x.textContent)`);
   assert.deepEqual(labels.map(x => x.split('|')[0]), ['remote', 'none']);
-  assert.match(labels[0], /Access code/); assert.match(labels[1], /No access code/);
+  assert.match(labels[0], /Yes, I want a code/); assert.match(labels[1], /No, full privacy/);
   assert.match(await p.text('.tdh-privacy-panel'), /any device and browser/);
   assert.match(await p.text('.tdh-privacy-panel'), /no way for you to come back to this result after the window is closed/);
   assert.equal(await p.evaluate(`document.querySelectorAll('.tdh-choice-note a[href*="tdh-storage-difference"]').length`), 1);
