@@ -10,7 +10,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="privacy-choice.css?v=20261017">
 <link rel="stylesheet" href="a11y.css?v=20261002">
-<script src="privacy-choice.js?v=20261030"></script>
+<script src="privacy-choice.js?v=20261034"></script>
 <meta name="description" content="Explore sensitivity, direction, history, and specificity of confirmation through The Dark Hierarchy interactive system."/>
 <link rel="canonical" href="https://echoxstudios.art/tdh/tool-3-attachment-confirmation.html"/>
 <meta property="og:type" content="website"/><meta property="og:site_name" content="ECHOx"/>
@@ -886,7 +886,7 @@ function showResults(sc) {
   vr.style.display = 'block';
   const shareURL = makeShareURL(sc);
   document.getElementById('share-url-text').textContent = shareURL;
-  try { history.replaceState(null, '', shareURL); } catch(x) {}
+  /* the share link is shown on the page; it is not written into the address bar */
 
   requestAnimationFrame(() => requestAnimationFrame(() => {
     document.getElementById('bar-A').style.width = sc.A + '%';
@@ -1119,7 +1119,7 @@ document.getElementById('btn-next').addEventListener('click', () => {
       return;
     }
     // 2. Stored result by code (?code=)
-    const code = (new URLSearchParams(window.location.search)).get('code');
+    const code = (new URLSearchParams(window.location.search)).get('code') || sessionStorage.getItem('tdh_code_t3');
     if (code && (code.length === 6 || code.length === 12)) {
       const stored = localStorage.getItem('tdh_t3_' + code.toUpperCase());
       if (stored) {
@@ -1154,11 +1154,7 @@ document.getElementById('btn-next').addEventListener('click', () => {
     try { await saveToProfile(code, 't3', _t3obj); } catch(e) {}
     var box = document.getElementById('code-box');
     if (box) { box.textContent = code; box.classList.add('show'); }
-    try {
-      var u = new URL(window.location.href);
-      u.searchParams.set('code', code);
-      history.replaceState(null, '', u.toString());
-    } catch(e) {}
+    /* the code is shown on the page only: it is kept out of the address bar and so out of the browser history */
   }
 
   (function attachSend() {

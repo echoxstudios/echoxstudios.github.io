@@ -42,7 +42,9 @@ await t('Recommended: saved under the code, works anywhere, and the note says so
   const { c, p } = await choose('remote');
   assert.equal(c.mock.profiles.size, 1);
   assert.match(await p.text('#tdh-code-where'), /works on any device and browser/);
-  assert.ok(await p.evaluate(`Object.keys(${REAL}).some(k => k.startsWith('tdh_t1_'))`), 'also kept locally');
+  assert.ok(!(await p.evaluate(`Object.keys(${REAL}).some(k => /^tdh_(t\\d_|code_t\\d)/.test(k))`)), 'nothing about the result is kept in the browser\'s permanent storage');
+  assert.ok(await p.evaluate(`Object.keys(sessionStorage).some(k => k.startsWith('tdh_t1_'))`), 'the result lives for this window only');
+  assert.equal(await p.evaluate(`location.search`), '', 'the code is not written into the address bar');
   await c.dispose();
 });
 
