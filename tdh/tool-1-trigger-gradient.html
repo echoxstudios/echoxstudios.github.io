@@ -247,11 +247,13 @@
     position: relative;
   }
   .bar-fill { height: 100%; background: var(--gold); width: 0; transition: width 0.9s ease; }
-  .bar-counted { position: absolute; left: 0; top: 7px; height: 3px; background: #b86b86; width: 0; transition: width 0.9s ease; }
-  .bar-track.has-counted { margin-bottom: 8px; }
-  .gl-legend { display: none; gap: 1.2rem; flex-wrap: wrap; margin: 0.9rem 0 0; font-family: 'Inconsolata', monospace; font-size: 0.72rem; color: var(--text); }
+  .bar-counted { position: absolute; left: 0; top: 0; height: 100%; background: rgba(201,128,154,0.55); width: 0; transition: width 0.9s ease; }
+  .bar-track.has-counted { height: 10px; }
+  .bar-track.has-counted .bar-fill { position: relative; opacity: 0.85; }
+  .gl-legend { display: none; gap: 0.4rem 1.4rem; flex-wrap: wrap; justify-content: center; margin: 0.6rem 0 0; font-family: 'Inconsolata', monospace; font-size: 0.78rem; line-height: 1.3; color: var(--text); }
+  .gl-legend span { display: inline-flex; align-items: center; }
   .gl-legend.show { display: flex; }
-  .gl-legend i { display: inline-block; width: 1.1rem; height: 3px; margin-right: 0.45rem; vertical-align: middle; }
+  .gl-legend i { display: inline-block; width: 1.1rem; height: 8px; border-radius: 2px; margin-right: 0.45rem; opacity: 0.8; }
   .bar-pct {
     font-family: 'Inconsolata', monospace;
     font-size: 0.75rem; color: var(--gold);
@@ -465,7 +467,7 @@
   .retake-link:hover { color:var(--gold); }
 
 </style>
-  <link rel="stylesheet" href="type.css?v=20261025"/>
+  <link rel="stylesheet" href="type.css?v=20261027"/>
 </head>
 <body>
 
@@ -562,7 +564,7 @@
   <p class="section-lbl">Your desire gradient</p>
 
   <div style="display:flex;flex-direction:column;align-items:center;margin:0.5rem 0 1.5rem">
-    <svg id="petal-svg" viewBox="-72 0 452 320" width="320" height="280" style="max-width:100%">
+    <svg id="petal-svg" viewBox="-4 34 408 312" width="100%" style="max-width:460px;display:block;margin:0 auto" role="img" aria-label="Your gradient across the four channels">
       <!-- axes + rings drawn by JS -->
     </svg>
     <div class="gl-legend" id="gl-legend"><span><i style="background:#d4a93e"></i>As you answered</span><span><i style="background:#b86b86"></i>Marks counted as meaning</span></div>
@@ -981,111 +983,71 @@ var cohortAverages = { V: 13, E: 30, T: 19, I: 38 }; // The author's own gradien
 function drawPetal(pct) {
   var svg = document.getElementById('petal-svg');
   if (!svg) return;
-  var cx = 160, cy = 160, R = 120;
+  var cx = 200, cy = 190, R = 126;
   var axes = [
     { k:'V', label:'Visual',       ang:-90 },
     { k:'E', label:'Emotional',    ang:0 },
     { k:'T', label:'Tactile',      ang:90 },
     { k:'I', label:'Intellectual', ang:180 }
   ];
-  function pt(ang, r) {
-    var a = ang * Math.PI / 180;
-    return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
-  }
   var svgNS = 'http://www.w3.org/2000/svg';
+  function pt(ang, r) { var a = ang * Math.PI / 180; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; }
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(svgNS, name);
+    Object.keys(attrs).forEach(function(k){ e.setAttribute(k, attrs[k]); });
+    (parent || svg).appendChild(e); return e;
+  }
+  // A soft closed blot through the four values: each value is a control point, so the shape stays inside its own corners.
+  function blot(vals, scale) {
+    var P = axes.map(function(ax){ return pt(ax.ang, Math.max(vals[ax.k] * scale, R * 0.16)); });
+    function mid(a, b) { return [(a[0]+b[0])/2, (a[1]+b[1])/2]; }
+    var m = P.map(function(q, n){ return mid(q, P[(n+1) % 4]); });
+    var d = 'M' + m[3][0] + ',' + m[3][1];
+    for (var n = 0; n < 4; n++) d += ' Q' + P[n][0] + ',' + P[n][1] + ' ' + m[n][0] + ',' + m[n][1];
+    return d + 'Z';
+  }
   svg.innerHTML = '';
-  // Rings
-  [0.25, 0.5, 0.75, 1].forEach(function(f) {
-    var poly = document.createElementNS(svgNS, 'polygon');
-    var pts = axes.map(function(ax){ var p = pt(ax.ang, R*f); return p[0]+','+p[1]; }).join(' ');
-    poly.setAttribute('points', pts);
-    poly.setAttribute('fill', 'none');
-    poly.setAttribute('stroke', 'rgba(212,169,62,0.15)');
-    poly.setAttribute('stroke-width', '1');
-    svg.appendChild(poly);
-  });
-  // Axis lines + labels
-  axes.forEach(function(ax) {
-    var p = pt(ax.ang, R);
-    var line = document.createElementNS(svgNS, 'line');
-    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
-    line.setAttribute('x2', p[0]); line.setAttribute('y2', p[1]);
-    line.setAttribute('stroke', 'rgba(212,169,62,0.2)');
-    line.setAttribute('stroke-width', '1');
-    svg.appendChild(line);
-    var lp = pt(ax.ang, R + (ax.ang === 0 || ax.ang === 180 ? 14 : 18));
-    var t = document.createElementNS(svgNS, 'text');
-    t.setAttribute('x', lp[0]); t.setAttribute('y', lp[1]);
-    t.setAttribute('fill', '#c8c3bb');
-    t.setAttribute('font-family', 'Inconsolata, monospace');
-    t.setAttribute('font-size', '11');
-    t.setAttribute('letter-spacing', '1');
-    t.setAttribute('text-anchor', ax.ang === 0 ? 'start' : ax.ang === 180 ? 'end' : 'middle');
-    t.setAttribute('dominant-baseline', 'middle');
-    t.textContent = ax.label.toUpperCase();
-    svg.appendChild(t);
-  });
 
   var counted = window.__countedPct || null;
-  var maxVal = Math.max(pct.V, pct.E, pct.T, pct.I, counted ? Math.max(counted.V, counted.E, counted.T, counted.I) : 0, showCohortOverlay ? Math.max(cohortAverages.V, cohortAverages.E, cohortAverages.T, cohortAverages.I) : 0, 1);
-  var scale = R / Math.max(maxVal, 50);
+  var top = Math.max(pct.V, pct.E, pct.T, pct.I, counted ? Math.max(counted.V, counted.E, counted.T, counted.I) : 0,
+                     showCohortOverlay ? Math.max(cohortAverages.V, cohortAverages.E, cohortAverages.T, cohortAverages.I) : 0);
+  var axisMax = Math.max(40, Math.ceil(top / 20) * 20);
+  var scale = R / axisMax;
 
-  // Optional Cohort Ghost Polygon
-  if (showCohortOverlay) {
-    var cohortPts = axes.map(function(ax){ var p = pt(ax.ang, cohortAverages[ax.k] * scale); return p[0]+','+p[1]; }).join(' ');
-    var cohortPoly = document.createElementNS(svgNS, 'polygon');
-    cohortPoly.setAttribute('points', cohortPts);
-    cohortPoly.setAttribute('fill', 'rgba(184,150,62,0.12)');
-    cohortPoly.setAttribute('stroke', 'rgba(184,150,62,0.6)');
-    cohortPoly.setAttribute('stroke-width', '1.5');
-    cohortPoly.setAttribute('stroke-dasharray', '4,3');
-    cohortPoly.setAttribute('stroke-linejoin', 'round');
-    svg.appendChild(cohortPoly);
+  var defs = el('defs', {});
+  var glow = el('filter', { id: 'petal-glow', x: '-30%', y: '-30%', width: '160%', height: '160%' }, defs);
+  el('feGaussianBlur', { stdDeviation: '5', result: 'b' }, glow);
+  var merge = el('feMerge', {}, glow); el('feMergeNode', { 'in': 'b' }, merge); el('feMergeNode', { 'in': 'SourceGraphic' }, merge);
 
-    axes.forEach(function(ax) {
-      var p = pt(ax.ang, cohortAverages[ax.k] * scale);
-      var c = document.createElementNS(svgNS, 'circle');
-      c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', '2.5');
-      c.setAttribute('fill', 'rgba(184,150,62,0.8)');
-      svg.appendChild(c);
-    });
-  }
-
-  // Second reading beneath the gold: the same answers with the marks counted as meaning
-  if (counted) {
-    var cPts = axes.map(function(ax){ var p = pt(ax.ang, counted[ax.k] * scale); return p[0]+','+p[1]; }).join(' ');
-    var cPoly = document.createElementNS(svgNS, 'polygon');
-    cPoly.setAttribute('points', cPts);
-    cPoly.setAttribute('fill', 'rgba(184,107,134,0.22)');
-    cPoly.setAttribute('stroke', '#b86b86');
-    cPoly.setAttribute('stroke-width', '2');
-    cPoly.setAttribute('stroke-linejoin', 'round');
-    svg.appendChild(cPoly);
-    axes.forEach(function(ax) {
-      var p = pt(ax.ang, counted[ax.k] * scale);
-      var c = document.createElementNS(svgNS, 'circle');
-      c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', '3.5');
-      c.setAttribute('fill', '#b86b86');
-      svg.appendChild(c);
-    });
-  }
-
-  // Data polygon — scale so the largest value reaches ~edge; use value/100 of R but min visible
-  var dataPts = axes.map(function(ax){ var p = pt(ax.ang, pct[ax.k] * scale); return p[0]+','+p[1]; }).join(' ');
-  var poly = document.createElementNS(svgNS, 'polygon');
-  poly.setAttribute('points', dataPts);
-  poly.setAttribute('fill', 'rgba(212,169,62,0.25)');
-  poly.setAttribute('stroke', '#d4a93e');
-  poly.setAttribute('stroke-width', '2');
-  poly.setAttribute('stroke-linejoin', 'round');
-  svg.appendChild(poly);
-  // Vertex dots
+  // Rings, with their values
+  [0.25, 0.5, 0.75, 1].forEach(function(f, n) {
+    el('polygon', { points: axes.map(function(ax){ var q = pt(ax.ang, R*f); return q[0]+','+q[1]; }).join(' '),
+      fill: 'none', stroke: 'rgba(212,169,62,' + (f === 1 ? '0.38' : '0.22') + ')', 'stroke-width': '1' });
+    var lp = pt(-90, R*f);
+    var t = el('text', { x: lp[0] + 5, y: lp[1] + 3, fill: '#c8c3bb', 'font-family': 'Inconsolata, monospace', 'font-size': '9', opacity: '0.85' });
+    t.textContent = Math.round(axisMax * f) + '%';
+  });
   axes.forEach(function(ax) {
-    var p = pt(ax.ang, pct[ax.k] * scale);
-    var c = document.createElementNS(svgNS, 'circle');
-    c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', '4');
-    c.setAttribute('fill', '#d4a93e');
-    svg.appendChild(c);
+    var q = pt(ax.ang, R);
+    el('line', { x1: cx, y1: cy, x2: q[0], y2: q[1], stroke: 'rgba(212,169,62,0.3)', 'stroke-width': '1' });
+    var side = ax.ang === 0 || ax.ang === 180;
+    var lp = pt(ax.ang, R + (side ? 0 : 18));
+    var t = el('text', { x: lp[0], y: side ? lp[1] - 16 : lp[1], fill: '#f0ece3', 'font-family': 'Inconsolata, monospace', 'font-size': '12', 'letter-spacing': '1.5',
+      'text-anchor': 'middle', 'dominant-baseline': 'middle' });
+    t.textContent = ax.label.toUpperCase();
+  });
+
+  if (showCohortOverlay) {
+    el('path', { d: blot(cohortAverages, scale), fill: 'rgba(240,236,227,0.06)', stroke: 'rgba(240,236,227,0.55)', 'stroke-width': '1.5', 'stroke-dasharray': '4,3', 'stroke-linejoin': 'round' });
+  }
+  // Two translucent blots laid over each other: the marks counted as meaning beneath, the answers as given above
+  if (counted) {
+    el('path', { d: blot(counted, scale), fill: 'rgba(184,107,134,0.38)', stroke: '#c9809a', 'stroke-width': '1.6', 'stroke-linejoin': 'round', filter: 'url(#petal-glow)' });
+  }
+  el('path', { d: blot(pct, scale), fill: 'rgba(212,169,62,0.38)', stroke: '#e0b648', 'stroke-width': '1.8', 'stroke-linejoin': 'round', filter: 'url(#petal-glow)' });
+  axes.forEach(function(ax) {
+    if (counted) { var c2 = pt(ax.ang, Math.max(counted[ax.k] * scale, R * 0.16)); el('circle', { cx: c2[0], cy: c2[1], r: '3.2', fill: '#c9809a' }); }
+    var c1 = pt(ax.ang, Math.max(pct[ax.k] * scale, R * 0.16)); el('circle', { cx: c1[0], cy: c1[1], r: '3.6', fill: '#e0b648' });
   });
 }
 
