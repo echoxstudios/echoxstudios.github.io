@@ -13,7 +13,7 @@
   var CONSENT_VERSION = '2026-07-15';
   var originalFetch = window.fetch.bind(window);
 
-  /* "Nothing saved" mode: everything the tools would keep in the browser goes to this window's session storage instead,
+  /* One-time result ("No, full privacy"): everything the tools would keep in the browser goes to this window's session storage instead,
      which the browser wipes when the window closes. The choice itself lives only there, so a new window asks again. */
   var realStorage = null;
   try { realStorage = window.localStorage; } catch (error) { realStorage = null; }
@@ -313,13 +313,13 @@
           : '') +
         '<h3 class="tdh-part"><span>3</span>Your result, your way</h3><p class="tdh-choice-step">These choices are for you. No name or email is kept with a result; only your code opens it, so keep it private. Choose one, then confirm.</p><p class="tdh-choice-need" id="tdh-choice-need" aria-live="polite"></p><div class="tdh-choice-grid" role="radiogroup" aria-label="Where your result is kept">' +
           '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="remote" type="button" role="radio" aria-checked="false">Yes, I want a code</button>' +
-            '<p class="tdh-choice-note">Works on any device and browser. Nothing is kept in this browser. Your result is stored under your code, which is the only way back. You are in charge of saving the code; we cannot recover it, and we can email it to you. Choosing this is your consent to saving it. <span class="tdh-fine">Delete it any time. Deleted after two years without use.</span></p></div>' +
+            '<p class="tdh-choice-note">You get a code to keep on your own device or in your notes, and you can use it to revisit your result anonymously later, on any device and browser. Your result is stored under your code, which is the only way back. You are in charge of keeping the code; we cannot recover it, and we can email it to you. Choosing this is your consent to saving it. <span class="tdh-fine">Delete it any time. Deleted after two years without use.</span></p></div>' +
           '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="none" type="button" role="radio" aria-checked="false">No, full privacy</button>' +
-            '<p class="tdh-choice-note">One test. Nothing is saved. The result shows on the screen this one time. There is no way for you to come back to this result after the window is closed. <a href="/privacy.html#tdh-storage-difference" target="_blank" rel="noopener">Read here about the difference</a>.</p>' +
+            '<p class="tdh-choice-note">A one-time result. It shows on the screen this once, and there is no way to see it again after the window is closed. <a href="/privacy.html#tdh-storage-difference" target="_blank" rel="noopener">Read here about the difference</a>.</p>' +
             (localCodes().length ? '<label class="tdh-wipe"><input type="checkbox" id="tdh-wipe-check"> <span>Also remove the ' + localCodes().length + (localCodes().length === 1 ? ' result' : ' results') + ' already saved on this device.</span></label>' : '') + '</div>' +
         '</div>' +
         '<button class="tdh-choice-confirm" type="button" disabled>Confirm choice</button>' +
-        (current ? '<p class="tdh-choice-current">Current choice: ' + (current === 'remote' ? 'your code works on any device and browser' : current === 'none' ? 'nothing saved' : 'this device and browser only') + '. Choosing "this device and browser only" or "nothing saved" now withdraws consent for future saving of results. To erase previously stored profiles, <button type="button" class="tdh-choice-link" id="tdh-delete-request">prepare a deletion request with this device\'s retrieval codes</button> (opens your email app; nothing is sent until you send it).</p>' : '') +
+        (current ? '<p class="tdh-choice-current">Current choice: ' + (current === 'remote' ? 'your code works on any device and browser' : current === 'none' ? 'a one-time result' : 'this device and browser only') + '. Choosing "this device and browser only" or "No, full privacy" now withdraws consent for future saving of results. To erase previously stored profiles, <button type="button" class="tdh-choice-link" id="tdh-delete-request">prepare a deletion request with this device\'s retrieval codes</button> (opens your email app; nothing is sent until you send it).</p>' : '') +
       '</section>';
 
     document.body.appendChild(backdrop);
@@ -460,7 +460,7 @@
     if (!box || !box.parentNode) return;
     var n = document.getElementById('tdh-code-where');
     if (!n) { n = document.createElement('p'); n.id = 'tdh-code-where'; n.className = 'code-hint'; box.parentNode.insertBefore(n, box.nextSibling); }
-    n.textContent = mode() === 'none' ? 'Nothing is saved. This result is gone when you close this window and the code will not work later. Emailing yourself the result is the only way to keep it.' : mode() === 'remote' ? 'Your result is saved under this code, so the code works on any device and browser. Nothing is kept in this browser, so the code is the only way back.' : 'Your result is kept on this device only, so this code works only in this browser on this device. It will not work in another browser or on another device.';
+    n.textContent = mode() === 'none' ? 'A one-time result: it is gone when you close this window, and the code will not work later. Emailing yourself the result is the only way to keep it.' : mode() === 'remote' ? 'Keep this code on your own device or in your notes: it opens your result anonymously on any device and browser, and it is the only way back.' : 'Your result is kept on this device only, so this code works only in this browser on this device. It will not work in another browser or on another device.';
   }
 
   function init() {
