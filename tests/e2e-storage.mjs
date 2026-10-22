@@ -1,4 +1,4 @@
-// The two storage choices at the privacy gate (recommended / nothing saved), in a real browser against mocked workers.
+// The two storage choices at the privacy gate (a code you keep / a one-time result), in a real browser against mocked workers.
 // Run: node tests/e2e-storage.mjs
 import assert from 'node:assert/strict';
 import { launch, CHROME } from './lib/browser.mjs';
@@ -32,7 +32,7 @@ await t('the gate offers Yes, I want a code and No, full privacy, with the read-
   assert.deepEqual(labels.map(x => x.split('|')[0]), ['remote', 'none']);
   assert.match(labels[0], /Yes, I want a code/); assert.match(labels[1], /No, full privacy/);
   assert.match(await p.text('.tdh-privacy-panel'), /any device and browser/);
-  assert.match(await p.text('.tdh-privacy-panel'), /no way for you to come back to this result after the window is closed/);
+  assert.match(await p.text('.tdh-privacy-panel'), /no way to see it again after the window is closed/);
   assert.equal(await p.evaluate(`document.querySelectorAll('.tdh-choice-note a[href*="tdh-storage-difference"]').length`), 1);
   assert.equal(await p.evaluate(`[...document.querySelectorAll('.tdh-choice-button')].every(x => x.disabled)`), true);
   await c.dispose();
@@ -41,7 +41,7 @@ await t('the gate offers Yes, I want a code and No, full privacy, with the read-
 await t('Recommended: saved under the code, works anywhere, and the note says so', async () => {
   const { c, p } = await choose('remote');
   assert.equal(c.mock.profiles.size, 1);
-  assert.match(await p.text('#tdh-code-where'), /works on any device and browser/);
+  assert.match(await p.text('#tdh-code-where'), /opens your result anonymously on any device and browser/);
   assert.ok(!(await p.evaluate(`Object.keys(${REAL}).some(k => /^tdh_(t\\d_|code_t\\d)/.test(k))`)), 'nothing about the result is kept in the browser\'s permanent storage');
   assert.ok(await p.evaluate(`Object.keys(sessionStorage).some(k => k.startsWith('tdh_t1_'))`), 'the result lives for this window only');
   assert.equal(await p.evaluate(`location.search`), '', 'the code is not written into the address bar');
