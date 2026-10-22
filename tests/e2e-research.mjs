@@ -99,11 +99,15 @@ await t('the gate has a separate research checkbox: both must be ticked, and the
   assert.match(await p.text('.tdh-privacy-panel'), /research, cultural-science work, publication and sharing/);
   assert.equal(await p.evaluate(`document.querySelector('#tdh-research-check').checked`), false, 'default unticked');
   const disabled = () => p.evaluate(`[...document.querySelectorAll('.tdh-choice-button')].every(x => x.disabled)`);
+  const need = () => p.evaluate(`document.querySelector('#tdh-choice-need').textContent`);
   assert.equal(await disabled(), true, 'nothing ticked');
+  assert.match(await need(), /boxes 1 and 2/, 'the locked choices say which boxes unlock them');
   await p.evaluate(`document.querySelector('#tdh-age-check').click()`);
   assert.equal(await disabled(), true, 'age alone is not enough');
+  assert.match(await need(), /Tick box 2 /, 'age ticked: points to the agreement');
   await p.evaluate(`document.querySelector('#tdh-research-check').click()`);
   assert.equal(await disabled(), false, 'both ticked');
+  assert.equal(await need(), '', 'the hint goes once the choices unlock');
   await p.click('.tdh-choice-button[data-mode="remote"]');
   await p.click('.tdh-choice-confirm');
   assert.equal(await p.evaluate(`localStorage.getItem('tdh_research_optin')`), '2026-10-07-owner-only');

@@ -311,7 +311,7 @@
           ? '<h3 class="tdh-part"><span>2</span>Agreement for science: anonymous results, not traceable</h3><details class="tdh-terms"><summary>Terms of use: what the anonymous counters are</summary><p class="tdh-choice-current"><strong>Terms of use:</strong> the tools are free. In return, each result adds a few anonymous, rounded counters (for example &ldquo;visual: 60&ndash;70&rdquo;) to a research tally, at most once per tool per month. No code, name, e-mail, IP address, device identifier, free text or per-person record is ever stored, so nothing can be traced back to you. The full anonymous aggregate counter table may be used, published or shared for research, cultural-science work, publication or media. There is no public results page: the counters are readable only by the author, who decides whether, when, to whom and through which media anything is released, and releases nothing until there is a solid base for it. <a href="/tdh/research.html" target="_blank" rel="noopener">How it works</a>.</p></details>' +
             '<label class="tdh-age-confirm"><input type="checkbox" id="tdh-research-check"' + (store.get(RESEARCH_KEY) === RESEARCH_VERSION ? ' checked' : '') + '> <span>I agree that these anonymous, untraceable counters may be stored without a time limit and used for research, cultural-science work, publication and sharing. I understand they cannot be traced to me, so they cannot be located or withdrawn later.</span></label>'
           : '') +
-        '<h3 class="tdh-part"><span>3</span>Your result, your way</h3><p class="tdh-choice-step">These choices are for you. No name or email is kept with a result; only your code opens it, so keep it private. Choose one, then confirm.</p><div class="tdh-choice-grid" role="radiogroup" aria-label="Where your result is kept">' +
+        '<h3 class="tdh-part"><span>3</span>Your result, your way</h3><p class="tdh-choice-step">These choices are for you. No name or email is kept with a result; only your code opens it, so keep it private. Choose one, then confirm.</p><p class="tdh-choice-need" id="tdh-choice-need" aria-live="polite"></p><div class="tdh-choice-grid" role="radiogroup" aria-label="Where your result is kept">' +
           '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="remote" type="button" role="radio" aria-checked="false">Yes, I want a code</button>' +
             '<p class="tdh-choice-note">Works on any device and browser. Nothing is kept in this browser. Your result is stored under your code, which is the only way back. You are in charge of saving the code; we cannot recover it, and we can email it to you. Choosing this is your consent to saving it. <span class="tdh-fine">Delete it any time. Deleted after two years without use.</span></p></div>' +
           '<div class="tdh-choice-opt"><button class="tdh-choice-button" data-mode="none" type="button" role="radio" aria-checked="false">No, full privacy</button>' +
@@ -329,10 +329,14 @@
     var rcheck = backdrop.querySelector('#tdh-research-check');
     var buttons = Array.prototype.slice.call(backdrop.querySelectorAll('.tdh-choice-button'));
     var confirmButton = backdrop.querySelector('.tdh-choice-confirm');
+    var need = backdrop.querySelector('#tdh-choice-need');
     var picked = null;
     function sync() {
       var ok = check.checked && (!rcheck || rcheck.checked);
       buttons.forEach(function (button) { button.disabled = !ok; });
+      /* Say why the choices are locked: readers who ticked only the age box thought the page had stopped working. */
+      var missing = [!check.checked && '1', rcheck && !rcheck.checked && '2'].filter(Boolean);
+      need.textContent = ok ? '' : 'Tick ' + (missing.length > 1 ? 'boxes 1 and 2' : 'box ' + missing[0]) + ' above to unlock these choices.';
       confirmButton.disabled = !(ok && picked);
     }
     check.addEventListener('change', sync);

@@ -182,3 +182,5 @@
 .tdh-merge input { flex: 1 1 9rem; min-width: 0; padding: 0.6rem 0.7rem; background: transparent; border: 1px solid rgba(212,169,62,0.5); color: var(--tdh-choice-bone); font: 400 0.9rem 'Inconsolata', monospace; letter-spacing: 0.18em; text-transform: uppercase; }
 .tdh-merge button { padding: 0.6rem 0.9rem; border: 1px solid var(--tdh-choice-gold); background: transparent; color: var(--tdh-choice-gold); cursor: pointer; font: 500 0.78rem 'Inconsolata', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
 .tdh-merge #tdh-merge-msg.ok { color: #9bd0a6; } .tdh-merge #tdh-merge-msg.bad { color: #e0867f; }
+.tdh-choice-need { margin: 0 0 0.8rem; color: var(--tdh-choice-gold); font: 500 0.78rem/1.5 'Inconsolata', monospace; letter-spacing: 0.04em; }
+.tdh-choice-need:empty { display: none; }
