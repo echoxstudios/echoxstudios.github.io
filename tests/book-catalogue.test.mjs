@@ -5,18 +5,18 @@ const code = fs.readFileSync(new URL('../tdh/book-catalogue.js', import.meta.url
 const ctx = vm.createContext({});
 vm.runInContext(code, ctx);
 const catalogue = ctx.TDH_BOOK;
-assert.equal(catalogue.releaseEdition, 'v192');
+assert.equal(catalogue.releaseEdition, 'v193');
 console.log('ok book catalogue defaults to the released edition');
 assert.equal(catalogue.get('dark-night', 'v124').printedPage, '227');
 assert.equal(catalogue.get('dark-night', 'v135').printedPage, '234');
-assert.equal(catalogue.get('dark-night').edition, 'v192', 'the default destination is the released edition');
+assert.equal(catalogue.get('dark-night').edition, 'v193', 'the default destination is the released edition');
 const routeIds = Object.keys(JSON.parse(code.slice(code.indexOf('{', code.indexOf('const data')), code.indexOf('};', code.indexOf('const data')) + 1)).routes);
 assert.equal(routeIds.length, 32, 'all 32 reading destinations are present');
 for (const id of routeIds) {
-  for (const edition of ['v124', 'v135', 'v141', 'v142', 'v143', 'v144', 'v145', 'v146', 'v147', 'v148', 'v149', 'v150', 'v151', 'v152', 'v153', 'v154', 'v155', 'v157', 'v158', 'v159', 'v160', 'v161', 'v162', 'v163', 'v165', 'v166', 'v167', 'v171', 'v172', 'v176', 'v178', 'v181', 'v184', 'v192']) assert.ok(catalogue.get(id, edition).physicalPage > 10, `${id} @ ${edition}`);
-  const at = catalogue.get(id, 'v192');
+  for (const edition of ['v124', 'v135', 'v141', 'v142', 'v143', 'v144', 'v145', 'v146', 'v147', 'v148', 'v149', 'v150', 'v151', 'v152', 'v153', 'v154', 'v155', 'v157', 'v158', 'v159', 'v160', 'v161', 'v162', 'v163', 'v165', 'v166', 'v167', 'v171', 'v172', 'v176', 'v178', 'v181', 'v184', 'v192', 'v193']) assert.ok(catalogue.get(id, edition).physicalPage > 10, `${id} @ ${edition}`);
+  const at = catalogue.get(id, 'v193');
   if (id.startsWith('failures.')) assert.match(at.printedPage, /^[IVXL]+$/, `${id} lies in The Argument in Full (apparatus)`);
-  else assert.ok(Number(at.printedPage) <= 280, `${id} lies within the v192 reading text`);
+  else assert.ok(Number(at.printedPage) <= 280, `${id} lies within the v193 reading text`);
 }
 console.log(`ok all ${routeIds.length} destinations resolve in every supported edition`);
 assert.ok(catalogue.get('practice.drift', 'v124').physicalPage > 10);
