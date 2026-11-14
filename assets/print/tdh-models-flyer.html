@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dark Hierarchy — Two Models of Desire</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Print source of the two-page flyer that shows both diagrams of the theory in The Dark Hierarchy: one person's circuit and the whole theory drawn for two.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="../fonts/fonts.css"/>
+<link rel="stylesheet" href="../a11y.css"/>
+<style>
+  /* Print source for assets/pdfs/TDH_Models_Flyer.pdf. Same palette and type as the acquisitions info sheet. */
+  @page { size:A4; margin:0; }
+  :root { --black:#080806; --panel:#12110d; --off-white:#f0ece3; --bone:#d4cfc4; --gold:#d4a93e; --gold-dim:#b8963e; --text:#e2ddd2; --muted:#a09890; --rule:rgba(184,150,62,.28); }
+  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+  html { background:#050504; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:'Cormorant Garamond',Georgia,serif; font-weight:400; color:var(--text); line-height:1.45; }
+  .sheet { width:210mm; min-height:297mm; margin:0 auto 8mm; padding:14mm 14mm 12mm; background:var(--black); position:relative; page-break-after:always; break-after:page; overflow:hidden; }
+  .sheet:last-of-type { page-break-after:auto; break-after:auto; margin-bottom:0; }
+  @media screen and (max-width:820px) { .sheet { width:100%; min-height:0; padding:1.2rem 1rem; } }
+  @media print { html,body { background:var(--black); } .sheet { margin:0; height:296mm; min-height:0; } }
+
+  .topbar { display:flex; justify-content:space-between; align-items:baseline; border-bottom:1px solid var(--rule); padding-bottom:3mm; }
+  .mono { font:400 7.4pt 'Inconsolata',monospace; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); }
+  .mono.dim { color:var(--muted); letter-spacing:.14em; }
+  h1 { font:400 30pt/1.02 'IM Fell English',Georgia,serif; letter-spacing:.05em; text-transform:uppercase; color:var(--off-white); margin:7mm 0 2mm; }
+  .sub { font:italic 400 12.5pt/1.3 'Cormorant Garamond',serif; color:var(--bone); }
+  .by { margin-top:2.4mm; }
+  .hook { margin:5.5mm 0 4mm; padding:4mm 5mm; border-left:2.2px solid var(--gold); background:var(--panel); font:italic 400 13pt/1.38 'IM Fell English',serif; color:var(--off-white); }
+  .hook small { display:block; margin-top:1.6mm; font:400 6.8pt 'Inconsolata',monospace; font-style:normal; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+  h2 { font:400 15pt/1.2 'IM Fell English',serif; color:var(--off-white); margin:5mm 0 1mm; }
+  .where { margin-bottom:3mm; }
+  p { font-size:10pt; line-height:1.42; color:var(--bone); margin-bottom:2mm; }
+  p b { color:var(--off-white); font-weight:500; }
+
+  .pair { display:grid; grid-template-columns:var(--fig) 1fr; gap:7mm; align-items:start; margin-top:3mm; }
+  .pair.one { --fig:106mm; }
+  .pair.two { --fig:114mm; }
+  @media screen and (max-width:820px) { .pair { grid-template-columns:1fr; } }
+  figure img { width:100%; height:auto; display:block; }
+  figure figcaption { margin-top:2.6mm; text-align:center; }
+
+  ol.read { list-style:none; counter-reset:step; }
+  ol.read li { counter-increment:step; position:relative; padding:1.5mm 0 1.6mm 7mm; border-top:1px solid var(--rule); font-size:9.6pt; line-height:1.36; color:var(--bone); }
+  ol.read li::before { content:counter(step); position:absolute; left:0; top:1.6mm; font:400 9pt 'IM Fell English',serif; color:var(--gold); }
+  ol.read li b { color:var(--off-white); font-weight:500; }
+  ul.key { list-style:none; }
+  ul.key li { padding:1.5mm 0 1.6mm 4mm; border-top:1px solid var(--rule); position:relative; font-size:9.3pt; line-height:1.34; color:var(--bone); }
+  ul.key li::before { content:"—"; position:absolute; left:0; color:var(--gold-dim); }
+  ul.key li b { color:var(--off-white); font-weight:500; }
+  ul.key li i { color:var(--muted); }
+
+  .panel { margin-top:4mm; padding:3.4mm 4.4mm; border:1px solid var(--rule); background:var(--panel); }
+  .panel .mono { display:block; margin-bottom:1.4mm; }
+  .panel p { font-size:9.8pt; margin:0; }
+
+  .contact { margin-top:4mm; padding:2.8mm 4mm; border-top:1.5px solid var(--gold); border-bottom:1px solid var(--rule); display:flex; justify-content:space-between; align-items:center; gap:4mm; flex-wrap:wrap; }
+  .contact b { font:400 11pt 'IM Fell English',serif; color:var(--off-white); }
+  .contact span { font:400 8.4pt 'Inconsolata',monospace; color:var(--bone); }
+  .sheet a { color:var(--gold); text-underline-offset:.16em; }
+  .foot { position:absolute; left:14mm; right:14mm; bottom:7mm; display:flex; justify-content:space-between; }
+  @media screen and (max-width:820px) { .foot { position:static; margin-top:1rem; } }
+</style>
+</head>
+<body>
+<main>
+
+<!-- ============ PAGE 1 ============ -->
+<section class="sheet" aria-labelledby="one-title">
+  <div class="topbar"><span class="mono">Two models · Edition v192</span><span class="mono dim">November 2026</span></div>
+
+  <h1>The Dark Hierarchy</h1>
+  <p class="sub">Two diagrams of one theory of desire</p>
+  <p class="mono dim by">Echo Kronborg · Carrier of Decho · Berlin</p>
+
+  <div class="hook">Desire ignites through the confirmation of the aspirational sexual self.<small>The Central Thesis · printed p. 17</small></div>
+
+  <p>Human beings, the book argues, are not primarily aroused by another person as such. They are aroused by the experience of becoming, in the presence of another, the person they most deeply want to be sexually. The first diagram draws that as a circuit. The second shows how two circuits meet, and where the rest of the book belongs.</p>
+
+  <h2 id="one-title">I · One person’s circuit</h2>
+  <p class="mono dim where">Book II, Section II · printed p. 36</p>
+
+  <div class="pair one">
+    <figure>
+      <img src="../images/tdh-model-dark.svg" width="339" height="394" alt="Diagram of the model of desire, drawn from one person's side. The aspirational sexual self recognizes the instrument, a person, a look, a word or a garment, which sits inside the framework or Fifth Element, the room where it can mean something. There the four expressions (visual, emotional, tactile, intellectual), weighted in each person's gradient, are read by the body; in the intellectual channel, as thought. From the framework comes confirmation of the aspirational sexual self. Confirmation creates the trigger, the spark, and the trigger ignites desire, felt for the person. Desire seeks confirmation again, and confirmation feeds the self.">
+    </figure>
+    <ol class="read" aria-label="How to read the first diagram">
+      <li><b>The self.</b> The aspirational sexual self: who we want to be sexually, with someone, in a particular room.</li>
+      <li><b>The instrument.</b> It recognizes a person, a look, a word, a garment.</li>
+      <li><b>The room.</b> The framework, or Fifth Element, is where the instrument can mean something. The meaning travels through four expressions, visual, emotional, tactile and intellectual, weighted in each person’s gradient.</li>
+      <li><b>Confirmation.</b> In that room the self is confirmed, and confirmation creates the trigger: the spark.</li>
+      <li><b>Desire.</b> The trigger ignites desire, felt for the person. What desire seeks is the confirmation, again.</li>
+      <li><b>The return.</b> Each confirmation feeds the self that will recognize the next instrument.</li>
+    </ol>
+  </div>
+
+  <div class="panel"><span class="mono">When desire fades</span><p>Start at the bottom, at desire, and follow the loop upwards, against the arrows. At each box, ask why: no desire, because no spark; no spark, because no confirmation; no confirmation, because the room has emptied. The instrument may still be just where it was: the same person, the same look.</p></div>
+
+  <div class="foot"><span class="mono dim">ECHOxSTUDIOS · Berlin</span><span class="mono dim">1 / 2</span></div>
+</section>
+
+<!-- ============ PAGE 2 ============ -->
+<section class="sheet" aria-labelledby="two-title">
+  <div class="topbar"><span class="mono">The Dark Hierarchy · Two models</span><span class="mono dim">The whole theory</span></div>
+
+  <h2 id="two-title">II · The whole theory, drawn for two</h2>
+  <p class="mono dim where">Book II, end of Section VIII · printed p. 82</p>
+  <p>Everyone in the room runs a circuit of their own. The second diagram draws two, the fewest it takes, meeting in one room. In fantasy the second may be imagined, and a room may hold more. Each part of the drawing has its place in the book.</p>
+
+  <div class="pair two">
+    <figure>
+      <img src="../images/tdh-model-full-dark.svg" width="339" height="433" alt="Diagram of the whole theory on one page, drawn for two people, the fewest it takes; in fantasy the second may be imagined, and a room may hold more. In each loop, the aspirational sexual self recognizes an instrument: another person, a look, a word, a garment. Both instruments sit inside one room, the framework or Fifth Element, the room the participants make, where material becomes meaning. Between the two instruments run four lines, one for each expression (visual, emotional, tactile, intellectual), with an arrow from each side meeting the arrow from the other: the instruments read each other through them, and so help to make the room, each expression weighted in a person's own gradient; where their languages differ, it is made by Erotic Translation. In the theology, Decho is the reason the room is built, and Echo, who carries him, arranges it. From the room, each person's confirmation of the aspirational sexual self creates the trigger, the spark, which ignites desire felt for the person. Each person's desire seeks confirmation again, and each confirmation feeds that person's self. Below, practice keeps the room alive: kept on purpose, the room stays alive and desire lasts; left to drift, it empties and desire fades; where confirmation flows one way only, the circuit stays open. The self and its confirmation are the two things to measure before the outcome.">
+    </figure>
+    <ul class="key" aria-label="Where each part of the second diagram sits in the book">
+      <li><b>Two circuits.</b> Each loop is the circuit on page 1. <i>Book II, Section II</i></li>
+      <li><b>One room.</b> Both instruments sit in the room the participants make, where material becomes meaning. <i>Section V</i></li>
+      <li><b>Four channels.</b> The instruments read each other through the four expressions, one line each, the arrows meeting from both sides. Voice and scent are not a fifth and sixth: the four are routes of confirmation, not a count of the senses. Where their languages differ, the room is made by Erotic Translation. <i>Section III, p. 51</i></li>
+      <li><b>The theology.</b> Decho is the reason the room is built; Echo, who carries him, arranges it. <i>Books III and IV</i></li>
+      <li><b>Practice.</b> Attention, arrangement, care, discipline: worship, in the theology’s word. Kept on purpose, the room stays alive and desire lasts. Left to drift, it empties and desire fades. <i>Book V</i></li>
+      <li><b>The open circuit.</b> Where confirmation flows one way only, the circuit stays open: extraction, and in time the dark night.</li>
+    </ul>
+  </div>
+
+  <div class="panel"><span class="mono">What would test it</span><p>If the cause of fading were inferred after the fact, every outcome would confirm this theory: a circle. The book’s way out is order. Two things are measured before the outcome: each person’s self, at the top of the diagram, and its confirmation, at the head of each loop. The tests have yet to be run. Only the circuit is offered for testing: the theology that lives in the room is one man’s.</p></div>
+
+  <div class="contact"><b>Read the diagrams in the book</b><span><a href="https://echoxstudios.art/assets/pdfs/The_Dark_Hierarchy_v192_sample.pdf" download>58-page sample, with both</a> · <a href="https://echoxstudios.art/tdh/system.html">echoxstudios.art/tdh/system.html</a> · <a href="mailto:inbox@echoxstudios.art">inbox@echoxstudios.art</a></span></div>
+
+  <div class="foot"><span class="mono dim">ECHOxSTUDIOS · Berlin</span><span class="mono dim">2 / 2</span></div>
+</section>
+
+</main>
+</body>
+</html>
