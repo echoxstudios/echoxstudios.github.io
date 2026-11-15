@@ -58,6 +58,7 @@
     .btn-dl:hover{background:var(--off-white)}
     .btn-req{display:inline-flex;align-items:center;gap:0.6rem;padding:0.8rem 2rem;background:transparent;color:var(--text);font-family:'Inconsolata',monospace;font-size:0.9rem;letter-spacing:0.15em;text-transform:uppercase;border:1px solid #2a2a26;cursor:pointer;transition:all .25s}
     .btn-req:hover{border-color:var(--gold-dim);color:var(--off-white)}
+    a.btn-req{text-decoration:none}
 
     /* MODAL */
     .modal-overlay{display:none;position:fixed;inset:0;background:rgba(8,8,6,0.92);z-index:200;align-items:center;justify-content:center;padding:2rem}
@@ -199,6 +200,7 @@
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
       Download v195 sample — 59 pp., selected passages
     </a>
+    <a class="btn-req" href="assets/pdfs/TDH_Models_Flyer.pdf" download>Two models — 2 pp. flyer</a>
     <button class="btn-req" onclick="document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden'">
       Request full text →
     </button>
