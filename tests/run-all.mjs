@@ -36,7 +36,7 @@ const SUITES = [
   { id: 'modes', name: 'Display and preference modes', area: 'Accessibility', browser: true, cmd: ['node', 'tests/modes.mjs'], what: 'Every page at 320px reflow, 200% zoom, forced colours, reduced motion and a light colour-scheme request: no script errors, no sideways scroll, text visible, nothing looping under reduced motion, signature small and in its corner.' },
   { id: 'visual', name: 'Visual regression', area: 'Site', browser: true, cmd: ['node', 'tests/visual.mjs'], what: 'Every page at 375, 768 and 1280px compared with its stored fingerprint; a drifting page saves its screenshot for inspection.' },
   { id: 'a11y', name: 'Accessibility (axe)', area: 'Accessibility', browser: true, cmd: ['node', 'tests/a11y.mjs'], what: 'axe-core scan of every page.' },
-  { id: 'keyboard', name: 'Keyboard contract', area: 'Accessibility', browser: true, cmd: ['node', 'tests/keyboard.mjs'], what: 'Privacy dialog focus trap, Esc, focus return; lyric disclosures.' },
+  { id: 'keyboard', name: 'Keyboard contract', area: 'Accessibility', browser: true, cmd: ['node', 'tests/keyboard.mjs'], what: 'Privacy dialog focus trap, Esc and focus return, and the temporary Music inquiry link.' },
 ];
 
 const run = s => new Promise(resolve => {

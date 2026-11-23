@@ -285,9 +285,9 @@
 
   function closePanel(backdrop) {
     backdrop.remove();
+    document.documentElement.classList.remove('tdh-privacy-lock');
     if (returnFocus && document.body.contains(returnFocus)) returnFocus.focus();
     returnFocus = null;
-    document.documentElement.classList.remove('tdh-privacy-lock');
   }
 
   function showPanel(required) {
@@ -347,8 +347,16 @@
     if (del) del.addEventListener('click', deletionRequest);
 
     backdrop.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && !required) {
+        event.preventDefault();
+        closePanel(backdrop);
+        return;
+      }
       if (event.key !== 'Tab') return;
-      var f = Array.prototype.slice.call(backdrop.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])'));
+      var f = Array.prototype.filter.call(
+        backdrop.querySelectorAll('a[href], button, input, summary'),
+        function (el) { return !el.disabled && el.tabIndex >= 0 && el.getClientRects().length > 0; }
+      );
       if (!f.length) return;
       var first = f[0], last = f[f.length - 1];
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
@@ -381,15 +389,9 @@
       backdrop.addEventListener('click', function (event) {
         if (event.target === backdrop) closePanel(backdrop);
       });
-      document.addEventListener('keydown', function escape(event) {
-        if (event.key === 'Escape' && document.body.contains(backdrop)) {
-          closePanel(backdrop);
-          document.removeEventListener('keydown', escape);
-        }
-      });
     }
 
-    setTimeout(function () { check.focus(); }, 0);
+    check.focus();
   }
 
   /* A code that arrives in the address (a link, or the retrieval page) is read by the tool at load, then removed from the address bar
