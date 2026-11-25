@@ -90,6 +90,7 @@ Compounded names are written without spaces: `ECHOxPRODUCTION`, `ECHOxINSTANT`, 
 - ECHOx is the public artistic identity.
 - Eko Svenningsson is the book byline, except for *The Dark Hierarchy*, which is written as Echo Kronborg, its distinct authorial construct and carrier of Decho.
 - Do not include the legal name, its spelling variants, or home-address details in public artistic copy, metadata, deployment files, or public repository history.
+- The apps' legal pages under `tofinn/` and `lumina/` name the seller and his address, as consumer and data protection law requires; only their paragraphs marked `class="publisher"` carry those details (2026-11-25).
 - ECHOxSTUDIOS is a studio identity / business in formation until registered; never present it as an already registered company.
 
 ## Content and information architecture

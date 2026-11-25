@@ -119,17 +119,21 @@ if not endpoint or not endpoint.group(1):
     if re.search(r"currently collecting|is collecting|now collecting", read("tdh/research.html"), re.I):
         errors.append("research page claims collection while the channel is off")
 
-# 6. Anonymity: no legal name, street address or phone on public pages (until selling under German law).
+# 6. Anonymity: no legal name, street address or phone on public pages. The apps' legal pages under
+# tofinn/ and lumina/ name the seller, a Swedish sole trader, as the law requires (owner decision,
+# 2026-11-25); only their paragraphs marked class="publisher" may carry those details.
 # Generic patterns live here; name-specific patterns live in a local, untracked file (.anonymity-patterns,
 # one regular expression per line) so that this public script never contains them.
 patterns = [r"stra(\u00df|ss)e [0-9]", r"\+46 ?[0-9]"]
 if os.path.exists(".anonymity-patterns"):
     patterns += [ln.strip() for ln in open(".anonymity-patterns", encoding="utf-8") if ln.strip() and not ln.startswith("#")]
 LEGAL = re.compile("|".join(patterns), re.I)
-for path in glob.glob("*.html") + glob.glob("tdh/*.html") + glob.glob("*.md") + glob.glob("docs/*.md"):
+PUBLISHER = re.compile(r'<p class="publisher">[^<]*</p>')
+for path in glob.glob("*.html") + glob.glob("tdh/*.html") + glob.glob("*.md") + glob.glob("docs/*.md") + glob.glob("tofinn/*.html") + glob.glob("lumina/**/*.html", recursive=True):
     if path == "imprint.html":
         continue  # the one page that carries the provider's name and address (owner decision, 2026-10-04)
-    if LEGAL.search(read(path)):
+    text = PUBLISHER.sub("", read(path)) if path.startswith(("tofinn/", "lumina/")) else read(path)
+    if LEGAL.search(text):
         errors.append(f"{path}: contains a legal name or personal contact detail")
 
 # 6b. The account handle contains "AI": it must not be linked from public pages.
